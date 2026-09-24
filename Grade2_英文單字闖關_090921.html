@@ -1,0 +1,2484 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 2 英語闖關樂園 🎒🎮</title>
+<style>
+:root {
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --purple: #8b5cf6;
+  --card-bg: #ffffff;
+  --bg-gradient: linear-gradient(135deg, #e0e7ff 0%, #fae8ff 100%);
+  --key-shadow: 0 3px 0 #cbd5e1;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  user-select: none;
+}
+
+body {
+  background: var(--bg-gradient);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+}
+
+.game-container {
+  background: var(--card-bg);
+  width: 100%;
+  max-width: 600px;
+  border-radius: 24px;
+  box-shadow: 0 20px 30px -10px rgba(79, 70, 229, 0.15);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-size: 24px;
+  color: #1e1b4b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.header p {
+  color: #64748b;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: #e0e7ff;
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+/* 設定面板 */
+.config-box {
+  background: #f8fafc;
+  border: 2px dashed #cbd5e1;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.config-label {
+  font-weight: 700;
+  font-size: 13px;
+  color: #334155;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.range-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+select {
+  flex: 1;
+  padding: 9px 10px;
+  border-radius: 10px;
+  border: 2px solid #cbd5e1;
+  font-size: 14px;
+  font-weight: bold;
+  background: #fff;
+  color: #1e293b;
+}
+
+.quick-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.chip {
+  padding: 5px 10px;
+  border-radius: 14px;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.chip:hover {
+  background: #e0e7ff;
+  border-color: var(--primary);
+}
+
+.extra-settings-grid {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed #cbd5e1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.setting-col label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 6px;
+}
+
+.count-btn-group {
+  display: flex;
+  gap: 6px;
+}
+
+.count-btn {
+  flex: 1;
+  padding: 6px 0;
+  border-radius: 10px;
+  border: 1.5px solid #cbd5e1;
+  background: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.count-btn.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+.slider-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.slider-wrapper span {
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: bold;
+}
+
+input[type=range] {
+  flex: 1;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+/* 單字卡預覽檢視 */
+.vocab-single-section {
+  margin-bottom: 22px;
+  background: #ffffff;
+  border: 2px solid #eef0f8;
+  border-radius: 20px;
+  padding: 18px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.03);
+}
+
+.vocab-single-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.vocab-single-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #312e81;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.vocab-single-counter {
+  font-size: 14px;
+  font-weight: 800;
+  color: #6366f1;
+}
+
+.vocab-display-box {
+  background: #f8faff;
+  border: 1.5px solid #e0e7ff;
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.vocab-main-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vocab-main-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.vocab-main-icon {
+  font-size: 38px;
+}
+
+.vocab-main-word {
+  font-size: 22px;
+  font-weight: 900;
+  color: #0f172a;
+}
+
+.vocab-main-zh {
+  font-size: 15px;
+  font-weight: 700;
+  color: #475569;
+  margin-left: 6px;
+}
+
+.vocab-btn-speak {
+  background: #eef2ff;
+  border: 1.5px solid #c7d2fe;
+  color: #4f46e5;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s;
+}
+
+.vocab-btn-speak:hover {
+  background: #4f46e5;
+  color: #ffffff;
+}
+
+.vocab-ex-box {
+  background: #ffffff;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 13.5px;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.vocab-btn-ex-speak {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.15s;
+}
+
+.vocab-btn-ex-speak:hover {
+  background: #e0e7ff;
+  border-color: #4f46e5;
+}
+
+.vocab-nav-bar {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.vocab-nav-btn {
+  flex: 1;
+  padding: 10px 0;
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  color: #334155;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.vocab-nav-btn:hover:not(:disabled) {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+
+.vocab-nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* 遊戲模式清單 */
+.mode-section-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #334155;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.mode-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mode-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 2px solid #e2e8f0;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.04);
+}
+
+.mode-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+  box-shadow: 0 8px 12px -2px rgba(79, 70, 229, 0.15);
+}
+
+.mode-icon {
+  font-size: 34px;
+}
+
+.mode-info h3 {
+  font-size: 15px;
+  color: #1e293b;
+  margin-bottom: 2px;
+}
+
+.mode-info p {
+  font-size: 12.5px;
+  color: #64748b;
+}
+
+/* 遊戲共用介面 */
+.stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  color: #64748b;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.btn-quit {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  color: #475569;
+}
+
+.target-card {
+  background: #f8fafc;
+  border: 2px solid #e0e7ff;
+  border-radius: 18px;
+  padding: 18px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.icon-main {
+  font-size: 46px;
+  margin-bottom: 4px;
+}
+
+.zh-main {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.audio-bar {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.btn-sound {
+  background: #fff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 12.5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-sound:hover {
+  background: #e0e7ff;
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.word-ex {
+  font-size: 13.5px;
+  color: #64748b;
+  background: #ffffff;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px dashed #cbd5e1;
+  margin-top: 10px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 模式 1：鍵盤拼字 */
+.input-area {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.input-word {
+  flex: 1;
+  padding: 12px 14px;
+  border: 2px solid #cbd5e1;
+  border-radius: 12px;
+  font-size: 19px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-align: center;
+  background: #fff;
+  color: var(--primary);
+  cursor: default;
+}
+
+.btn-submit {
+  padding: 0 20px;
+  border: none;
+  border-radius: 12px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-hint {
+  padding: 0 14px;
+  border: 2px solid #e2e8f0;
+  background: #fff;
+  border-radius: 12px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.virtual-keyboard {
+  background: #edf2f7;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 20px;
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.kb-row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+}
+
+.key-btn {
+  flex: 1;
+  height: 44px;
+  max-width: 48px;
+  background: #ffffff;
+  border: 1.5px solid #d5dde5;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #1e293b;
+  cursor: pointer;
+  box-shadow: var(--key-shadow);
+  transition: transform 0.05s ease, box-shadow 0.05s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.key-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #cbd5e1;
+}
+
+.key-btn.action-key {
+  max-width: 66px;
+  background: #e2e8f0;
+  font-size: 13.5px;
+  color: #334155;
+}
+
+.key-btn.space-key {
+  flex: none;
+  width: 280px;
+  max-width: 80%;
+  height: 44px;
+  background: #ffffff;
+  border: 1.5px solid #d5dde5;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 800;
+  color: #1e293b;
+  box-shadow: var(--key-shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+/* 模式 2：積木 */
+.slots-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 52px;
+  margin-bottom: 16px;
+  padding: 8px;
+  background: #f8fafc;
+  border-radius: 14px;
+  border: 2px solid #e2e8f0;
+}
+
+.slot {
+  width: 42px;
+  height: 46px;
+  background: #fff;
+  border: 2px solid #cbd5e1;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--primary);
+  cursor: pointer;
+}
+
+.letters-pool {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.letter-btn {
+  width: 42px;
+  height: 46px;
+  background: #ffffff;
+  border: 2px solid #6366f1;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: #312e81;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #4f46e5;
+  transition: all 0.1s;
+}
+
+.letter-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #4f46e5;
+}
+
+.letter-btn.used {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.controls-row {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-sub {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid #cbd5e1;
+  background: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* 模式 3：聽力快問快答 */
+.quiz-options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.btn-option {
+  padding: 16px 10px;
+  border-radius: 16px;
+  border: 2px solid #cbd5e1;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 60px;
+  width: 100%;
+}
+
+.btn-option:hover {
+  border-color: var(--primary);
+  background: #e0e7ff;
+}
+
+.btn-option.correct {
+  background: #dcfce7 !important;
+  border-color: var(--success) !important;
+}
+
+.btn-option.wrong {
+  background: #fee2e2 !important;
+  border-color: var(--danger) !important;
+}
+
+.quiz-option-text {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+/* 模式 4：怪獸吃單字 */
+.monster-arena {
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 16px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.monster-avatar {
+  font-size: 60px;
+  margin-bottom: 6px;
+}
+
+.monster-speech {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 12px;
+}
+
+.food-shelf {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.food-card {
+  padding: 12px;
+  border-radius: 12px;
+  background: #fff;
+  border: 2px solid #cbd5e1;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.food-card:hover {
+  border-color: var(--warning);
+  background: #fef3c7;
+}
+
+.feedback {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 800;
+  min-height: 24px;
+  margin: 8px 0;
+}
+
+.btn-main {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 14px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* 結算頁面錯題清單 */
+.wrong-words-section {
+  text-align: left;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 14px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.wrong-words-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--danger);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wrong-words-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.wrong-word-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid #cbd5e1;
+}
+
+.wrong-item-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wrong-item-icon {
+  font-size: 26px;
+}
+</style>
+</head>
+<body>
+
+<div class="game-container">
+  <div class="header">
+    <h1>🎒 Grade 2 英語闖關樂園</h1>
+    <p>打字拼字 • 字母積木 • 聽力快問 • 怪獸餵食 • 單字清單</p>
+  </div>
+
+  <!-- 主選單畫面 -->
+  <div id="setup-screen">
+    <div class="config-box">
+      <!-- 週次範圍選擇 -->
+      <label class="config-label">
+        <span>🎯 請選擇週次範圍：</span>
+      </label>
+      <div class="range-row">
+        <select id="start-w" onchange="onWeekRangeChange()">
+          <option value="1" selected>Week 1</option><option value="2">Week 2</option><option value="3">Week 3</option>
+          <option value="4">Week 4</option><option value="5">Week 5</option><option value="6">Week 6</option>
+          <option value="7">Week 7</option><option value="8">Week 8</option><option value="9">Week 9</option>
+          <option value="10">Week 10</option><option value="11">Week 11</option><option value="12">Week 12</option>
+          <option value="13">Week 13</option><option value="14">Week 14</option><option value="15">Week 15</option>
+          <option value="16">Week 16</option><option value="17">Week 17</option><option value="18">Week 18</option>
+          <option value="19">Week 19</option>
+        </select>
+        <span style="font-weight:bold; color:#94a3b8;">➔</span>
+        <select id="end-w" onchange="onWeekRangeChange()">
+          <option value="1" selected>Week 1</option><option value="2">Week 2</option><option value="3">Week 3</option>
+          <option value="4">Week 4</option><option value="5">Week 5</option><option value="6">Week 6</option>
+          <option value="7">Week 7</option><option value="8">Week 8</option><option value="9">Week 9</option>
+          <option value="10">Week 10</option><option value="11">Week 11</option><option value="12">Week 12</option>
+          <option value="13">Week 13</option><option value="14">Week 14</option><option value="15">Week 15</option>
+          <option value="16">Week 16</option><option value="17">Week 17</option><option value="18">Week 18</option>
+          <option value="19">Week 19</option>
+        </select>
+      </div>
+
+      <div class="quick-chips">
+        <button type="button" class="chip" onclick="setR(1,1)">Week 1</button>
+        <button type="button" class="chip" onclick="setR(2,2)">Week 2</button>
+        <button type="button" class="chip" onclick="setR(1,3)">Week 1~3</button>
+        <button type="button" class="chip" onclick="setR(1,5)">Week 1~5</button>
+        <button type="button" class="chip" onclick="setR(6,10)">Week 6~10</button>
+        <button type="button" class="chip" onclick="setR(11,15)">Week 11~15</button>
+        <button type="button" class="chip" onclick="setR(16,19)">Week 16~19</button>
+        <button type="button" class="chip" onclick="setR(1,19)" style="background:#e0e7ff; font-weight:700;">全部 (1~19)</button>
+      </div>
+
+      <!-- 新增：精確單字序號範圍調整 -->
+      <div style="margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e2e8f0;">
+        <label class="config-label">
+          <span>🔍 單字序號範圍（選定週次共 <span id="total-week-words" style="color:var(--primary);">0</span> 字）：</span>
+          <span id="word-range-hint" style="font-size: 11.5px; color:#64748b;">自訂抽測範圍</span>
+        </label>
+        <div class="range-row">
+          <select id="start-item" onchange="onItemRangeChange()"></select>
+          <span style="font-weight:bold; color:#94a3b8;">➔</span>
+          <select id="end-item" onchange="onItemRangeChange()"></select>
+        </div>
+      </div>
+
+      <!-- 題數與語速設定 -->
+      <div class="extra-settings-grid">
+        <div class="setting-col">
+          <label>📝 挑戰題數：</label>
+          <div class="count-btn-group">
+            <button type="button" class="count-btn active" onclick="setQuestionCount(10, this)">10 題</button>
+            <button type="button" class="count-btn" onclick="setQuestionCount(20, this)">20 題</button>
+            <button type="button" class="count-btn" onclick="setQuestionCount('all', this)">全部</button>
+          </div>
+        </div>
+
+        <div class="setting-col">
+          <label>
+            <span>🔊 語速調整：</span>
+            <span id="speed-label" style="color:var(--primary); font-size:12px;">1.0x (標準)</span>
+          </label>
+          <div class="slider-wrapper">
+            <span>慢</span>
+            <input type="range" id="speech-rate-slider" min="0.7" max="1.3" step="0.1" value="1.0" oninput="updateSpeechRate(this.value)">
+            <span>快</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. 所選範圍單字卡 -->
+    <div class="vocab-single-section">
+      <div class="vocab-single-header">
+        <div class="vocab-single-title">📖 所選範圍單字</div>
+        <div class="vocab-single-counter" id="vocab-counter">1 / 19</div>
+      </div>
+
+      <div class="vocab-display-box">
+        <div class="vocab-main-row">
+          <div class="vocab-main-left">
+            <span class="vocab-main-icon" id="v-icon">🍳</span>
+            <div>
+              <span class="vocab-main-word" id="v-word">breakfast</span>
+              <span class="vocab-main-zh" id="v-zh">早餐</span>
+            </div>
+          </div>
+          <button type="button" class="vocab-btn-speak" onclick="speakCurrentViewerWord()">🔊 發音</button>
+        </div>
+
+        <div class="vocab-ex-box">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span>💬</span>
+            <span id="v-ex">I eat eggs for breakfast.</span>
+          </div>
+          <button type="button" class="vocab-btn-ex-speak" onclick="speakCurrentViewerSentence()" title="朗讀例句">🔊</button>
+        </div>
+      </div>
+
+      <div class="vocab-nav-bar">
+        <button type="button" class="vocab-nav-btn" id="v-prev-btn" onclick="stepVocabViewer(-1)">← 上一個</button>
+        <button type="button" class="vocab-nav-btn" id="v-next-btn" onclick="stepVocabViewer(1)">下一個 →</button>
+      </div>
+    </div>
+
+    <!-- 3. 遊戲模式選擇 -->
+    <div class="mode-section-title">🚀 點擊卡片選擇你想玩的遊戲模式：</div>
+
+    <div class="mode-grid">
+      <div class="mode-card" onclick="initGame('typing')">
+        <div class="mode-icon">✏️</div>
+        <div class="mode-info">
+          <h3>模式 1：拼字小達人</h3>
+          <p>看中文與例句提示，點選螢幕鍵盤拼出完整單字！</p>
+        </div>
+      </div>
+
+      <div class="mode-card" onclick="initGame('blocks')">
+        <div class="mode-icon">🧩</div>
+        <div class="mode-info">
+          <h3>模式 2：字母積木拼字</h3>
+          <p>看圖聽音，點擊字母積木按順序拼出單字！</p>
+        </div>
+      </div>
+
+      <div class="mode-card" onclick="initGame('quiz')">
+        <div class="mode-icon">⚡</div>
+        <div class="mode-info">
+          <h3>模式 3：聽力快問快答</h3>
+          <p>仔細聽英文讀音，快速選出正確的中文意思！</p>
+        </div>
+      </div>
+
+      <div class="mode-card" onclick="initGame('monster')">
+        <div class="mode-icon">👾</div>
+        <div class="mode-info">
+          <h3>模式 4：怪獸吃單字</h3>
+          <p>怪獸肚子餓了！聽出怪獸想吃的英文點心餵牠！</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 遊戲進行畫面 -->
+  <div id="play-screen" style="display:none;">
+    <div class="stats">
+      <button type="button" class="btn-quit" onclick="backToMenu()">🏠 回主選單</button>
+      <span id="prog-text">第 1 / 10 題</span>
+      <span id="score-text" style="color:var(--primary); font-weight:900;">⭐ 0 分</span>
+    </div>
+
+    <!-- 模式 1：鍵盤拼字 -->
+    <div id="section-typing" style="display:none;">
+      <div class="target-card">
+        <div id="t-unit-badge" class="badge">Week 1</div>
+        <div id="t-q-icon" class="icon-main">🍳</div>
+        <div id="t-q-zh" class="zh-main" style="margin-bottom: 10px;">早餐</div>
+        <div class="audio-bar">
+          <button type="button" class="btn-sound" onclick="speakCurrentWord()">🔊 唸單字 (Word)</button>
+          <button type="button" class="btn-sound" onclick="speakCurrentSentence()">🗣️ 唸例句 (Sentence)</button>
+        </div>
+        <div class="word-ex">
+          <span id="t-q-ex">例句：I eat eggs for _______ .</span>
+          <button type="button" onclick="speakCurrentSentence()" style="background:none; border:none; cursor:pointer; font-size:16px;">🔊</button>
+        </div>
+      </div>
+
+      <div class="input-area">
+        <input type="text" id="t-answer-input" class="input-word" placeholder="點擊下方鍵盤拼字..." readonly>
+        <button type="button" class="btn-hint" onclick="giveTypingHint()" title="提示第一個字母">💡</button>
+        <button type="button" class="btn-submit" onclick="checkTypingAnswer()">送出</button>
+      </div>
+
+      <div class="virtual-keyboard">
+        <div class="kb-row">
+          <button type="button" class="key-btn" onclick="pressKey('q')">Q</button>
+          <button type="button" class="key-btn" onclick="pressKey('w')">W</button>
+          <button type="button" class="key-btn" onclick="pressKey('e')">E</button>
+          <button type="button" class="key-btn" onclick="pressKey('r')">R</button>
+          <button type="button" class="key-btn" onclick="pressKey('t')">T</button>
+          <button type="button" class="key-btn" onclick="pressKey('y')">Y</button>
+          <button type="button" class="key-btn" onclick="pressKey('u')">U</button>
+          <button type="button" class="key-btn" onclick="pressKey('i')">I</button>
+          <button type="button" class="key-btn" onclick="pressKey('o')">O</button>
+          <button type="button" class="key-btn" onclick="pressKey('p')">P</button>
+        </div>
+        <div class="kb-row">
+          <button type="button" class="key-btn" onclick="pressKey('a')">A</button>
+          <button type="button" class="key-btn" onclick="pressKey('s')">S</button>
+          <button type="button" class="key-btn" onclick="pressKey('d')">D</button>
+          <button type="button" class="key-btn" onclick="pressKey('f')">F</button>
+          <button type="button" class="key-btn" onclick="pressKey('g')">G</button>
+          <button type="button" class="key-btn" onclick="pressKey('h')">H</button>
+          <button type="button" class="key-btn" onclick="pressKey('j')">J</button>
+          <button type="button" class="key-btn" onclick="pressKey('k')">K</button>
+          <button type="button" class="key-btn" onclick="pressKey('l')">L</button>
+        </div>
+        <div class="kb-row">
+          <button type="button" class="key-btn" onclick="pressKey('z')">Z</button>
+          <button type="button" class="key-btn" onclick="pressKey('x')">X</button>
+          <button type="button" class="key-btn" onclick="pressKey('c')">C</button>
+          <button type="button" class="key-btn" onclick="pressKey('v')">V</button>
+          <button type="button" class="key-btn" onclick="pressKey('b')">B</button>
+          <button type="button" class="key-btn" onclick="pressKey('n')">N</button>
+          <button type="button" class="key-btn" onclick="pressKey('m')">M</button>
+          <button type="button" class="key-btn action-key" onclick="pressBackspace()">⌫ 刪除</button>
+          <button type="button" class="key-btn action-key" onclick="pressClear()">清空</button>
+        </div>
+        <div class="kb-row">
+          <button type="button" class="key-btn space-key" onclick="pressKey(' ')">
+            <span>Space</span>
+            <span style="color:#64748b; font-weight:normal;">␣</span>
+            <span>空白鍵</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 模式 2：積木拼字 -->
+    <div id="section-blocks" style="display:none;">
+      <div class="target-card">
+        <div id="b-unit-badge" class="badge">Week 1</div>
+        <div id="b-q-icon" class="icon-main">🍳</div>
+        <div id="b-q-zh" class="zh-main">早餐</div>
+        <div class="audio-bar">
+          <button type="button" class="btn-sound" onclick="speakCurrentWord()">🔊 唸單字</button>
+          <button type="button" class="btn-sound" onclick="speakCurrentSentence()">🗣️ 唸例句</button>
+        </div>
+      </div>
+      <div style="font-size:12px; color:#94a3b8; text-align:center; margin-bottom:4px;">點擊積木放入，點上方可收回：</div>
+      <div id="b-slots" class="slots-container"></div>
+      <div id="b-pool" class="letters-pool"></div>
+      <div class="controls-row">
+        <button type="button" class="btn-sub" onclick="resetCurrentLetters()">🔄 全部重排</button>
+        <button type="button" class="btn-sub" onclick="giveOneLetterHint()">💡 提示一個字母</button>
+      </div>
+    </div>
+
+    <!-- 模式 3：聽力快問快答（純國字大字版） -->
+    <div id="section-quiz" style="display:none;">
+      <div class="target-card">
+        <div id="q-unit-badge" class="badge">Week 1</div>
+        <div style="font-size:42px; margin-bottom:6px;">🎧</div>
+        <div style="font-size:18px; font-weight:800; color:#1e293b; margin-bottom:8px;">請仔細聽英文讀音選出答案：</div>
+        <div class="audio-bar">
+          <button type="button" class="btn-sound" style="padding:8px 18px; font-size:14px;" onclick="speakCurrentWord()">🔊 再聽一次單字</button>
+        </div>
+      </div>
+      <div id="q-options" class="quiz-options-grid"></div>
+    </div>
+
+    <!-- 模式 4：怪獸吃單字 -->
+    <div id="section-monster" style="display:none;">
+      <div class="monster-arena">
+        <div id="m-avatar" class="monster-avatar">👾</div>
+        <div id="m-speech" class="monster-speech">「好餓喔！請餵我吃【 ' + item.zh + ' 】的英文單字！」</div>
+        <div class="audio-bar" style="margin-bottom:12px;">
+          <button type="button" class="btn-sound" onclick="speakCurrentWord()">🔊 怪獸說話 (單字)</button>
+        </div>
+        <div id="m-food-shelf" class="food-shelf"></div>
+      </div>
+    </div>
+
+    <div id="feedback-msg" class="feedback"></div>
+    <button type="button" id="btn-next-step" class="btn-main" style="display:none; background:var(--success); margin-top:10px;" onclick="goToNext()">下一題 ➔</button>
+  </div>
+
+  <!-- 成績結算頁面 -->
+  <div id="result-screen" style="display:none; text-align:center;">
+    <div style="font-size:64px; margin-bottom:10px;">🏆</div>
+    <h2 style="margin-bottom:8px;">闖關大成功！</h2>
+    <div id="final-stats" style="font-size:28px; font-weight:900; color:var(--primary); margin-bottom:10px;"></div>
+
+    <div id="wrong-container" class="wrong-words-section" style="display:none;">
+      <div class="wrong-words-title">⚠️ 本次挑戰需要複習的單字：</div>
+      <div id="wrong-list" class="wrong-words-list"></div>
+    </div>
+
+    <button type="button" class="btn-main" onclick="backToMenu()">🔄 回主選單玩其他模式</button>
+  </div>
+</div>
+
+<script>
+// 完整題庫：Week 1 ~ Week 19 完整收錄
+var ALL_VOCAB = [
+  {"week": 1, "unit": "Reading Plus — A Dog for Marta", "word": "answer", "zh": "回答 / 答案", "icon": "🙋‍♂️", "ex": "Please answer my question."},
+  {"week": 1, "unit": "Reading Plus — A Dog for Marta", "word": "breakfast", "zh": "早餐", "icon": "🍳", "ex": "I eat eggs for breakfast."},
+  {"week": 1, "unit": "Reading Plus — A Dog for Marta", "word": "closet", "zh": "衣櫥 / 壁櫥", "icon": "🚪", "ex": "Put your coat in the closet."},
+  {"week": 1, "unit": "Reading Plus — A Dog for Marta", "word": "headed", "zh": "朝…前進", "icon": "🚶", "ex": "She headed to the park."},
+  {"week": 1, "unit": "Reading Plus — A Dog for Marta", "word": "hurry", "zh": "趕快", "icon": "🏃", "ex": "Hurry up, or we will be late!"},
+  {"week": 1, "unit": "Reading Plus — A Dog for Marta", "word": "knocking", "zh": "敲（門）", "icon": "✊", "ex": "Someone is knocking at the door."},
+  {"week": 1, "unit": "Reading Plus — A Dog for Marta", "word": "ready", "zh": "準備好的", "icon": "✅", "ex": "Are you ready for school?"},
+  {"week": 1, "unit": "Reading Plus — A Dog for Marta", "word": "telephone", "zh": "電話", "icon": "☎️", "ex": "The telephone is ringing."},
+  {"week": 1, "unit": "Reading Plus — A Dog for Marta", "word": "train", "zh": "火車 / 訓練", "icon": "🚆", "ex": "The train is very fast."},
+  {"week": 1, "unit": "Reading Plus — A Dog for Marta", "word": "turn", "zh": "轉動 / 轉彎", "icon": "🔄", "ex": "Turn left at the corner."},
+  {"week": 1, "unit": "Reading Plus — A Dog for Marta", "word": "wonderful", "zh": "美好的 / 極好的", "icon": "✨", "ex": "We had a wonderful day."},
+  {"week": 1, "unit": "Reading Plus — Marta Sees Nicky", "word": "felt", "zh": "感覺到", "icon": "🖐️", "ex": "The puppy's fur felt soft."},
+  {"week": 1, "unit": "Reading Plus — Marta Sees Nicky", "word": "hair", "zh": "毛髮 / 頭髮", "icon": "💇", "ex": "The dog has brown hair."},
+  {"week": 1, "unit": "Reading Plus — Marta Sees Nicky", "word": "leash", "zh": "牽繩", "icon": "🐕‍🦺", "ex": "Keep the dog on a leash."},
+  {"week": 1, "unit": "Reading Plus — Marta Sees Nicky", "word": "little", "zh": "小的", "icon": "🐣", "ex": "Look at the little bird."},
+  {"week": 1, "unit": "Reading Plus — Marta Sees Nicky", "word": "nose", "zh": "鼻子", "icon": "👃", "ex": "Touch your nose."},
+  {"week": 1, "unit": "Reading Plus — Marta Sees Nicky", "word": "take good care of", "zh": "好好照顧", "icon": "🩺", "ex": "I take good care of my pet."},
+  {"week": 1, "unit": "Reading Plus — Marta Sees Nicky", "word": "well-trained", "zh": "訓練良好的", "icon": "🎓", "ex": "Nicky is a well-trained dog."},
+  {"week": 1, "unit": "Reading Plus — Marta Sees Nicky", "word": "wiggle", "zh": "扭動 / 搖擺", "icon": "🐛", "ex": "Dogs wiggle their tails when happy."},
+  {"week": 2, "unit": "Phonics", "word": "calf", "zh": "小牛", "icon": "🐮", "ex": "The baby calf drinks milk."},
+  {"week": 2, "unit": "Phonics", "word": "cane", "zh": "手杖 / 拐杖", "icon": "🦯", "ex": "Grandpa walks with a cane."},
+  {"week": 2, "unit": "Phonics", "word": "garden", "zh": "花園 / 菜園", "icon": "🏡", "ex": "Flowers grow in the garden."},
+  {"week": 2, "unit": "Phonics", "word": "gas", "zh": "瓦斯 / 汽油", "icon": "⛽", "ex": "Dad put gas in the car."},
+  {"week": 2, "unit": "Phonics", "word": "gate", "zh": "大門", "icon": "🚪", "ex": "Please close the gate."},
+  {"week": 2, "unit": "Phonics", "word": "goat", "zh": "山羊", "icon": "🐐", "ex": "The goat eats grass."},
+  {"week": 2, "unit": "Phonics", "word": "wagon", "zh": "四輪小推車", "icon": "🛒", "ex": "He pulls toys in a wagon."},
+  {"week": 2, "unit": "Phonics", "word": "bridge", "zh": "橋", "icon": "🌉", "ex": "We walked across the bridge."},
+  {"week": 2, "unit": "Phonics", "word": "cage", "zh": "籠子", "icon": "🦜", "ex": "The bird is in the cage."},
+  {"week": 2, "unit": "Phonics", "word": "hinge", "zh": "門鉸鏈 / 合頁", "icon": "🔩", "ex": "The door hinge is squeaky."},
+  {"week": 2, "unit": "Phonics", "word": "lace", "zh": "鞋帶 / 蕾絲", "icon": "👟", "ex": "Tie your shoe lace."},
+  {"week": 2, "unit": "Phonics", "word": "mice", "zh": "老鼠", "icon": "🐭", "ex": "Two mice ran into the hole."},
+  {"week": 2, "unit": "Phonics", "word": "page", "zh": "頁", "icon": "📖", "ex": "Turn to page five."},
+  {"week": 2, "unit": "Phonics", "word": "game", "zh": "遊戲 / 比賽", "icon": "🎮", "ex": "Let's play a board game."},
+  {"week": 2, "unit": "Phonics", "word": "pencil", "zh": "鉛筆", "icon": "✏️", "ex": "I write with a pencil."},
+  {"week": 2, "unit": "Phonics", "word": "cow", "zh": "母牛", "icon": "🐄", "ex": "The cow gives us milk."},
+  {"week": 2, "unit": "Phonics", "word": "cup", "zh": "杯子", "icon": "☕", "ex": "She drank a cup of water."},
+  {"week": 2, "unit": "Phonics", "word": "city", "zh": "城市", "icon": "🏙️", "ex": "Taipei is a big city."},
+  {"week": 2, "unit": "Phonics", "word": "edge", "zh": "邊緣", "icon": "📐", "ex": "Don't sit near the edge."},
+  {"week": 2, "unit": "Phonics", "word": "face", "zh": "臉", "icon": "😀", "ex": "Wash your face every morning."},
+  {"week": 2, "unit": "Reading Plus — Nicky Takes a Walk", "word": "chased", "zh": "追趕", "icon": "🏃‍♂️", "ex": "The dog chased the cat."},
+  {"week": 2, "unit": "Reading Plus — Nicky Takes a Walk", "word": "friend", "zh": "朋友", "icon": "🤝", "ex": "He is my best friend."},
+  {"week": 2, "unit": "Reading Plus — Nicky Takes a Walk", "word": "leash", "zh": "牽繩", "icon": "🐕‍🦺", "ex": "Hold the dog's leash tight."},
+  {"week": 2, "unit": "Reading Plus — Nicky Takes a Walk", "word": "proud of", "zh": "為…感到驕傲", "icon": "🌟", "ex": "Mom is proud of you."},
+  {"week": 2, "unit": "Reading Plus — Nicky Takes a Walk", "word": "pull", "zh": "拉 / 拖", "icon": "🪢", "ex": "Pull the rope hard."},
+  {"week": 2, "unit": "Reading Plus — Nicky Takes a Walk", "word": "shout", "zh": "喊叫", "icon": "🗣️", "ex": "Do not shout in class."},
+  {"week": 2, "unit": "Reading Plus — Nicky Takes a Walk", "word": "trotted", "zh": "小跑", "icon": "🐕", "ex": "The puppy trotted beside me."},
+  {"week": 2, "unit": "Reading Plus — New Things for Nicky", "word": "collar", "zh": "項圈", "icon": "📿", "ex": "The dog wears a red collar."},
+  {"week": 2, "unit": "Reading Plus — New Things for Nicky", "word": "tag", "zh": "名牌 / 標籤", "icon": "🏷️", "ex": "His name is on the dog tag."},
+  {"week": 2, "unit": "Reading Plus — New Things for Nicky", "word": "number", "zh": "號碼 / 數字", "icon": "🔢", "ex": "What is your phone number?"},
+  {"week": 2, "unit": "Reading Plus — New Things for Nicky", "word": "idea", "zh": "想法 / 點子", "icon": "💡", "ex": "That is a great idea!"},
+  {"week": 2, "unit": "Reading Plus — New Things for Nicky", "word": "store", "zh": "商店", "icon": "🏬", "ex": "We bought toys at the store."},
+  {"week": 2, "unit": "Reading Plus — New Things for Nicky", "word": "salesperson", "zh": "售貨員 / 店員", "icon": "🧑‍💼", "ex": "The salesperson helped us."},
+  {"week": 2, "unit": "Reading Plus — New Things for Nicky", "word": "laugh", "zh": "笑", "icon": "😄", "ex": "The funny joke made us laugh."},
+  {"week": 2, "unit": "Spelling", "word": "lap", "zh": "大腿", "icon": "🦵", "ex": "The cat sat on my lap."},
+  {"week": 2, "unit": "Spelling", "word": "hat", "zh": "帽子", "icon": "👒", "ex": "Put on your sun hat."},
+  {"week": 2, "unit": "Spelling", "word": "man", "zh": "男人", "icon": "👨", "ex": "A kind man helped us."},
+  {"week": 2, "unit": "Spelling", "word": "ram", "zh": "公羊", "icon": "🐏", "ex": "A male sheep is called a ram."},
+  {"week": 2, "unit": "Spelling", "word": "bad", "zh": "壞的 / 不好的", "icon": "👎", "ex": "Eating too much candy is bad."},
+  {"week": 2, "unit": "Spelling", "word": "map", "zh": "地圖", "icon": "🗺️", "ex": "Look at the map to find the way."},
+  {"week": 2, "unit": "Spelling", "word": "pat", "zh": "輕拍", "icon": "👋", "ex": "Pat the dog gently."},
+  {"week": 2, "unit": "Spelling", "word": "mad", "zh": "生氣的", "icon": "😠", "ex": "Don't be mad at him."},
+  {"week": 2, "unit": "Spelling", "word": "jam", "zh": "果醬", "icon": "🍓", "ex": "I like strawberry jam on toast."},
+  {"week": 2, "unit": "Spelling", "word": "gas", "zh": "瓦斯 / 汽油", "icon": "⛽", "ex": "The stove uses gas."},
+  {"week": 2, "unit": "Spelling", "word": "as", "zh": "正如 / 如同", "icon": "🟰", "ex": "He runs as fast as a rabbit."},
+  {"week": 2, "unit": "Spelling", "word": "has", "zh": "有", "icon": "🤲", "ex": "She has a new pencil."},
+  {"week": 2, "unit": "Spelling", "word": "path", "zh": "小路 / 小徑", "icon": "🛤️", "ex": "Follow the garden path."},
+  {"week": 2, "unit": "Spelling", "word": "dash", "zh": "猛衝 / 急奔", "icon": "💨", "ex": "Make a quick dash to the door."},
+  {"week": 2, "unit": "Spelling", "word": "cash", "zh": "現金", "icon": "💵", "ex": "Pay with cash or card."},
+  {"week": 3, "unit": "Phonics", "word": "skate", "zh": "溜冰 / 溜冰鞋", "icon": "⛸️", "ex": "I like to skate in winter."},
+  {"week": 3, "unit": "Phonics", "word": "skid", "zh": "打滑", "icon": "🚗", "ex": "The bike will skid on wet roads."},
+  {"week": 3, "unit": "Phonics", "word": "skip", "zh": "蹦蹦跳跳 / 跳過", "icon": "🦘", "ex": "The kids skip down the hall."},
+  {"week": 3, "unit": "Phonics", "word": "smile", "zh": "微笑", "icon": "😊", "ex": "She has a sweet smile."},
+  {"week": 3, "unit": "Phonics", "word": "smoke", "zh": "煙霧", "icon": "💨", "ex": "Smoke came out of the chimney."},
+  {"week": 3, "unit": "Phonics", "word": "snake", "zh": "蛇", "icon": "🐍", "ex": "The green snake moved quietly."},
+  {"week": 3, "unit": "Phonics", "word": "spare", "zh": "多餘的 / 備用的", "icon": "🛞", "ex": "We have a spare tire."},
+  {"week": 3, "unit": "Phonics", "word": "spool", "zh": "線軸", "icon": "🧵", "ex": "A spool of red thread."},
+  {"week": 3, "unit": "Phonics", "word": "stale", "zh": "不新鮮的", "icon": "🥖", "ex": "This piece of bread is stale."},
+  {"week": 3, "unit": "Phonics", "word": "swim", "zh": "游泳", "icon": "🏊", "ex": "Fish swim in the river."},
+  {"week": 3, "unit": "Phonics", "word": "blue", "zh": "藍色的", "icon": "🔵", "ex": "The sky is clear and blue."},
+  {"week": 3, "unit": "Phonics", "word": "class", "zh": "班級 / 課堂", "icon": "🏫", "ex": "Our class goes to the zoo."},
+  {"week": 3, "unit": "Phonics", "word": "clip", "zh": "夾子 / 夾住", "icon": "📎", "ex": "Use a paper clip for the pages."},
+  {"week": 3, "unit": "Phonics", "word": "flag", "zh": "旗幟", "icon": "🚩", "ex": "The national flag is waving."},
+  {"week": 3, "unit": "Phonics", "word": "flute", "zh": "長笛", "icon": "🪈", "ex": "She plays the flute well."},
+  {"week": 3, "unit": "Phonics", "word": "glad", "zh": "高興的", "icon": "😄", "ex": "I am glad to see you."},
+  {"week": 3, "unit": "Phonics", "word": "glass", "zh": "玻璃 / 玻璃杯", "icon": "🥛", "ex": "A glass of cold water."},
+  {"week": 3, "unit": "Phonics", "word": "glows", "zh": "發光", "icon": "✨", "ex": "The firefly glows at night."},
+  {"week": 3, "unit": "Phonics", "word": "plate", "zh": "盤子", "icon": "🍽️", "ex": "Put an apple on the plate."},
+  {"week": 3, "unit": "Phonics", "word": "play", "zh": "玩耍 / 遊戲", "icon": "⚽", "ex": "Let's play together."},
+  {"week": 3, "unit": "Phonics", "word": "brown", "zh": "棕色 / 褐色的", "icon": "🟤", "ex": "The brown bear is big."},
+  {"week": 3, "unit": "Phonics", "word": "crow", "zh": "烏鴉", "icon": "🐦‍⬛", "ex": "A black crow sat on a branch."},
+  {"week": 3, "unit": "Phonics", "word": "cry", "zh": "哭泣 / 喊叫", "icon": "😢", "ex": "Don't cry; it's okay."},
+  {"week": 3, "unit": "Phonics", "word": "drive", "zh": "開車", "icon": "🚗", "ex": "Dad will drive us home."},
+  {"week": 3, "unit": "Phonics", "word": "frog", "zh": "青蛙", "icon": "🐸", "ex": "The frog jumped into the pond."},
+  {"week": 3, "unit": "Phonics", "word": "grape", "zh": "葡萄", "icon": "🍇", "ex": "Purple grape is sweet."},
+  {"week": 3, "unit": "Phonics", "word": "gray", "zh": "灰色的", "icon": "🩶", "ex": "Rainy clouds are gray."},
+  {"week": 3, "unit": "Phonics", "word": "prize", "zh": "獎品 / 獎項", "icon": "🏆", "ex": "He won the first prize."},
+  {"week": 3, "unit": "Phonics", "word": "train", "zh": "火車", "icon": "🚆", "ex": "The train arrived on time."},
+  {"week": 3, "unit": "Phonics", "word": "trip", "zh": "旅行 / 旅程", "icon": "🧳", "ex": "We took a fun trip."},
+  {"week": 3, "unit": "Reading Plus — Too Much Barking", "word": "chair", "zh": "椅子", "icon": "🪑", "ex": "Sit on the wooden chair."},
+  {"week": 3, "unit": "Reading Plus — Too Much Barking", "word": "friend", "zh": "朋友", "icon": "🤝", "ex": "A dog is a good friend."},
+  {"week": 3, "unit": "Reading Plus — Too Much Barking", "word": "mail", "zh": "信件 / 郵件", "icon": "✉️", "ex": "Check the mailbox for mail."},
+  {"week": 3, "unit": "Reading Plus — Too Much Barking", "word": "mail carrier", "zh": "郵差", "icon": "📮", "ex": "The mail carrier brought a package."},
+  {"week": 3, "unit": "Reading Plus — Too Much Barking", "word": "pet", "zh": "寵物 / 撫摸", "icon": "🐶", "ex": "I have a friendly pet."},
+  {"week": 3, "unit": "Reading Plus — Too Much Barking", "word": "real", "zh": "真正的", "icon": "💯", "ex": "Is that a real diamond?"},
+  {"week": 3, "unit": "Reading Plus — Too Much Barking", "word": "think of", "zh": "想起 / 考慮", "icon": "🤔", "ex": "What do you think of this book?"},
+  {"week": 3, "unit": "Reading Plus — A New Friend", "word": "as if", "zh": "彷彿 / 好像", "icon": "🎭", "ex": "He looked as if he knew the answer."},
+  {"week": 3, "unit": "Reading Plus — A New Friend", "word": "glad", "zh": "高興的", "icon": "😃", "ex": "We are glad you came."},
+  {"week": 3, "unit": "Reading Plus — A New Friend", "word": "outside", "zh": "在外面 / 戶外", "icon": "🌳", "ex": "Let's go play outside."},
+  {"week": 3, "unit": "Reading Plus — A New Friend", "word": "quietly", "zh": "安靜地", "icon": "🤫", "ex": "Walk quietly in the library."},
+  {"week": 3, "unit": "Reading Plus — A New Friend", "word": "sidewalk", "zh": "人行道", "icon": "🚶‍♀️", "ex": "Walk safely on the sidewalk."},
+  {"week": 3, "unit": "Reading Plus — A New Friend", "word": "sniff", "zh": "嗅 / 聞", "icon": "👃", "ex": "Dogs sniff everything they see."},
+  {"week": 3, "unit": "Reading Plus — A New Friend", "word": "softly", "zh": "輕柔地 / 溫柔地", "icon": "🧸", "ex": "She spoke softly to the baby."},
+  {"week": 3, "unit": "Spelling", "word": "if", "zh": "如果", "icon": "❓", "ex": "If it rains, we stay inside."},
+  {"week": 3, "unit": "Spelling", "word": "zip", "zh": "拉拉鍊", "icon": "🤐", "ex": "Zip up your jacket."},
+  {"week": 3, "unit": "Spelling", "word": "mix", "zh": "混合 / 調勻", "icon": "🥣", "ex": "Mix the flour and milk."},
+  {"week": 3, "unit": "Spelling", "word": "pin", "zh": "大頭針 / 別針", "icon": "🧷", "ex": "Use a pin to hold the paper."},
+  {"week": 3, "unit": "Spelling", "word": "milk", "zh": "牛奶", "icon": "🥛", "ex": "Drink warm milk before bed."},
+  {"week": 3, "unit": "Spelling", "word": "tip", "zh": "尖端 / 小技巧", "icon": "💡", "ex": "The tip of the pencil broke."},
+  {"week": 3, "unit": "Spelling", "word": "his", "zh": "他的", "icon": "👦", "ex": "This is his backpack."},
+  {"week": 3, "unit": "Spelling", "word": "fix", "zh": "修理", "icon": "🔧", "ex": "Dad will fix my toy car."},
+  {"week": 3, "unit": "Spelling", "word": "kiss", "zh": "親吻", "icon": "💋", "ex": "Mom gave me a goodnight kiss."},
+  {"week": 3, "unit": "Spelling", "word": "rip", "zh": "撕破 / 裂開", "icon": "📄", "ex": "Don't rip the page."},
+  {"week": 3, "unit": "Spelling", "word": "dish", "zh": "碟子 / 菜餚", "icon": "🍽️", "ex": "Wash your dinner dish."},
+  {"week": 3, "unit": "Spelling", "word": "fish", "zh": "魚", "icon": "🐟", "ex": "Goldfish swim in the bowl."},
+  {"week": 3, "unit": "Spelling", "word": "wish", "zh": "願望 / 希望", "icon": "🌠", "ex": "Make a birthday wish."},
+  {"week": 3, "unit": "Spelling", "word": "mitt", "zh": "棒球手套", "icon": "⚾", "ex": "Catch the ball with your mitt."},
+  {"week": 3, "unit": "Spelling", "word": "rich", "zh": "富有的 / 豐富的", "icon": "💰", "ex": "The king was very rich."},
+  {"week": 4, "unit": "Reading Plus — Nicky Helps Mom", "word": "bread", "zh": "麵包", "icon": "🍞", "ex": "Fresh bread smells delicious."},
+  {"week": 4, "unit": "Reading Plus — Nicky Helps Mom", "word": "burn", "zh": "燃燒 / 燒焦", "icon": "🔥", "ex": "Do not burn the toast."},
+  {"week": 4, "unit": "Reading Plus — Nicky Helps Mom", "word": "family", "zh": "家庭 / 家人", "icon": "👨‍👩‍👧‍👦", "ex": "I love my family."},
+  {"week": 4, "unit": "Reading Plus — Nicky Helps Mom", "word": "hurry", "zh": "趕快", "icon": "🏃", "ex": "Hurry up, the bus is here."},
+  {"week": 4, "unit": "Reading Plus — Nicky Helps Mom", "word": "kitchen", "zh": "廚房", "icon": "🍳", "ex": "Mom is cooking in the kitchen."},
+  {"week": 4, "unit": "Reading Plus — Nicky Helps Mom", "word": "look around", "zh": "環顧四周", "icon": "👀", "ex": "Look around before you cross."},
+  {"week": 4, "unit": "Reading Plus — Nicky Helps Mom", "word": "oven", "zh": "烤箱", "icon": "🥧", "ex": "Cookies bake in the oven."},
+  {"week": 4, "unit": "Reading Plus — Nicky Helps Mom", "word": "petted", "zh": "撫摸", "icon": "🐕", "ex": "She petted the sweet puppy."},
+  {"week": 4, "unit": "Reading Plus — Nicky Helps Mom", "word": "sometimes", "zh": "有時候", "icon": "⏳", "ex": "Sometimes we go to the beach."},
+  {"week": 4, "unit": "Reading Plus — Nicky Helps Mom", "word": "start", "zh": "開始", "icon": "🏁", "ex": "The movie will start soon."},
+  {"week": 4, "unit": "Reading Plus — Splash", "word": "creek", "zh": "小溪 / 小河", "icon": "🏞️", "ex": "Frogs jump by the creek."},
+  {"week": 4, "unit": "Reading Plus — Splash", "word": "fast", "zh": "快速的", "icon": "⚡", "ex": "Cheetahs run very fast."},
+  {"week": 4, "unit": "Reading Plus — Splash", "word": "great", "zh": "極佳的 / 偉大的", "icon": "🌟", "ex": "You did a great job."},
+  {"week": 4, "unit": "Reading Plus — Splash", "word": "quiet", "zh": "安靜的", "icon": "🤫", "ex": "Please be quiet in the library."},
+  {"week": 4, "unit": "Reading Plus — Splash", "word": "soon", "zh": "很快 / 不久", "icon": "⏰", "ex": "Dinner will be ready soon."},
+  {"week": 4, "unit": "Reading Plus — Splash", "word": "splash", "zh": "濺水 / 潑水", "icon": "💦", "ex": "Water splash when you jump in."},
+  {"week": 4, "unit": "Spelling", "word": "cot", "zh": "簡易折疊床 / 嬰兒床", "icon": "🛏️", "ex": "He slept on a camp cot."},
+  {"week": 4, "unit": "Spelling", "word": "fog", "zh": "霧", "icon": "🌫️", "ex": "Morning fog covered the hills."},
+  {"week": 4, "unit": "Spelling", "word": "lot", "zh": "很多 / 一批", "icon": "📦", "ex": "There are a lot of books."},
+  {"week": 4, "unit": "Spelling", "word": "log", "zh": "圓木 / 原木", "icon": "🪵", "ex": "A frog sat on a wooden log."},
+  {"week": 4, "unit": "Spelling", "word": "got", "zh": "得到", "icon": "🎁", "ex": "I got a birthday gift."},
+  {"week": 4, "unit": "Spelling", "word": "dog", "zh": "狗", "icon": "🐕", "ex": "The dog wags its tail."},
+  {"week": 4, "unit": "Spelling", "word": "flop", "zh": "沉重倒下 / 撲通落下", "icon": "🛋️", "ex": "Tired kids flop on the couch."},
+  {"week": 4, "unit": "Spelling", "word": "jog", "zh": "慢跑", "icon": "🏃‍♀️", "ex": "We jog in the park every day."},
+  {"week": 4, "unit": "Spelling", "word": "job", "zh": "工作", "icon": "💼", "ex": "He has a good job."},
+  {"week": 4, "unit": "Spelling", "word": "spot", "zh": "斑點 / 地點", "icon": "📍", "ex": "The puppy has a black spot."},
+  {"week": 4, "unit": "Spelling", "word": "robin", "zh": "知更鳥", "icon": "🐦", "ex": "A red robin sings in the tree."},
+  {"week": 4, "unit": "Spelling", "word": "soggy", "zh": "濕透的 / 軟爛的", "icon": "🥣", "ex": "The cereal got soggy."},
+  {"week": 4, "unit": "Spelling", "word": "slot", "zh": "投幣口 / 狹縫", "icon": "🪙", "ex": "Put a coin into the slot."},
+  {"week": 4, "unit": "Spelling", "word": "cross", "zh": "穿過 / 交叉", "icon": "🚶‍♂️", "ex": "Cross the street at the light."},
+  {"week": 4, "unit": "Spelling", "word": "off", "zh": "離開 / 關閉", "icon": "⏹️", "ex": "Turn off the light."},
+  {"week": 5, "unit": "Phonics", "word": "bank", "zh": "銀行 / 岸邊", "icon": "🏦", "ex": "Save money in the bank."},
+  {"week": 5, "unit": "Phonics", "word": "camp", "zh": "露營", "icon": "⛺", "ex": "We camp in the woods."},
+  {"week": 5, "unit": "Phonics", "word": "hand", "zh": "手", "icon": "✋", "ex": "Raise your hand to speak."},
+  {"week": 5, "unit": "Phonics", "word": "paint", "zh": "顏料 / 繪畫", "icon": "🎨", "ex": "Paint a picture of a house."},
+  {"week": 5, "unit": "Phonics", "word": "plant", "zh": "植物 / 種植", "icon": "🌱", "ex": "Water the plant daily."},
+  {"week": 5, "unit": "Phonics", "word": "pond", "zh": "池塘", "icon": "🦆", "ex": "Ducks swim in the pond."},
+  {"week": 5, "unit": "Phonics", "word": "pump", "zh": "打氣筒 / 抽水機", "icon": "⛽", "ex": "Pump air into the tire."},
+  {"week": 5, "unit": "Phonics", "word": "stamp", "zh": "郵票 / 蓋印", "icon": "📮", "ex": "Put a stamp on the letter."},
+  {"week": 5, "unit": "Phonics", "word": "stand", "zh": "站立", "icon": "🧍", "ex": "Please stand up."},
+  {"week": 5, "unit": "Phonics", "word": "stump", "zh": "樹樁 / 殘株", "icon": "🪵", "ex": "A squirrel sat on the stump."},
+  {"week": 5, "unit": "Phonics", "word": "wind", "zh": "風", "icon": "💨", "ex": "The cool wind blows gently."},
+  {"week": 5, "unit": "Phonics", "word": "wink", "zh": "眨眼", "icon": "😉", "ex": "Give a quick wink with one eye."},
+  {"week": 5, "unit": "Reading Plus — Neighbors", "word": "backyard", "zh": "後院", "icon": "🏡", "ex": "We play ball in the backyard."},
+  {"week": 5, "unit": "Reading Plus — Neighbors", "word": "carry", "zh": "攜帶 / 搬運", "icon": "🎒", "ex": "Carry your school bag."},
+  {"week": 5, "unit": "Reading Plus — Neighbors", "word": "chase", "zh": "追趕", "icon": "🏃", "ex": "Dogs like to chase balls."},
+  {"week": 5, "unit": "Reading Plus — Neighbors", "word": "collie", "zh": "牧羊犬", "icon": "🐕", "ex": "A collie is a smart dog."},
+  {"week": 5, "unit": "Reading Plus — Neighbors", "word": "fence", "zh": "柵欄 / 圍牆", "icon": "🚧", "ex": "Paint the wooden fence white."},
+  {"week": 5, "unit": "Reading Plus — Neighbors", "word": "lots of", "zh": "許多的", "icon": "🍎", "ex": "There are lots of apples."},
+  {"week": 5, "unit": "Reading Plus — Neighbors", "word": "neighbors", "zh": "鄰居們", "icon": "👥", "ex": "Our neighbors are very kind."},
+  {"week": 5, "unit": "Reading Plus — Neighbors", "word": "nodded", "zh": "點頭", "icon": "🙆", "ex": "She nodded to say yes."},
+  {"week": 5, "unit": "Reading Plus — Neighbors", "word": "tricks", "zh": "把戲 / 特技", "icon": "🎪", "ex": "The dog knows fun tricks."},
+  {"week": 5, "unit": "Reading Plus — Neighbors", "word": "yesterday", "zh": "昨天", "icon": "📅", "ex": "Yesterday was Sunday."},
+  {"week": 5, "unit": "Reading Plus — Nicky Runs Away", "word": "as soon as", "zh": "一…就…", "icon": "⚡", "ex": "Call me as soon as you arrive."},
+  {"week": 5, "unit": "Reading Plus — Nicky Runs Away", "word": "mean", "zh": "刻薄的 / 凶的", "icon": "😠", "ex": "Do not be mean to others."},
+  {"week": 5, "unit": "Reading Plus — Nicky Runs Away", "word": "run away", "zh": "逃跑 / 跑走", "icon": "🏃‍♀️", "ex": "The frightened cat ran away."},
+  {"week": 5, "unit": "Reading Plus — Nicky Runs Away", "word": "take off", "zh": "起飛 / 脫下 / 衝走", "icon": "🛫", "ex": "Take off your wet boots."},
+  {"week": 5, "unit": "Reading Plus — Nicky Runs Away", "word": "wait", "zh": "等待", "icon": "⏳", "ex": "Wait for the green light."},
+  {"week": 5, "unit": "Reading Plus — Nicky Runs Away", "word": "growl", "zh": "低吼 / 咆哮", "icon": "🐕‍🦺", "ex": "Dogs growl when they feel angry."},
+  {"week": 5, "unit": "Spelling", "word": "dock", "zh": "碼頭", "icon": "⛵", "ex": "The boat is tied to the dock."},
+  {"week": 5, "unit": "Spelling", "word": "snack", "zh": "點心", "icon": "🍪", "ex": "I eat an apple for a snack."},
+  {"week": 5, "unit": "Spelling", "word": "lock", "zh": "鎖上 / 鎖頭", "icon": "🔒", "ex": "Lock the door before leaving."},
+  {"week": 5, "unit": "Spelling", "word": "pack", "zh": "打包 / 收拾", "icon": "🎒", "ex": "Pack your lunch box."},
+  {"week": 5, "unit": "Spelling", "word": "sick", "zh": "生病的", "icon": "🤒", "ex": "Stay home when you are sick."},
+  {"week": 5, "unit": "Spelling", "word": "rock", "zh": "岩石 / 石頭", "icon": "🪨", "ex": "He threw a rock into the lake."},
+  {"week": 5, "unit": "Spelling", "word": "sack", "zh": "大麻布袋", "icon": "🥔", "ex": "A heavy sack of potatoes."},
+  {"week": 5, "unit": "Spelling", "word": "stick", "zh": "木棍 / 樹枝", "icon": "🪵", "ex": "The dog fetched the wooden stick."},
+  {"week": 5, "unit": "Spelling", "word": "stack", "zh": "堆疊 / 一疊", "icon": "📚", "ex": "A neat stack of books."},
+  {"week": 5, "unit": "Spelling", "word": "kick", "zh": "踢", "icon": "⚽", "ex": "Kick the soccer ball into the goal."},
+  {"week": 5, "unit": "Spelling", "word": "click", "zh": "按一下", "icon": "🖱️", "ex": "Click the computer mouse."},
+  {"week": 5, "unit": "Spelling", "word": "clock", "zh": "時鐘", "icon": "⏰", "ex": "The clock shows eight o'clock."},
+  {"week": 5, "unit": "Spelling", "word": "flock", "zh": "鳥群 / 羊群", "icon": "🦆", "ex": "A flock of birds flew south."},
+  {"week": 5, "unit": "Spelling", "word": "shack", "zh": "簡陋小屋", "icon": "🏚️", "ex": "There is an old shack in the woods."},
+  {"week": 5, "unit": "Spelling", "word": "backpack", "zh": "背包 / 書包", "icon": "🎒", "ex": "Put books in your backpack."},
+  {"week": 6, "unit": "Phonics", "word": "belt", "zh": "皮帶 / 腰帶", "icon": "🥋", "ex": "Fasten your seat belt."},
+  {"week": 6, "unit": "Phonics", "word": "elf", "zh": "小精靈", "icon": "🧝", "ex": "Santa's helper is an elf."},
+  {"week": 6, "unit": "Phonics", "word": "gift", "zh": "禮物", "icon": "🎁", "ex": "Open your birthday gift."},
+  {"week": 6, "unit": "Phonics", "word": "golf", "zh": "高爾夫球", "icon": "⛳", "ex": "Dad plays golf on weekends."},
+  {"week": 6, "unit": "Phonics", "word": "left", "zh": "左邊 / 離開", "icon": "⬅️", "ex": "Turn left at the corner."},
+  {"week": 6, "unit": "Phonics", "word": "lift", "zh": "舉起 / 抬起", "icon": "🏋️", "ex": "Lift the box with both hands."},
+  {"week": 6, "unit": "Phonics", "word": "melt", "zh": "融化", "icon": "🍦", "ex": "Ice cream will melt in the sun."},
+  {"week": 6, "unit": "Phonics", "word": "quilt", "zh": "被子 / 拼布被", "icon": "🛏️", "ex": "A warm quilt for winter."},
+  {"week": 6, "unit": "Phonics", "word": "raft", "zh": "木筏 / 橡皮艇", "icon": "🛶", "ex": "We floated down on a raft."},
+  {"week": 6, "unit": "Phonics", "word": "shelf", "zh": "架子 / 書架", "icon": "📚", "ex": "Put the book back on the shelf."},
+  {"week": 6, "unit": "Phonics", "word": "wilt", "zh": "凋謝 / 枯萎", "icon": "🥀", "ex": "Flowers wilt without water."},
+  {"week": 6, "unit": "Phonics", "word": "wolf", "zh": "狼", "icon": "🐺", "ex": "A gray wolf howled at night."},
+  {"week": 6, "unit": "Reading Plus — Nicky Comes Home", "word": "bring", "zh": "帶來 / 拿來", "icon": "🤲", "ex": "Bring your homework tomorrow."},
+  {"week": 6, "unit": "Reading Plus — Nicky Comes Home", "word": "floor", "zh": "地板", "icon": "🧹", "ex": "Sweep the clean floor."},
+  {"week": 6, "unit": "Reading Plus — Nicky Comes Home", "word": "furry", "zh": "毛茸茸的", "icon": "🧸", "ex": "Kittens have furry coats."},
+  {"week": 6, "unit": "Reading Plus — Nicky Comes Home", "word": "kitten", "zh": "小貓", "icon": "🐱", "ex": "The baby kitten drinks milk."},
+  {"week": 6, "unit": "Reading Plus — Nicky Comes Home", "word": "listen", "zh": "聆聽 / 注意聽", "icon": "👂", "ex": "Listen to the teacher."},
+  {"week": 6, "unit": "Reading Plus — Nicky Comes Home", "word": "mouth", "zh": "嘴巴", "icon": "👄", "ex": "Open your mouth wide."},
+  {"week": 6, "unit": "Reading Plus — Nicky Comes Home", "word": "pound", "zh": "動物收容所", "icon": "🐕", "ex": "They rescued a dog from the pound."},
+  {"week": 6, "unit": "Reading Plus — Nicky Comes Home", "word": "wiggle", "zh": "扭動 / 搖晃", "icon": "🐛", "ex": "Puppies wiggle their tails."},
+  {"week": 6, "unit": "Reading Plus — The Kitten Stays", "word": "basket", "zh": "籃子", "icon": "🧺", "ex": "A basket full of apples."},
+  {"week": 6, "unit": "Reading Plus — The Kitten Stays", "word": "belong", "zh": "屬於", "icon": "🏷️", "ex": "These toys belong to me."},
+  {"week": 6, "unit": "Reading Plus — The Kitten Stays", "word": "between", "zh": "在…之間", "icon": "↔️", "ex": "Stand between two chairs."},
+  {"week": 6, "unit": "Reading Plus — The Kitten Stays", "word": "blanket", "zh": "毛毯 / 被子", "icon": "🛋️", "ex": "Cover yourself with a warm blanket."},
+  {"week": 6, "unit": "Reading Plus — The Kitten Stays", "word": "hold", "zh": "握住 / 抱住", "icon": "🤝", "ex": "Hold my hand tightly."},
+  {"week": 6, "unit": "Reading Plus — The Kitten Stays", "word": "hungry", "zh": "飢餓的", "icon": "🍽️", "ex": "I am hungry; let's eat."},
+  {"week": 6, "unit": "Reading Plus — The Kitten Stays", "word": "lined it with", "zh": "在裡面鋪上…", "icon": "📦", "ex": "Mom lined it with soft towels."},
+  {"week": 6, "unit": "Reading Plus — The Kitten Stays", "word": "tomorrow", "zh": "明天", "icon": "📆", "ex": "Tomorrow is a holiday."},
+  {"week": 6, "unit": "Spelling", "word": "pond", "zh": "池塘", "icon": "🦆", "ex": "Fish swim in the pond."},
+  {"week": 6, "unit": "Spelling", "word": "just", "zh": "正好 / 剛才", "icon": "⏱️", "ex": "I just finished my homework."},
+  {"week": 6, "unit": "Spelling", "word": "band", "zh": "樂團 / 橡皮筋", "icon": "🎸", "ex": "The school band played music."},
+  {"week": 6, "unit": "Spelling", "word": "last", "zh": "最後的", "icon": "🏁", "ex": "This is the last cookie."},
+  {"week": 6, "unit": "Spelling", "word": "sand", "zh": "沙子", "icon": "🏖️", "ex": "We build castles in the sand."},
+  {"week": 6, "unit": "Spelling", "word": "list", "zh": "清單", "icon": "📝", "ex": "Make a shopping list."},
+  {"week": 6, "unit": "Spelling", "word": "lost", "zh": "迷路的 / 丟失的", "icon": "🧭", "ex": "The boy got lost in the store."},
+  {"week": 6, "unit": "Spelling", "word": "hand", "zh": "手", "icon": "✋", "ex": "Wash your hand before eating."},
+  {"week": 6, "unit": "Spelling", "word": "fast", "zh": "快速的", "icon": "⚡", "ex": "Rabbits run very fast."},
+  {"week": 6, "unit": "Spelling", "word": "and", "zh": "和 / 與", "icon": "➕", "ex": "Bread and butter."},
+  {"week": 6, "unit": "Spelling", "word": "cast", "zh": "石膏 / 投射", "icon": "🩹", "ex": "He wore a cast on his broken arm."},
+  {"week": 6, "unit": "Spelling", "word": "past", "zh": "過去的 / 經過", "icon": "⏳", "ex": "We walked past the park."},
+  {"week": 6, "unit": "Spelling", "word": "land", "zh": "陸地 / 著陸", "icon": "🌍", "ex": "The plane will land safely."},
+  {"week": 6, "unit": "Spelling", "word": "stand", "zh": "站立", "icon": "🧍", "ex": "Stand in a straight line."},
+  {"week": 6, "unit": "Spelling", "word": "wind", "zh": "風", "icon": "💨", "ex": "The cool wind feels nice."},
+  {"week": 7, "unit": "Phonics", "word": "scrape", "zh": "刮 / 擦傷", "icon": "🩹", "ex": "I got a scrape on my knee."},
+  {"week": 7, "unit": "Phonics", "word": "scratch", "zh": "抓癢 / 抓傷", "icon": "🐱", "ex": "Cats like to scratch posts."},
+  {"week": 7, "unit": "Phonics", "word": "screen", "zh": "螢幕 / 紗窗", "icon": "🖥️", "ex": "Look at the computer screen."},
+  {"week": 7, "unit": "Phonics", "word": "scrub", "zh": "用力擦洗", "icon": "🧽", "ex": "Scrub your hands clean."},
+  {"week": 7, "unit": "Phonics", "word": "splash", "zh": "濺水 / 潑水", "icon": "💦", "ex": "Splash water in the pool."},
+  {"week": 7, "unit": "Phonics", "word": "split", "zh": "分開 / 裂開", "icon": "✂️", "ex": "Let's split the cookie in two."},
+  {"week": 7, "unit": "Phonics", "word": "sprain", "zh": "扭傷", "icon": "🦶", "ex": "Be careful not to sprain your ankle."},
+  {"week": 7, "unit": "Phonics", "word": "spray", "zh": "噴灑", "icon": "🧴", "ex": "Spray water on the plants."},
+  {"week": 7, "unit": "Phonics", "word": "spring", "zh": "春天 / 彈簧", "icon": "🌸", "ex": "Flowers bloom in spring."},
+  {"week": 7, "unit": "Phonics", "word": "strap", "zh": "帶子 / 皮帶", "icon": "🎒", "ex": "Tighten your backpack strap."},
+  {"week": 7, "unit": "Phonics", "word": "stripes", "zh": "條紋", "icon": "🦓", "ex": "Zebras have black and white stripes."},
+  {"week": 7, "unit": "Phonics", "word": "strong", "zh": "強壯的", "icon": "💪", "ex": "He is very strong."},
+  {"week": 7, "unit": "Reading Plus — The Pet Doctor", "word": "check", "zh": "檢查", "icon": "🔍", "ex": "The doctor will check your ears."},
+  {"week": 7, "unit": "Reading Plus — The Pet Doctor", "word": "doctor", "zh": "醫生", "icon": "👨‍⚕️", "ex": "The doctor helps sick people."},
+  {"week": 7, "unit": "Reading Plus — The Pet Doctor", "word": "healthy", "zh": "健康的", "icon": "🥗", "ex": "Eat apples to stay healthy."},
+  {"week": 7, "unit": "Reading Plus — A Rainy Day", "word": "dog-training", "zh": "訓狗 / 馴犬", "icon": "🐕‍🦺", "ex": "We take Nicky to dog-training class."},
+  {"week": 7, "unit": "Reading Plus — A Rainy Day", "word": "door", "zh": "門", "icon": "🚪", "ex": "Open the front door."},
+  {"week": 7, "unit": "Reading Plus — A Rainy Day", "word": "learn", "zh": "學習", "icon": "📚", "ex": "We learn English at school."},
+  {"week": 7, "unit": "Reading Plus — A Rainy Day", "word": "lesson", "zh": "課程 / 課", "icon": "📝", "ex": "Today's lesson is fun."},
+  {"week": 7, "unit": "Reading Plus — A Rainy Day", "word": "puppy", "zh": "幼犬 / 小狗", "icon": "🐶", "ex": "The little puppy is cute."},
+  {"week": 7, "unit": "Spelling", "word": "egg", "zh": "雞蛋", "icon": "🥚", "ex": "I like fried egg for breakfast."},
+  {"week": 7, "unit": "Spelling", "word": "fed", "zh": "餵食", "icon": "🥣", "ex": "She fed her dog this morning."},
+  {"week": 7, "unit": "Spelling", "word": "met", "zh": "遇見", "icon": "🤝", "ex": "I met my teacher at the park."},
+  {"week": 7, "unit": "Spelling", "word": "yet", "zh": "還沒 / 尚", "icon": "⏳", "ex": "Are you finished yet?"},
+  {"week": 7, "unit": "Spelling", "word": "went", "zh": "去", "icon": "🚶", "ex": "We went to the beach."},
+  {"week": 7, "unit": "Spelling", "word": "nest", "zh": "鳥巢 / 窩", "icon": "🪺", "ex": "Birds build a nest in the tree."},
+  {"week": 7, "unit": "Spelling", "word": "rest", "zh": "休息", "icon": "😴", "ex": "Take a rest after lunch."},
+  {"week": 7, "unit": "Spelling", "word": "test", "zh": "測驗 / 考試", "icon": "📝", "ex": "We have a spelling test."},
+  {"week": 7, "unit": "Spelling", "word": "bend", "zh": "彎曲", "icon": "🤸", "ex": "Bend your knees to jump."},
+  {"week": 7, "unit": "Spelling", "word": "send", "zh": "發送 / 寄出", "icon": "✉️", "ex": "Send a postcard to Grandma."},
+  {"week": 7, "unit": "Spelling", "word": "pen", "zh": "原子筆 / 鋼筆", "icon": "🖊️", "ex": "Write with a blue pen."},
+  {"week": 7, "unit": "Spelling", "word": "mess", "zh": "凌亂 / 髒亂", "icon": "🧹", "ex": "Clean up this room mess."},
+  {"week": 7, "unit": "Spelling", "word": "stem", "zh": "植物的莖", "icon": "🌱", "ex": "The flower has a green stem."},
+  {"week": 7, "unit": "Spelling", "word": "mend", "zh": "修補 / 修理", "icon": "🪡", "ex": "Mom will mend the torn shirt."},
+  {"week": 7, "unit": "Spelling", "word": "west", "zh": "西方", "icon": "🧭", "ex": "The sun sets in the west."},
+  {"week": 8, "unit": "Phonics", "word": "knee", "zh": "膝蓋", "icon": "🦵", "ex": "Bend your right knee."},
+  {"week": 8, "unit": "Phonics", "word": "kneel", "zh": "跪下", "icon": "🧎", "ex": "Kneel on the soft rug."},
+  {"week": 8, "unit": "Phonics", "word": "knife", "zh": "刀子", "icon": "🔪", "ex": "Use a knife to cut fruit."},
+  {"week": 8, "unit": "Phonics", "word": "knit", "zh": "編織", "icon": "🧶", "ex": "Grandma loves to knit sweaters."},
+  {"week": 8, "unit": "Phonics", "word": "knob", "zh": "門把 / 旋鈕", "icon": "🚪", "ex": "Turn the door knob."},
+  {"week": 8, "unit": "Phonics", "word": "knock", "zh": "敲擊 / 敲門", "icon": "✊", "ex": "Knock on the door first."},
+  {"week": 8, "unit": "Phonics", "word": "knot", "zh": "繩結", "icon": "🪢", "ex": "Tie a tight knot."},
+  {"week": 8, "unit": "Phonics", "word": "wrap", "zh": "包裝 / 包裹", "icon": "🎁", "ex": "Wrap the gift in pretty paper."},
+  {"week": 8, "unit": "Phonics", "word": "wreath", "zh": "花環 / 花圈", "icon": "🎄", "ex": "Hang a Christmas wreath."},
+  {"week": 8, "unit": "Phonics", "word": "wrench", "zh": "扳手", "icon": "🔧", "ex": "Fix the pipe with a wrench."},
+  {"week": 8, "unit": "Phonics", "word": "wrist", "zh": "手腕", "icon": "⌚", "ex": "Wear a watch on your wrist."},
+  {"week": 8, "unit": "Phonics", "word": "write", "zh": "寫字", "icon": "✍️", "ex": "Write your name neatly."},
+  {"week": 8, "unit": "Phonics", "word": "wrong", "zh": "錯誤的", "icon": "❌", "ex": "That is the wrong answer."},
+  {"week": 8, "unit": "Phonics", "word": "brick", "zh": "磚塊", "icon": "🧱", "ex": "The house is made of brick."},
+  {"week": 8, "unit": "Phonics", "word": "check", "zh": "檢查 / 勾選", "icon": "✅", "ex": "Check your answers."},
+  {"week": 8, "unit": "Phonics", "word": "chick", "zh": "小雞", "icon": "🐤", "ex": "A fluffy yellow chick."},
+  {"week": 8, "unit": "Phonics", "word": "clock", "zh": "時鐘", "icon": "⏰", "ex": "Look at the wall clock."},
+  {"week": 8, "unit": "Phonics", "word": "duck", "zh": "鴨子", "icon": "🦆", "ex": "The duck quacks happily."},
+  {"week": 8, "unit": "Phonics", "word": "lock", "zh": "上鎖", "icon": "🔒", "ex": "Lock the gate."},
+  {"week": 8, "unit": "Phonics", "word": "pocket", "zh": "口袋", "icon": "👖", "ex": "Put coins in your pocket."},
+  {"week": 8, "unit": "Phonics", "word": "rack", "zh": "架子 / 置物架", "icon": "🧥", "ex": "Hang the coat on the rack."},
+  {"week": 8, "unit": "Phonics", "word": "rock", "zh": "石頭", "icon": "🪨", "ex": "A smooth river rock."},
+  {"week": 8, "unit": "Phonics", "word": "rocket", "zh": "火箭", "icon": "🚀", "ex": "The rocket flew into space."},
+  {"week": 8, "unit": "Phonics", "word": "snack", "zh": "點心", "icon": "🥨", "ex": "Time for an afternoon snack."},
+  {"week": 8, "unit": "Phonics", "word": "thick", "zh": "厚的 / 粗的", "icon": "📖", "ex": "This is a thick dictionary."},
+  {"week": 8, "unit": "Phonics", "word": "track", "zh": "軌道 / 跑道", "icon": "🛤️", "ex": "Run around the running track."},
+  {"week": 8, "unit": "Reading Plus — A Lesson for Lee", "word": "easy", "zh": "容易的 / 簡單的", "icon": "👌", "ex": "Math is easy and fun."},
+  {"week": 8, "unit": "Reading Plus — A Lesson for Lee", "word": "first", "zh": "首先 / 第一", "icon": "🥇", "ex": "Wash hands first before eating."},
+  {"week": 8, "unit": "Reading Plus — A Lesson for Lee", "word": "important", "zh": "重要的", "icon": "⭐", "ex": "Rules are very important."},
+  {"week": 8, "unit": "Reading Plus — A Lesson for Lee", "word": "loudly", "zh": "大聲地", "icon": "📢", "ex": "Do not speak loudly in class."},
+  {"week": 8, "unit": "Reading Plus — A Lesson for Lee", "word": "name", "zh": "名字 / 命名", "icon": "🏷️", "ex": "What is your puppy's name?"},
+  {"week": 8, "unit": "Reading Plus — A Lesson for Lee", "word": "trot", "zh": "小跑", "icon": "🐕", "ex": "Ponies trot along the trail."},
+  {"week": 8, "unit": "Reading Plus — Get the Brush", "word": "a string mop", "zh": "棉繩拖把", "icon": "🧹", "ex": "Clean the floor with a string mop."},
+  {"week": 8, "unit": "Reading Plus — Get the Brush", "word": "beautiful", "zh": "美麗的", "icon": "🌸", "ex": "What a beautiful rose!"},
+  {"week": 8, "unit": "Reading Plus — Get the Brush", "word": "bird feeder", "zh": "餵鳥器", "icon": "🕊️", "ex": "Birds eat seeds at the bird feeder."},
+  {"week": 8, "unit": "Reading Plus — Get the Brush", "word": "brush", "zh": "刷子 / 刷牙", "icon": "🪥", "ex": "Brush your teeth twice a day."},
+  {"week": 8, "unit": "Reading Plus — Get the Brush", "word": "throw away", "zh": "丟掉 / 扔掉", "icon": "🗑️", "ex": "Throw away the trash."},
+  {"week": 8, "unit": "Spelling", "word": "us", "zh": "我們", "icon": "👥", "ex": "Join us for a game."},
+  {"week": 8, "unit": "Spelling", "word": "mud", "zh": "泥巴 / 爛泥", "icon": "🪵", "ex": "Pigs love to roll in mud."},
+  {"week": 8, "unit": "Spelling", "word": "rub", "zh": "搓揉 / 摩擦", "icon": "🧼", "ex": "Rub soap on your hands."},
+  {"week": 8, "unit": "Spelling", "word": "rust", "zh": "生鏽", "icon": "🔩", "ex": "Old iron nails get rust."},
+  {"week": 8, "unit": "Spelling", "word": "tug", "zh": "用力拉", "icon": "🪢", "ex": "Dogs like to tug the rope."},
+  {"week": 8, "unit": "Spelling", "word": "luck", "zh": "運氣 / 幸運", "icon": "🍀", "ex": "Good luck on your exam!"},
+  {"week": 8, "unit": "Spelling", "word": "must", "zh": "必須 / 一定", "icon": "❗", "ex": "You must wear a helmet."},
+  {"week": 8, "unit": "Spelling", "word": "rug", "zh": "小地毯", "icon": "🛋️", "ex": "A soft rug by the bed."},
+  {"week": 8, "unit": "Spelling", "word": "shut", "zh": "關上 / 閉上", "icon": "🚪", "ex": "Shut the window, fit."},
+  {"week": 8, "unit": "Spelling", "word": "stuck", "zh": "卡住的", "icon": "🪤", "ex": "The ball is stuck in the tree."},
+  {"week": 8, "unit": "Spelling", "word": "dust", "zh": "灰塵 / 擦灰塵", "icon": "🧹", "ex": "Wipe the dust off the table."},
+  {"week": 8, "unit": "Spelling", "word": "hush", "zh": "安靜 / 噓", "icon": "🤫", "ex": "Hush, the baby is sleeping."},
+  {"week": 8, "unit": "Spelling", "word": "rush", "zh": "急衝 / 匆忙", "icon": "🏃", "ex": "Don't rush; take your time."},
+  {"week": 8, "unit": "Spelling", "word": "lunch", "zh": "午餐", "icon": "🍱", "ex": "I brought a sandwich for lunch."},
+  {"week": 8, "unit": "Spelling", "word": "bunch", "zh": "一束 / 一串", "icon": "💐", "ex": "A bunch of sweet grapes."},
+  {"week": 9, "unit": "Phonics", "word": "bright", "zh": "明亮的", "icon": "☀️", "ex": "The bright sunshine warms the room."},
+  {"week": 9, "unit": "Phonics", "word": "caught", "zh": "抓到", "icon": "⚾", "ex": "He caught the baseball."},
+  {"week": 9, "unit": "Phonics", "word": "eight", "zh": "八", "icon": "8️⃣", "ex": "I am eight years old."},
+  {"week": 9, "unit": "Phonics", "word": "flight", "zh": "班機 / 飛行", "icon": "✈️", "ex": "Our flight leaves at noon."},
+  {"week": 9, "unit": "Phonics", "word": "high", "zh": "高的", "icon": "🏔️", "ex": "The mountain is very high."},
+  {"week": 9, "unit": "Phonics", "word": "knight", "zh": "騎士", "icon": "🛡️", "ex": "The brave knight rode a horse."},
+  {"week": 9, "unit": "Phonics", "word": "light", "zh": "光線 / 輕的", "icon": "💡", "ex": "Turn on the desk light."},
+  {"week": 9, "unit": "Phonics", "word": "night", "zh": "夜晚", "icon": "🌙", "ex": "Stars shine brightly at night."},
+  {"week": 9, "unit": "Phonics", "word": "right", "zh": "正確的 / 右邊", "icon": "➡️", "ex": "Turn right at the bakery."},
+  {"week": 9, "unit": "Phonics", "word": "sigh", "zh": "嘆氣", "icon": "😮‍💨", "ex": "Dad let out a long sigh."},
+  {"week": 9, "unit": "Phonics", "word": "sight", "zh": "視力 / 景象", "icon": "👀", "ex": "The rainbow was a lovely sight."},
+  {"week": 9, "unit": "Phonics", "word": "straight", "zh": "直的 / 筆直地", "icon": "📏", "ex": "Draw a straight line."},
+  {"week": 9, "unit": "Phonics", "word": "tight", "zh": "緊的", "icon": "👟", "ex": "These shoes are too tight."},
+  {"week": 9, "unit": "Reading Plus — Marta Writes a Letter", "word": "aunt", "zh": "姑姑 / 阿姨 / 嬸嬸", "icon": "👩", "ex": "My aunt lives in New York."},
+  {"week": 9, "unit": "Reading Plus — Marta Writes a Letter", "word": "bath", "zh": "洗澡 / 沐浴", "icon": "🛁", "ex": "Take a warm bath."},
+  {"week": 9, "unit": "Reading Plus — Marta Writes a Letter", "word": "grandfather", "zh": "祖父 / 爺爺 / 外公", "icon": "👴", "ex": "Grandfather tells great stories."},
+  {"week": 9, "unit": "Reading Plus — Marta Writes a Letter", "word": "grandmother", "zh": "祖母 / 奶奶 / 外婆", "icon": "👵", "ex": "Grandmother bakes sweet pies."},
+  {"week": 9, "unit": "Reading Plus — Marta Writes a Letter", "word": "letter", "zh": "信件 / 字母", "icon": "✉️", "ex": "Write a thank-you letter."},
+  {"week": 9, "unit": "Reading Plus — Marta Writes a Letter", "word": "special", "zh": "特別的", "icon": "⭐", "ex": "Today is a special day."},
+  {"week": 9, "unit": "Reading Plus — Marta Writes a Letter", "word": "splash", "zh": "潑水 / 濺起水花", "icon": "💦", "ex": "Kids splash happily in the pool."},
+  {"week": 9, "unit": "Reading Plus — Marta Writes a Letter", "word": "wonderful", "zh": "極好的 / 精彩的", "icon": "✨", "ex": "We had a wonderful trip."},
+  {"week": 9, "unit": "Reading Plus — Mail for Marta", "word": "always", "zh": "總是 / 一直", "icon": "🔄", "ex": "She always smiles warmly."},
+  {"week": 9, "unit": "Reading Plus — Mail for Marta", "word": "clean", "zh": "乾淨的 / 打掃", "icon": "🧼", "ex": "Keep your bedroom clean."},
+  {"week": 9, "unit": "Reading Plus — Mail for Marta", "word": "delighted", "zh": "非常高興的", "icon": "🥳", "ex": "I was delighted with my gift."},
+  {"week": 9, "unit": "Reading Plus — Mail for Marta", "word": "hide", "zh": "躲藏 / 藏匿", "icon": "🙈", "ex": "Let's play hide and seek."},
+  {"week": 9, "unit": "Reading Plus — Mail for Marta", "word": "things", "zh": "物品 / 東西", "icon": "🧸", "ex": "Pack your school things."},
+  {"week": 9, "unit": "Reading Plus — Nicky Plays with Dad", "word": "blanket", "zh": "毯子", "icon": "🛋️", "ex": "Wrap up in a cozy blanket."},
+  {"week": 9, "unit": "Reading Plus — Nicky Plays with Dad", "word": "clean up", "zh": "收拾乾淨", "icon": "🧹", "ex": "Clean up your toys after play."},
+  {"week": 9, "unit": "Reading Plus — Nicky Plays with Dad", "word": "garden", "zh": "花園", "icon": "🏡", "ex": "Dad works in the green garden."},
+  {"week": 9, "unit": "Reading Plus — Nicky Plays with Dad", "word": "growl", "zh": "吠叫 / 低吼", "icon": "🐕", "ex": "The angry dog began to growl."},
+  {"week": 9, "unit": "Reading Plus — Nicky Plays with Dad", "word": "job", "zh": "工作 / 差事", "icon": "💼", "ex": "You did a wonderful job."},
+  {"week": 9, "unit": "Reading Plus — Nicky Plays with Dad", "word": "pull", "zh": "拉動", "icon": "🪢", "ex": "Pull the wagon along the path."},
+  {"week": 9, "unit": "Reading Plus — Nicky Plays with Dad", "word": "shook", "zh": "搖動", "icon": "🤝", "ex": "He shook hands with the teacher."},
+  {"week": 9, "unit": "Reading Plus — Nicky Plays with Dad", "word": "shout", "zh": "喊叫", "icon": "🗣️", "ex": "Do not shout indoors."},
+  {"week": 9, "unit": "Reading Plus — Nicky Plays with Dad", "word": "understood", "zh": "明白", "icon": "💡", "ex": "We understood the easy rule."},
+  {"week": 10, "unit": "Phonics", "word": "braid", "zh": "辮子 / 編辮子", "icon": "👧", "ex": "She wears her hair in a braid."},
+  {"week": 10, "unit": "Phonics", "word": "chain", "zh": "鐵鍊 / 鏈條", "icon": "⛓️", "ex": "Lock the bike with a steel chain."},
+  {"week": 10, "unit": "Phonics", "word": "hay", "zh": "乾草", "icon": "🌾", "ex": "Horses love to eat sweet hay."},
+  {"week": 10, "unit": "Phonics", "word": "mail", "zh": "郵件", "icon": "✉️", "ex": "Check the box for new mail."},
+  {"week": 10, "unit": "Phonics", "word": "pail", "zh": "桶子 / 水桶", "icon": "🪣", "ex": "Fill the sandbox pail with sand."},
+  {"week": 10, "unit": "Phonics", "word": "paint", "zh": "繪畫 / 刷油漆", "icon": "🎨", "ex": "Paint a colorful rainbow."},
+  {"week": 10, "unit": "Phonics", "word": "pay", "zh": "付款", "icon": "💵", "ex": "Pay for the yummy ice cream."},
+  {"week": 10, "unit": "Phonics", "word": "rain", "zh": "下雨 / 雨水", "icon": "🌧️", "ex": "Take an umbrella when it rains."},
+  {"week": 10, "unit": "Phonics", "word": "sail", "zh": "帆 / 航行", "icon": "⛵", "ex": "The white boat begins to sail."},
+  {"week": 10, "unit": "Phonics", "word": "stain", "zh": "污漬 / 污斑", "icon": "🧽", "ex": "Wipe the juice stain off."},
+  {"week": 10, "unit": "Phonics", "word": "train", "zh": "火車", "icon": "🚆", "ex": "Ride the fast train home."},
+  {"week": 10, "unit": "Phonics", "word": "tray", "zh": "托盤 / 盤子", "icon": "🍱", "ex": "Carry your lunch on a tray."},
+  {"week": 10, "unit": "Reading Plus — Nicky Gets Wet", "word": "at last", "zh": "終於 / 總算", "icon": "⏳", "ex": "At last, the rain stopped."},
+  {"week": 10, "unit": "Reading Plus — Nicky Gets Wet", "word": "broom", "zh": "掃帚", "icon": "🧹", "ex": "Sweep the porch with a broom."},
+  {"week": 10, "unit": "Reading Plus — Nicky Gets Wet", "word": "dry", "zh": "乾燥的 / 弄乾", "icon": "☀️", "ex": "Dry your hands with a towel."},
+  {"week": 10, "unit": "Reading Plus — Nicky Gets Wet", "word": "enough", "zh": "足夠的", "icon": "🥣", "ex": "We have enough snacks for all."},
+  {"week": 10, "unit": "Reading Plus — Nicky Gets Wet", "word": "hose", "zh": "水管 / 軟管", "icon": "🚿", "ex": "Water the lawn with a garden hose."},
+  {"week": 10, "unit": "Reading Plus — Nicky Gets Wet", "word": "stream", "zh": "小溪 / 水流", "icon": "🏞️", "ex": "Small fish swim in the clear stream."},
+  {"week": 10, "unit": "Reading Plus — Nicky Gets Wet", "word": "surprise", "zh": "驚喜", "icon": "🎁", "ex": "A pleasant birthday surprise!"},
+  {"week": 10, "unit": "Reading Plus — Nicky Gets Wet", "word": "weeding", "zh": "除草", "icon": "🌱", "ex": "Mom is weeding the flowerbed."},
+  {"week": 10, "unit": "Reading Plus — Helping Others", "word": "bicycle", "zh": "腳踏車", "icon": "🚲", "ex": "Ride your bicycle in the park."},
+  {"week": 10, "unit": "Reading Plus — Helping Others", "word": "bone", "zh": "骨頭", "icon": "🦴", "ex": "The dog buried a juicy bone."},
+  {"week": 10, "unit": "Reading Plus — Helping Others", "word": "cost", "zh": "價值 / 花費", "icon": "🏷️", "ex": "How much does this toy cost?"},
+  {"week": 10, "unit": "Reading Plus — Helping Others", "word": "herself", "zh": "她自己", "icon": "👧", "ex": "She tied her shoes by herself."},
+  {"week": 10, "unit": "Reading Plus — Helping Others", "word": "left", "zh": "剩下 / 離開", "icon": "🍽️", "ex": "Only one apple is left."},
+  {"week": 10, "unit": "Reading Plus — Helping Others", "word": "money", "zh": "錢 / 金錢", "icon": "💰", "ex": "Save your pocket money."},
+  {"week": 10, "unit": "Reading Plus — Helping Others", "word": "rode", "zh": "騎", "icon": "🚲", "ex": "He rode his new blue bike."},
+  {"week": 10, "unit": "Reading Plus — Helping Others", "word": "spend", "zh": "花費", "icon": "💳", "ex": "Spend time reading books."},
+  {"week": 10, "unit": "Reading Plus — Helping Others", "word": "store", "zh": "商店", "icon": "🏬", "ex": "Buy milk at the grocery store."},
+  {"week": 10, "unit": "Spelling", "word": "grand", "zh": "宏偉的 / 重大的", "icon": "🏰", "ex": "A grand castle on the hill."},
+  {"week": 10, "unit": "Spelling", "word": "drum", "zh": "鼓", "icon": "🥁", "ex": "Play a beat on the drum."},
+  {"week": 10, "unit": "Spelling", "word": "tree", "zh": "樹木", "icon": "🌳", "ex": "Climb up the sturdy tree."},
+  {"week": 10, "unit": "Spelling", "word": "drove", "zh": "開車", "icon": "🚗", "ex": "Dad drove us to the beach."},
+  {"week": 10, "unit": "Spelling", "word": "grin", "zh": "露齒而笑", "icon": "😁", "ex": "He flashed a broad happy grin."},
+  {"week": 10, "unit": "Spelling", "word": "truck", "zh": "卡車 / 貨車", "icon": "🚚", "ex": "A big red fire truck passed."},
+  {"week": 10, "unit": "Spelling", "word": "drip", "zh": "滴落 / 水滴", "icon": "💧", "ex": "The leaky faucet went drip."},
+  {"week": 10, "unit": "Spelling", "word": "trip", "zh": "旅行 / 絆倒", "icon": "🧳", "ex": "We planned a summer trip."},
+  {"week": 10, "unit": "Spelling", "word": "drive", "zh": "駕駛 / 開車", "icon": "🚘", "ex": "Learn to drive safely."},
+  {"week": 10, "unit": "Spelling", "word": "gray", "zh": "灰色的", "icon": "🩶", "ex": "The storm sky looks gray."},
+  {"week": 10, "unit": "Spelling", "word": "dress", "zh": "洋裝 / 穿衣", "icon": "👗", "ex": "She wore a pretty pink dress."},
+  {"week": 10, "unit": "Spelling", "word": "trim", "zh": "修剪 / 整理", "icon": "✂️", "ex": "Trim the bushes neatly."},
+  {"week": 10, "unit": "Spelling", "word": "try", "zh": "嘗試 / 努力", "icon": "💪", "ex": "Always try your very best."},
+  {"week": 10, "unit": "Spelling", "word": "grass", "zh": "青草 / 草地", "icon": "🌱", "ex": "Green grass grows fast in spring."},
+  {"week": 10, "unit": "Spelling", "word": "grow", "zh": "成長 / 種植", "icon": "🌿", "ex": "Sunflowers grow tall and bright."},
+  {"week": 11, "unit": "Phonics", "word": "beads", "zh": "珠子", "icon": "📿", "ex": "Make a necklace with shiny beads."},
+  {"week": 11, "unit": "Phonics", "word": "bean", "zh": "豆子", "icon": "🫘", "ex": "Plant a green bean in the soil."},
+  {"week": 11, "unit": "Phonics", "word": "beef", "zh": "牛肉", "icon": "🥩", "ex": "We had grilled beef for dinner."},
+  {"week": 11, "unit": "Phonics", "word": "bread", "zh": "麵包", "icon": "🍞", "ex": "Slice the freshly baked bread."},
+  {"week": 11, "unit": "Phonics", "word": "head", "zh": "頭部", "icon": "🗣️", "ex": "Nod your head to agree."},
+  {"week": 11, "unit": "Phonics", "word": "heel", "zh": "腳後跟", "icon": "👠", "ex": "The shoe rubs my left heel."},
+  {"week": 11, "unit": "Phonics", "word": "leaf", "zh": "樹葉", "icon": "🍃", "ex": "A yellow leaf fell from the branch."},
+  {"week": 11, "unit": "Phonics", "word": "screen", "zh": "螢幕 / 紗門", "icon": "🖥️", "ex": "Wipe the television screen."},
+  {"week": 11, "unit": "Phonics", "word": "seat", "zh": "座位", "icon": "💺", "ex": "Please take a comfortable seat."},
+  {"week": 11, "unit": "Phonics", "word": "steam", "zh": "水蒸氣 / 冒熱氣", "icon": "♨️", "ex": "Steam rose from the hot tea."},
+  {"week": 11, "unit": "Phonics", "word": "thread", "zh": "線 / 縫線", "icon": "🧵", "ex": "Pass the white thread through the needle."},
+  {"week": 11, "unit": "Phonics", "word": "seed", "zh": "種子", "icon": "🌱", "ex": "Bury the tiny flower seed."},
+  {"week": 11, "unit": "Phonics", "word": "blow", "zh": "吹 / 吹動", "icon": "💨", "ex": "Blow out all the birthday candles."},
+  {"week": 11, "unit": "Phonics", "word": "bowl", "zh": "碗", "icon": "🥣", "ex": "Eat soup from a ceramic bowl."},
+  {"week": 11, "unit": "Phonics", "word": "crow", "zh": "烏鴉", "icon": "🐦‍⬛", "ex": "A crow flew across the sky."},
+  {"week": 11, "unit": "Phonics", "word": "shadow", "zh": "影子", "icon": "👤", "ex": "Look at your long sunny shadow."},
+  {"week": 11, "unit": "Phonics", "word": "pillow", "zh": "枕頭", "icon": "🛏️", "ex": "Rest on a soft fluffy pillow."},
+  {"week": 11, "unit": "Phonics", "word": "road", "zh": "道路 / 馬路", "icon": "🛣️", "ex": "Cars travel down the country road."},
+  {"week": 11, "unit": "Phonics", "word": "snow", "zh": "雪 / 下雪", "icon": "❄️", "ex": "White snow fell all night long."},
+  {"week": 11, "unit": "Phonics", "word": "soap", "zh": "肥皂", "icon": "🧼", "ex": "Wash hands thoroughly with soap."},
+  {"week": 11, "unit": "Phonics", "word": "throw", "zh": "投擲 / 丟", "icon": "⚾", "ex": "Throw the ball to your teammate."},
+  {"week": 11, "unit": "Phonics", "word": "coast", "zh": "海岸 / 海濱", "icon": "🏖️", "ex": "We took a drive along the coast."},
+  {"week": 11, "unit": "Phonics", "word": "toast", "zh": "吐司 / 烤麵包", "icon": "🍞", "ex": "Spread strawberry jam on warm toast."},
+  {"week": 11, "unit": "Phonics", "word": "window", "zh": "窗戶", "icon": "🪟", "ex": "Look outside the bedroom window."},
+  {"week": 11, "unit": "Reading Plus — Mike's New Airplane", "word": "airplane", "zh": "飛機", "icon": "✈️", "ex": "The toy airplane glided smoothly."},
+  {"week": 11, "unit": "Reading Plus — Mike's New Airplane", "word": "evergreen", "zh": "常青樹", "icon": "🌲", "ex": "Pine trees stay evergreen in winter."},
+  {"week": 11, "unit": "Reading Plus — Mike's New Airplane", "word": "fix", "zh": "修補 / 固定", "icon": "🔧", "ex": "Help me fix the broken wing."},
+  {"week": 11, "unit": "Reading Plus — Mike's New Airplane", "word": "float", "zh": "漂浮", "icon": "⛵", "ex": "Paper boats float on water."},
+  {"week": 11, "unit": "Reading Plus — Mike's New Airplane", "word": "land", "zh": "降落 / 著陸", "icon": "🛬", "ex": "The model plane made a soft land."},
+  {"week": 11, "unit": "Reading Plus — Mike's New Airplane", "word": "near", "zh": "靠近 / 附近", "icon": "📍", "ex": "The park is near my home."},
+  {"week": 11, "unit": "Reading Plus — Mike's New Airplane", "word": "something", "zh": "某物 / 某事", "icon": "📦", "ex": "I heard something outside."},
+  {"week": 11, "unit": "Reading Plus — Mike's New Airplane", "word": "toy", "zh": "玩具", "icon": "🧸", "ex": "Share your favorite toy."},
+  {"week": 11, "unit": "Reading Plus — A New Game", "word": "because", "zh": "因為", "icon": "💡", "ex": "We stayed inside because it rained."},
+  {"week": 11, "unit": "Reading Plus — A New Game", "word": "know", "zh": "知道 / 了解", "icon": "🧠", "ex": "I know the answer to this question."},
+  {"week": 11, "unit": "Reading Plus — A New Game", "word": "sweep", "zh": "清掃 / 掃除", "icon": "🧹", "ex": "Sweep the fallen leaves off."},
+  {"week": 11, "unit": "Reading Plus — A New Game", "word": "weed", "zh": "雜草 / 除草", "icon": "🌿", "ex": "Pull the weed out from the garden."},
+  {"week": 11, "unit": "Spelling", "word": "plus", "zh": "加 / 加上", "icon": "➕", "ex": "Two plus two equals four."},
+  {"week": 11, "unit": "Spelling", "word": "glass", "zh": "玻璃杯", "icon": "🥛", "ex": "A clear glass of orange juice."},
+  {"week": 11, "unit": "Spelling", "word": "blink", "zh": "眨眼", "icon": "😉", "ex": "Blink both eyes quickly."},
+  {"week": 11, "unit": "Spelling", "word": "plot", "zh": "情節 / 小塊土地", "icon": "📖", "ex": "The exciting plot of the story."},
+  {"week": 11, "unit": "Spelling", "word": "glad", "zh": "高興的", "icon": "😄", "ex": "We are glad to help you."},
+  {"week": 11, "unit": "Spelling", "word": "blend", "zh": "混合 / 調合", "icon": "🥣", "ex": "Blend sweet bananas with milk."},
+  {"week": 11, "unit": "Spelling", "word": "plan", "zh": "計畫 / 規劃", "icon": "📝", "ex": "Make a fun weekend plan."},
+  {"week": 11, "unit": "Spelling", "word": "block", "zh": "積木 / 街區", "icon": "🧱", "ex": "Build a tall tower with wooden block."},
+  {"week": 11, "unit": "Spelling", "word": "plum", "zh": "李子 / 梅子", "icon": "🫐", "ex": "A juicy purple plum."},
+  {"week": 11, "unit": "Spelling", "word": "blast", "zh": "巨響 / 一陣強風", "icon": "🚀", "ex": "The rocket blast into the sky."},
+  {"week": 11, "unit": "Spelling", "word": "blank", "zh": "空白的", "icon": "📄", "ex": "Fill in the blank line."},
+  {"week": 11, "unit": "Spelling", "word": "blanket", "zh": "毯子", "icon": "🛋️", "ex": "Snuggle under the soft blanket."},
+  {"week": 11, "unit": "Spelling", "word": "planet", "zh": "行星", "icon": "🪐", "ex": "Earth is our home planet."},
+  {"week": 11, "unit": "Spelling", "word": "glue", "zh": "膠水 / 黏貼", "icon": "🧴", "ex": "Stick the paper with glue."},
+  {"week": 11, "unit": "Spelling", "word": "gloves", "zh": "手套", "icon": "🧤", "ex": "Wear warm winter gloves."},
+  {"week": 12, "unit": "Phonics", "word": "boot", "zh": "靴子", "icon": "👢", "ex": "Put on your rain boot."},
+  {"week": 12, "unit": "Phonics", "word": "cook", "zh": "煮飯 / 廚師", "icon": "👨‍🍳", "ex": "Mom helps cook dinner."},
+  {"week": 12, "unit": "Phonics", "word": "hood", "zh": "兜帽 / 引擎蓋", "icon": "🧥", "ex": "Pull up your jacket hood."},
+  {"week": 12, "unit": "Phonics", "word": "hook", "zh": "鉤子 / 掛鉤", "icon": "🪝", "ex": "Hang the coat on the hook."},
+  {"week": 12, "unit": "Phonics", "word": "hoop", "zh": "鐵環 / 籃框", "icon": "🏀", "ex": "Shoot the ball into the hoop."},
+  {"week": 12, "unit": "Phonics", "word": "moose", "zh": "麋鹿", "icon": "🫎", "ex": "A large wild moose stood in the forest."},
+  {"week": 12, "unit": "Phonics", "word": "pool", "zh": "泳池 / 水池", "icon": "🏊", "ex": "Swim in the outdoor pool."},
+  {"week": 12, "unit": "Phonics", "word": "school", "zh": "學校", "icon": "🏫", "ex": "We walk together to school."},
+  {"week": 12, "unit": "Phonics", "word": "shook", "zh": "搖動", "icon": "🫨", "ex": "The earthquake shook the floor."},
+  {"week": 12, "unit": "Phonics", "word": "spoon", "zh": "湯匙", "icon": "🥄", "ex": "Eat soup with a spoon."},
+  {"week": 12, "unit": "Phonics", "word": "stood", "zh": "站立", "icon": "🧍", "ex": "She stood by the window."},
+  {"week": 12, "unit": "Phonics", "word": "stool", "zh": "凳子", "icon": "🪑", "ex": "Sit on the small wooden stool."},
+  {"week": 12, "unit": "Reading Plus — Bigfoot Learns to Sit", "word": "hot dogs", "zh": "熱狗", "icon": "🌭", "ex": "We roasted hot dogs at the camp."},
+  {"week": 12, "unit": "Reading Plus — Bigfoot Learns to Sit", "word": "lay down", "zh": "躺下", "icon": "🛌", "ex": "The tired dog lay down on the rug."},
+  {"week": 12, "unit": "Reading Plus — Bigfoot Learns to Sit", "word": "the last time", "zh": "最後一次 / 上一次", "icon": "⏳", "ex": "This is the last time we practice."},
+  {"week": 12, "unit": "Reading Plus — Open the Door", "word": "kitchen", "zh": "廚房", "icon": "🍳", "ex": "Wash dishes in the clean kitchen."},
+  {"week": 12, "unit": "Reading Plus — Open the Door", "word": "paw", "zh": "動物爪子", "icon": "🐾", "ex": "The cat raised its fluffy paw."},
+  {"week": 12, "unit": "Reading Plus — Open the Door", "word": "plan", "zh": "計畫", "icon": "📝", "ex": "We have a smart game plan."},
+  {"week": 12, "unit": "Reading Plus — Open the Door", "word": "run after", "zh": "追趕", "icon": "🏃", "ex": "Puppies run after the flying ball."},
+  {"week": 12, "unit": "Reading Plus — Open the Door", "word": "shut", "zh": "關閉", "icon": "🚪", "ex": "Please shut the bedroom door."},
+  {"week": 12, "unit": "Reading Plus — Open the Door", "word": "television", "zh": "電視", "icon": "📺", "ex": "Watch educational shows on television."},
+  {"week": 12, "unit": "Spelling", "word": "wing", "zh": "翅膀", "icon": "🪽", "ex": "The robin spread each soft wing."},
+  {"week": 12, "unit": "Spelling", "word": "dump", "zh": "傾倒 / 垃圾場", "icon": "🚛", "ex": "Dump the fallen leaves into the bin."},
+  {"week": 12, "unit": "Spelling", "word": "sting", "zh": "刺痛 / 叮咬", "icon": "🐝", "ex": "Bees sting when they feel afraid."},
+  {"week": 12, "unit": "Spelling", "word": "mask", "zh": "面具 / 口罩", "icon": "😷", "ex": "Wear a mask in crowded halls."},
+  {"week": 12, "unit": "Spelling", "word": "long", "zh": "長的", "icon": "📏", "ex": "A long winding path."},
+  {"week": 12, "unit": "Spelling", "word": "jump", "zh": "跳躍", "icon": "🦘", "ex": "Jump high over the puddle."},
+  {"week": 12, "unit": "Spelling", "word": "desk", "zh": "書桌", "icon": "🪑", "ex": "Keep your study desk neat."},
+  {"week": 12, "unit": "Spelling", "word": "song", "zh": "歌曲", "icon": "🎵", "ex": "Sing a cheerful holiday song."},
+  {"week": 12, "unit": "Spelling", "word": "camp", "zh": "露營 / 營地", "icon": "⛺", "ex": "Sleep in tents at camp."},
+  {"week": 12, "unit": "Spelling", "word": "ask", "zh": "問 / 詢問", "icon": "🙋", "ex": "Ask questions when you are unsure."},
+  {"week": 12, "unit": "Spelling", "word": "blimp", "zh": "小型飛船", "icon": "🎈", "ex": "A giant blimp sailed overhead."},
+  {"week": 12, "unit": "Spelling", "word": "grump", "zh": "脾氣壞的人", "icon": "😠", "ex": "Don't be a grumpy grump today."},
+  {"week": 12, "unit": "Spelling", "word": "stamp", "zh": "郵票 / 踏腳", "icon": "📮", "ex": "Stamp the envelope before mailing."},
+  {"week": 12, "unit": "Spelling", "word": "bring", "zh": "帶來", "icon": "🤲", "ex": "Bring your pencil to school."},
+  {"week": 12, "unit": "Spelling", "word": "task", "zh": "任務 / 差事", "icon": "📋", "ex": "Complete the spelling task."},
+  {"week": 13, "unit": "Phonics", "word": "cause", "zh": "起因 / 引起", "icon": "⚡", "ex": "Heavy rain was the main cause."},
+  {"week": 13, "unit": "Phonics", "word": "claw", "zh": "爪子", "icon": "🐾", "ex": "The bird gripped the branch with its claw."},
+  {"week": 13, "unit": "Phonics", "word": "crawl", "zh": "爬行", "icon": "🐛", "ex": "Baby turtles crawl to the sea."},
+  {"week": 13, "unit": "Phonics", "word": "draw", "zh": "畫畫", "icon": "🎨", "ex": "Draw a picture of your family."},
+  {"week": 13, "unit": "Phonics", "word": "faucet", "zh": "水龍頭", "icon": "🚰", "ex": "Turn off the leaking faucet."},
+  {"week": 13, "unit": "Phonics", "word": "fawn", "zh": "幼鹿 / 小鹿", "icon": "🦌", "ex": "A graceful little fawn stood still."},
+  {"week": 13, "unit": "Phonics", "word": "laundry", "zh": "要洗或洗好的衣服", "icon": "🧺", "ex": "Help fold the clean laundry."},
+  {"week": 13, "unit": "Phonics", "word": "paw", "zh": "爪子", "icon": "🐾", "ex": "Wipe the muddy dog paw."},
+  {"week": 13, "unit": "Phonics", "word": "sauce", "zh": "醬汁 / 調味醬", "icon": "🥫", "ex": "Pour tomato sauce on pasta."},
+  {"week": 13, "unit": "Phonics", "word": "shawl", "zh": "披肩 / 圍巾", "icon": "🧣", "ex": "Wrap a wool shawl around shoulders."},
+  {"week": 13, "unit": "Phonics", "word": "straw", "zh": "吸管 / 稻草", "icon": "🥤", "ex": "Sip the cold juice through a straw."},
+  {"week": 13, "unit": "Phonics", "word": "yawn", "zh": "打哈欠", "icon": "🥱", "ex": "Tired sleepy kids yawn widely."},
+  {"week": 13, "unit": "Phonics", "word": "blew", "zh": "吹", "icon": "💨", "ex": "The strong wind blew off my hat."},
+  {"week": 13, "unit": "Phonics", "word": "chew", "zh": "咀嚼 / 咬", "icon": "🦷", "ex": "Chew food carefully before swallowing."},
+  {"week": 13, "unit": "Phonics", "word": "dew", "zh": "露水", "icon": "💧", "ex": "Morning dew drops glistened on petals."},
+  {"week": 13, "unit": "Phonics", "word": "few", "zh": "很少的 / 少數的", "icon": "🤏", "ex": "Only a few students stayed behind."},
+  {"week": 13, "unit": "Phonics", "word": "flew", "zh": "飛", "icon": "🕊️", "ex": "The flock flew over the lake."},
+  {"week": 13, "unit": "Phonics", "word": "grew", "zh": "長大", "icon": "🌱", "ex": "The seedling grew fast in spring."},
+  {"week": 13, "unit": "Phonics", "word": "jewelry", "zh": "珠寶 / 首飾", "icon": "💎", "ex": "Mom keeps precious jewelry safely."},
+  {"week": 13, "unit": "Phonics", "word": "mew", "zh": "貓叫聲", "icon": "🐱", "ex": "The newborn kitten let out a soft mew."},
+  {"week": 13, "unit": "Phonics", "word": "new", "zh": "新的", "icon": "✨", "ex": "I got a brand new pencil case."},
+  {"week": 13, "unit": "Phonics", "word": "screw", "zh": "螺絲釘 / 轉緊", "icon": "🔩", "ex": "Tighten the loose screw with a tool."},
+  {"week": 13, "unit": "Phonics", "word": "stew", "zh": "燉菜 / 燉肉", "icon": "🍲", "ex": "Warm beef stew tastes delicious."},
+  {"week": 13, "unit": "Phonics", "word": "threw", "zh": "扔 / 丟", "icon": "⚾", "ex": "He threw the baseball into the mitt."},
+  {"week": 13, "unit": "Reading Plus — Pop, Pop, Pop", "word": "knock", "zh": "敲門聲 / 敲打", "icon": "✊", "ex": "Hear a gentle knock at the door."},
+  {"week": 13, "unit": "Reading Plus — Pop, Pop, Pop", "word": "noise", "zh": "噪音 / 響聲", "icon": "🔊", "ex": "What was that loud sudden noise?"},
+  {"week": 13, "unit": "Reading Plus — Pop, Pop, Pop", "word": "pan", "zh": "平底鍋", "icon": "🍳", "ex": "Cook fresh eggs in the pan."},
+  {"week": 13, "unit": "Reading Plus — Pop, Pop, Pop", "word": "piece", "zh": "一塊 / 一片", "icon": "🍰", "ex": "Take a piece of delicious cake."},
+  {"week": 13, "unit": "Reading Plus — Pop, Pop, Pop", "word": "poor", "zh": "可憐的 / 貧困的", "icon": "🥺", "ex": "The poor wet kitten shivered."},
+  {"week": 13, "unit": "Reading Plus — Pop, Pop, Pop", "word": "popcorn", "zh": "爆米花", "icon": "🍿", "ex": "Eat buttered popcorn at the movies."},
+  {"week": 13, "unit": "Reading Plus — Pop, Pop, Pop", "word": "smell", "zh": "聞到 / 氣味", "icon": "👃", "ex": "I smell yummy cookies baking."},
+  {"week": 13, "unit": "Reading Plus — Pop, Pop, Pop", "word": "wake", "zh": "醒來 / 喚醒", "icon": "⏰", "ex": "Wake up early in the morning."},
+  {"week": 13, "unit": "Reading Plus — Pop, Pop, Pop", "word": "wonderful", "zh": "極好的", "icon": "✨", "ex": "What a wonderful sunny holiday!"},
+  {"week": 13, "unit": "Reading Plus — A Close Call", "word": "alone", "zh": "獨自的 / 單獨", "icon": "🚶", "ex": "Do not wander in the woods alone."},
+  {"week": 13, "unit": "Reading Plus — A Close Call", "word": "arms", "zh": "手臂", "icon": "💪", "ex": "Hold the baby in gentle arms."},
+  {"week": 13, "unit": "Reading Plus — A Close Call", "word": "close", "zh": "接近的 / 緊密的", "icon": "🤏", "ex": "That was a close race!"},
+  {"week": 13, "unit": "Reading Plus — A Close Call", "word": "delighted", "zh": "欣喜若狂的", "icon": "🥳", "ex": "We were delighted to meet you."},
+  {"week": 13, "unit": "Reading Plus — A Close Call", "word": "muddy", "zh": "泥濘的", "icon": "🪵", "ex": "Wipe your muddy boots clean."},
+  {"week": 13, "unit": "Reading Plus — A Close Call", "word": "never", "zh": "從不 / 絕不", "icon": "🚫", "ex": "Never cross against the red light."},
+  {"week": 13, "unit": "Spelling", "word": "came", "zh": "來", "icon": "🚶", "ex": "She came over to play."},
+  {"week": 13, "unit": "Spelling", "word": "bait", "zh": "餌 / 誘餌", "icon": "🪱", "ex": "Put worm bait on the fishing hook."},
+  {"week": 13, "unit": "Spelling", "word": "rake", "zh": "耙子 / 耙落葉", "icon": "🧹", "ex": "Rake the fallen autumn leaves."},
+  {"week": 13, "unit": "Spelling", "word": "hay", "zh": "乾草", "icon": "🌾", "ex": "Stack bales of sweet hay."},
+  {"week": 13, "unit": "Spelling", "word": "plate", "zh": "盤子", "icon": "🍽️", "ex": "Put food on your plate."},
+  {"week": 13, "unit": "Spelling", "word": "pail", "zh": "提桶", "icon": "🪣", "ex": "Fetch a pail of water."},
+  {"week": 13, "unit": "Spelling", "word": "cane", "zh": "柺杖", "icon": "🦯", "ex": "Walk with a cane."},
+  {"week": 13, "unit": "Spelling", "word": "raise", "zh": "舉起 / 撫養", "icon": "✋", "ex": "Raise your hand to ask."},
+  {"week": 13, "unit": "Spelling", "word": "grape", "zh": "葡萄", "icon": "🍇", "ex": "Eat sweet purple grape."},
+  {"week": 13, "unit": "Spelling", "word": "say", "zh": "說 / 講", "icon": "💬", "ex": "Say hello to your friends."},
+  {"week": 13, "unit": "Spelling", "word": "aid", "zh": "幫助 / 援助", "icon": "🩹", "ex": "First aid kit is in the cabinet."},
+  {"week": 13, "unit": "Spelling", "word": "pain", "zh": "疼痛", "icon": "🤕", "ex": "Feel a slight pain in the arm."},
+  {"week": 13, "unit": "Spelling", "word": "trail", "zh": "步道 / 小徑", "icon": "🌲", "ex": "Hike along the mountain trail."},
+  {"week": 13, "unit": "Spelling", "word": "stain", "zh": "污漬", "icon": "🧽", "ex": "Remove the juice stain."},
+  {"week": 13, "unit": "Spelling", "word": "blaze", "zh": "大火 / 燃燒", "icon": "🔥", "ex": "A warm blaze in the fireplace."},
+  {"week": 14, "unit": "Phonics", "word": "baby", "zh": "嬰兒", "icon": "👶", "ex": "The cute baby giggles softly."},
+  {"week": 14, "unit": "Phonics", "word": "bunny", "zh": "小兔子", "icon": "🐰", "ex": "A fluffy bunny hops around."},
+  {"week": 14, "unit": "Phonics", "word": "by", "zh": "在…旁邊", "icon": "📍", "ex": "Sit by the cozy fireside."},
+  {"week": 14, "unit": "Phonics", "word": "fry", "zh": "油煎 / 炸", "icon": "🍳", "ex": "Fry potatoes in the hot pan."},
+  {"week": 14, "unit": "Phonics", "word": "happy", "zh": "快樂的", "icon": "😄", "ex": "Sing a happy birthday song."},
+  {"week": 14, "unit": "Phonics", "word": "party", "zh": "派對 / 聚會", "icon": "🎉", "ex": "We had fun at the costume party."},
+  {"week": 14, "unit": "Phonics", "word": "cry", "zh": "哭泣", "icon": "😢", "ex": "Don't cry; smile again."},
+  {"week": 14, "unit": "Phonics", "word": "dry", "zh": "乾燥的", "icon": "☀️", "ex": "Hang clothes to get them dry."},
+  {"week": 14, "unit": "Phonics", "word": "fly", "zh": "飛行 / 蒼蠅", "icon": "🪁", "ex": "Fly a kite on windy days."},
+  {"week": 14, "unit": "Phonics", "word": "pony", "zh": "小馬", "icon": "🐴", "ex": "Ride the gentle little pony."},
+  {"week": 14, "unit": "Phonics", "word": "silly", "zh": "傻呼呼的", "icon": "🤪", "ex": "Tell a silly, funny joke."},
+  {"week": 14, "unit": "Phonics", "word": "sky", "zh": "天空", "icon": "🌌", "ex": "Look at stars in the night sky."},
+  {"week": 14, "unit": "Phonics", "word": "story", "zh": "故事", "icon": "📚", "ex": "Read an exciting fairy story."},
+  {"week": 14, "unit": "Reading Plus — Better Than a Bath", "word": "all right", "zh": "好的 / 沒問題", "icon": "👌", "ex": "Everything will be all right."},
+  {"week": 14, "unit": "Reading Plus — Better Than a Bath", "word": "backyard", "zh": "後院", "icon": "🏡", "ex": "Play tag in the backyard."},
+  {"week": 14, "unit": "Reading Plus — Better Than a Bath", "word": "belong", "zh": "屬於", "icon": "🏷️", "ex": "Does this jacket belong to you?"},
+  {"week": 14, "unit": "Reading Plus — Better Than a Bath", "word": "mud", "zh": "泥巴", "icon": "🪵", "ex": "The dog got mud on its paws."},
+  {"week": 14, "unit": "Reading Plus — Better Than a Bath", "word": "swimsuit", "zh": "泳裝", "icon": "🩱", "ex": "Put on your swimsuit for the pool."},
+  {"week": 14, "unit": "Reading Plus — Inky Gets the Milk", "word": "hungry", "zh": "飢餓的", "icon": "🍽️", "ex": "The hungry puppy drank all the milk."},
+  {"week": 14, "unit": "Reading Plus — Inky Gets the Milk", "word": "lapping", "zh": "舔食", "icon": "👅", "ex": "The cat was lapping milk from a saucer."},
+  {"week": 14, "unit": "Reading Plus — Inky Gets the Milk", "word": "milk", "zh": "牛奶", "icon": "🥛", "ex": "Cold fresh milk tastes refreshing."},
+  {"week": 14, "unit": "Reading Plus — Inky Gets the Milk", "word": "quiet", "zh": "安靜的", "icon": "🤫", "ex": "Keep quiet in the study room."},
+  {"week": 14, "unit": "Reading Plus — Inky Gets the Milk", "word": "television", "zh": "電視", "icon": "📺", "ex": "Turn off the loud television."},
+  {"week": 14, "unit": "Reading Plus — Keep Away", "word": "backyard", "zh": "後院", "icon": "🏡", "ex": "We run in the backyard."},
+  {"week": 14, "unit": "Reading Plus — Keep Away", "word": "basement", "zh": "地下室", "icon": "🏚️", "ex": "Store old boxes in the basement."},
+  {"week": 14, "unit": "Reading Plus — Keep Away", "word": "clean", "zh": "乾淨的", "icon": "🧼", "ex": "Keep the playing area clean."},
+  {"week": 14, "unit": "Reading Plus — Keep Away", "word": "fly up", "zh": "飛上天", "icon": "🕊️", "ex": "Birds fly up into the blue sky."},
+  {"week": 14, "unit": "Reading Plus — Keep Away", "word": "keep-away", "zh": "搶球遊戲", "icon": "⚽", "ex": "Kids played keep-away with the ball."},
+  {"week": 14, "unit": "Reading Plus — Keep Away", "word": "near", "zh": "在…附近", "icon": "📍", "ex": "Don't play near the busy road."},
+  {"week": 14, "unit": "Reading Plus — Keep Away", "word": "paint", "zh": "繪製 / 顏料", "icon": "🎨", "ex": "Paint a colorful family picture."},
+  {"week": 14, "unit": "Reading Plus — Keep Away", "word": "upstairs", "zh": "樓上", "icon": "🪜", "ex": "Go upstairs to your bedroom."},
+  {"week": 14, "unit": "Spelling", "word": "deep", "zh": "深的", "icon": "🌊", "ex": "The blue ocean is deep."},
+  {"week": 14, "unit": "Spelling", "word": "meal", "zh": "一餐 / 餐點", "icon": "🍲", "ex": "Enjoy a healthy home meal."},
+  {"week": 14, "unit": "Spelling", "word": "sheep", "zh": "綿羊", "icon": "🐑", "ex": "Fluffy sheep graze on the hill."},
+  {"week": 14, "unit": "Spelling", "word": "each", "zh": "每個", "icon": "👉", "ex": "Each student got a star."},
+  {"week": 14, "unit": "Spelling", "word": "wheel", "zh": "輪子", "icon": "🛞", "ex": "The bicycle wheel spins fast."},
+  {"week": 14, "unit": "Spelling", "word": "treat", "zh": "款待 / 點心零食", "icon": "🍪", "ex": "Give the good puppy a treat."},
+  {"week": 14, "unit": "Spelling", "word": "bean", "zh": "豆子", "icon": "🫘", "ex": "Eat your healthy green bean."},
+  {"week": 14, "unit": "Spelling", "word": "seen", "zh": "看過", "icon": "👀", "ex": "Have you seen my pencil?"},
+  {"week": 14, "unit": "Spelling", "word": "team", "zh": "團隊 / 隊伍", "icon": "🤝", "ex": "Work together as a winning team."},
+  {"week": 14, "unit": "Spelling", "word": "dream", "zh": "夢想 / 做夢", "icon": "💭", "ex": "I had a pleasant dream."},
+  {"week": 14, "unit": "Spelling", "word": "mean", "zh": "刻薄的 / 意指", "icon": "😠", "ex": "It is not polite to be mean."},
+  {"week": 14, "unit": "Spelling", "word": "leave", "zh": "離開 / 留下", "icon": "🚪", "ex": "Time to leave for school."},
+  {"week": 14, "unit": "Spelling", "word": "cream", "zh": "鮮奶油 / 乳霜", "icon": "🍦", "ex": "Sweet whipped cream on dessert."},
+  {"week": 14, "unit": "Spelling", "word": "sleep", "zh": "睡覺", "icon": "😴", "ex": "Get plenty of sound sleep."},
+  {"week": 14, "unit": "Spelling", "word": "sneeze", "zh": "打噴嚏", "icon": "🤧", "ex": "Cover your mouth when you sneeze."},
+  {"week": 15, "unit": "Phonics", "word": "think", "zh": "思考 / 認為", "icon": "🤔", "ex": "Think carefully before answering."},
+  {"week": 15, "unit": "Phonics", "word": "shelf", "zh": "架子", "icon": "📚", "ex": "Stack the storybooks on the shelf."},
+  {"week": 15, "unit": "Phonics", "word": "throat", "zh": "喉嚨", "icon": "🧣", "ex": "Drink warm tea for a sore throat."},
+  {"week": 15, "unit": "Phonics", "word": "whale", "zh": "鯨魚", "icon": "🐋", "ex": "A giant blue whale swam by."},
+  {"week": 15, "unit": "Phonics", "word": "chain", "zh": "鐵鍊", "icon": "⛓️", "ex": "Connect the links of the chain."},
+  {"week": 15, "unit": "Phonics", "word": "cheek", "zh": "臉頰", "icon": "😊", "ex": "He gave his mom a kiss on the cheek."},
+  {"week": 15, "unit": "Phonics", "word": "ship", "zh": "輪船 / 大船", "icon": "🚢", "ex": "A cruise ship sailed across the bay."},
+  {"week": 15, "unit": "Phonics", "word": "whip", "zh": "鞭子 / 攪打", "icon": "🥣", "ex": "Whip the fresh cream quickly."},
+  {"week": 15, "unit": "Phonics", "word": "shop", "zh": "商店 / 購物", "icon": "🛍️", "ex": "Let's shop for school supplies."},
+  {"week": 15, "unit": "Phonics", "word": "cheap", "zh": "便宜的", "icon": "🏷️", "ex": "This toy is useful and cheap."},
+  {"week": 15, "unit": "Phonics", "word": "thick", "zh": "厚實的", "icon": "🧥", "ex": "Wear a thick winter coat."},
+  {"week": 15, "unit": "Phonics", "word": "shin", "zh": "脛骨 / 小腿前部", "icon": "🦵", "ex": "Wear guards to protect your shin."},
+  {"week": 15, "unit": "Phonics", "word": "bush", "zh": "灌木叢", "icon": "🌳", "ex": "A sparrow hid inside the bush."},
+  {"week": 15, "unit": "Phonics", "word": "scratch", "zh": "抓癢 / 刮傷", "icon": "🩹", "ex": "Don't scratch the mosquito bite."},
+  {"week": 15, "unit": "Phonics", "word": "splash", "zh": "潑濺水花", "icon": "💦", "ex": "The kids splash in the puddle."},
+  {"week": 15, "unit": "Phonics", "word": "ditch", "zh": "溝渠 / 水溝", "icon": "🏞️", "ex": "Water flowed down the drainage ditch."},
+  {"week": 15, "unit": "Phonics", "word": "stitch", "zh": "一針 / 縫線", "icon": "🪡", "ex": "Mom fixed the tear with a neat stitch."},
+  {"week": 15, "unit": "Phonics", "word": "branch", "zh": "樹枝", "icon": "🌿", "ex": "An owl sat quietly on the branch."},
+  {"week": 15, "unit": "Phonics", "word": "ranch", "zh": "大牧場", "icon": "🤠", "ex": "Horses roam freely on the ranch."},
+  {"week": 15, "unit": "Phonics", "word": "path", "zh": "小路 / 小道", "icon": "🛤️", "ex": "Follow the winding forest path."},
+  {"week": 15, "unit": "Phonics", "word": "switch", "zh": "開關 / 切換", "icon": "💡", "ex": "Flip the light switch on."},
+  {"week": 15, "unit": "Phonics", "word": "beach", "zh": "海灘", "icon": "🏖️", "ex": "Build sunny sandcastles at the beach."},
+  {"week": 15, "unit": "Phonics", "word": "bang", "zh": "砰的一聲", "icon": "💥", "ex": "The door closed with a loud bang."},
+  {"week": 15, "unit": "Phonics", "word": "almost", "zh": "幾乎 / 差不多", "icon": "⌛", "ex": "We are almost done with our tasks."},
+  {"week": 15, "unit": "Reading Plus — Marta Helps at Home", "word": "dishes", "zh": "碗盤", "icon": "🍽️", "ex": "Wash dinner dishes after meals."},
+  {"week": 15, "unit": "Reading Plus — Marta Helps at Home", "word": "everyone", "zh": "每個人", "icon": "👥", "ex": "Everyone had a great time."},
+  {"week": 15, "unit": "Reading Plus — Marta Helps at Home", "word": "family", "zh": "家庭 / 家人", "icon": "👨‍👩‍👧‍👦", "ex": "Our family eats dinner together."},
+  {"week": 15, "unit": "Reading Plus — Marta Helps at Home", "word": "later", "zh": "稍後 / 以後", "icon": "⏰", "ex": "See you later this afternoon."},
+  {"week": 15, "unit": "Reading Plus — Marta Helps at Home", "word": "soup", "zh": "濃湯", "icon": "🍲", "ex": "Hot chicken soup warms you up."},
+  {"week": 15, "unit": "Reading Plus — Marta Helps at Home", "word": "still", "zh": "仍然 / 靜止的", "icon": "🤫", "ex": "Stand still while I take the photo."},
+  {"week": 15, "unit": "Reading Plus — Marta Helps at Home", "word": "together", "zh": "一起", "icon": "🤝", "ex": "Let's clean the living room together."},
+  {"week": 15, "unit": "Reading Plus — Marta Helps at Home", "word": "window", "zh": "窗戶", "icon": "🪟", "ex": "Open the window to let fresh air in."},
+  {"week": 15, "unit": "Reading Plus — Bigfoot's Lesson", "word": "children", "zh": "孩子們", "icon": "🧒", "ex": "The children laughed happily."},
+  {"week": 15, "unit": "Reading Plus — Bigfoot's Lesson", "word": "collar", "zh": "項圈 / 衣領", "icon": "📿", "ex": "Fasten the dog's leather collar."},
+  {"week": 15, "unit": "Reading Plus — Bigfoot's Lesson", "word": "heel", "zh": "腳後跟 / 緊隨身後", "icon": "🐕‍🦺", "ex": "Tell the dog to heel beside you."},
+  {"week": 15, "unit": "Reading Plus — Bigfoot's Lesson", "word": "hurt", "zh": "受傷 / 疼痛", "icon": "🩹", "ex": "My scraped knee doesn't hurt now."},
+  {"week": 15, "unit": "Reading Plus — Bigfoot's Lesson", "word": "in front of", "zh": "在…前面", "icon": "📍", "ex": "Stand in front of the line."},
+  {"week": 15, "unit": "Reading Plus — Bigfoot's Lesson", "word": "lean", "zh": "倚靠 / 傾斜", "icon": "🧗", "ex": "Do not lean against the glass."},
+  {"week": 15, "unit": "Reading Plus — Bigfoot's Lesson", "word": "pet store", "zh": "寵物店", "icon": "🏬", "ex": "Buy dog treats at the pet store."},
+  {"week": 15, "unit": "Reading Plus — Bigfoot's Lesson", "word": "snort", "zh": "噴鼻息 / 哼鼻聲", "icon": "👃", "ex": "The horse gave a playful snort."},
+  {"week": 15, "unit": "Reading Plus — Plan for the Show", "word": "copies", "zh": "複印件", "icon": "📄", "ex": "Hand out copies of the show poster."},
+  {"week": 15, "unit": "Reading Plus — Plan for the Show", "word": "enough", "zh": "足夠的", "icon": "✅", "ex": "We have enough chairs for everyone."},
+  {"week": 15, "unit": "Reading Plus — Plan for the Show", "word": "library", "zh": "圖書館", "icon": "📚", "ex": "Read quietly in the town library."},
+  {"week": 15, "unit": "Reading Plus — Plan for the Show", "word": "number", "zh": "號碼", "icon": "🔢", "ex": "What is your contest number?"},
+  {"week": 15, "unit": "Reading Plus — Plan for the Show", "word": "prize", "zh": "獎項 / 獎品", "icon": "🏆", "ex": "Win the grand prize at the show."},
+  {"week": 15, "unit": "Reading Plus — Plan for the Show", "word": "ribbon", "zh": "緞帶 / 綵帶", "icon": "🎗️", "ex": "A shiny blue prize ribbon."},
+  {"week": 15, "unit": "Reading Plus — Plan for the Show", "word": "ring", "zh": "賽圈 / 環狀場地", "icon": "🎪", "ex": "The dogs entered the show ring."},
+  {"week": 15, "unit": "Reading Plus — Plan for the Show", "word": "rope", "zh": "繩索", "icon": "🪢", "ex": "Jump over the skipping rope."},
+  {"week": 15, "unit": "Reading Plus — Plan for the Show", "word": "sign", "zh": "告示牌 / 簽名", "icon": "🪧", "ex": "Put up a show sign on the board."},
+  {"week": 15, "unit": "Reading Plus — Plan for the Show", "word": "tonight", "zh": "今晚", "icon": "🌙", "ex": "The puppy show starts tonight."},
+  {"week": 15, "unit": "Spelling", "word": "shy", "zh": "害羞的", "icon": "😳", "ex": "The little boy felt shy around guests."},
+  {"week": 15, "unit": "Spelling", "word": "right", "zh": "正確的 / 右邊", "icon": "✅", "ex": "That is the right spelling."},
+  {"week": 15, "unit": "Spelling", "word": "wide", "zh": "寬闊的", "icon": "↔️", "ex": "Open your mouth wide."},
+  {"week": 15, "unit": "Spelling", "word": "light", "zh": "燈光 / 明亮", "icon": "💡", "ex": "Turn on the reading light."},
+  {"week": 15, "unit": "Spelling", "word": "pine", "zh": "松樹", "icon": "🌲", "ex": "Pine cones fell to the forest floor."},
+  {"week": 15, "unit": "Spelling", "word": "fight", "zh": "打架 / 爭吵", "icon": "🥊", "ex": "Good friends don't fight."},
+  {"week": 15, "unit": "Spelling", "word": "fly", "zh": "飛翔", "icon": "🦅", "ex": "Eagles fly high in the mountain air."},
+  {"week": 15, "unit": "Spelling", "word": "night", "zh": "夜晚", "icon": "🌙", "ex": "Sleep peacefully through the night."},
+  {"week": 15, "unit": "Spelling", "word": "dry", "zh": "乾的", "icon": "☀️", "ex": "The towel is completely dry."},
+  {"week": 15, "unit": "Spelling", "word": "sight", "zh": "景觀 / 視力", "icon": "👀", "ex": "A lovely mountain sight at dawn."},
+  {"week": 15, "unit": "Spelling", "word": "might", "zh": "可能 / 也許", "icon": "❓", "ex": "It might snow tomorrow morning."},
+  {"week": 15, "unit": "Spelling", "word": "tight", "zh": "緊緊的", "icon": "🪢", "ex": "Hold on tight to the handrail."},
+  {"week": 15, "unit": "Spelling", "word": "stripe", "zh": "條紋", "icon": "🦓", "ex": "A shirt with blue and white stripe."},
+  {"week": 15, "unit": "Spelling", "word": "sly", "zh": "狡猾的 / 機靈的", "icon": "🦊", "ex": "The sly fox sneaked through bushes."},
+  {"week": 15, "unit": "Spelling", "word": "cry", "zh": "哭泣 / 呼喊", "icon": "😢", "ex": "Hear the baby puppy cry."},
+  {"week": 16, "unit": "Reading Plus — Dad's Plans", "word": "happen", "zh": "發生", "icon": "⚡", "ex": "What will happen next in the story?"},
+  {"week": 16, "unit": "Reading Plus — Dad's Plans", "word": "miss", "zh": "想念 / 錯過", "icon": "🥺", "ex": "I will miss you during vacation."},
+  {"week": 16, "unit": "Reading Plus — Dad's Plans", "word": "nice", "zh": "美好的 / 友善的", "icon": "😊", "ex": "Have a nice weekend!"},
+  {"week": 16, "unit": "Reading Plus — Dad's Plans", "word": "steps", "zh": "台階 / 腳步", "icon": "🪜", "ex": "Walk up the stone steps."},
+  {"week": 16, "unit": "Reading Plus — Dad's Plans", "word": "terrible", "zh": "糟糕的 / 可怕的", "icon": "😱", "ex": "The bad storm caused terrible noise."},
+  {"week": 16, "unit": "Reading Plus — Helping Friends", "word": "basket", "zh": "籃子", "icon": "🧺", "ex": "Put fresh bread in the picnic basket."},
+  {"week": 16, "unit": "Reading Plus — Helping Friends", "word": "bend down", "zh": "彎腰 / 蹲下", "icon": "🙇", "ex": "Bend down to pet the friendly puppy."},
+  {"week": 16, "unit": "Reading Plus — Helping Friends", "word": "kind", "zh": "仁慈的 / 種類", "icon": "💖", "ex": "Always be kind to animals."},
+  {"week": 16, "unit": "Reading Plus — Helping Friends", "word": "wave", "zh": "揮手 / 海浪", "icon": "👋", "ex": "Wave goodbye to your classmates."},
+  {"week": 16, "unit": "Reading Plus — The Signs Are Ready", "word": "enter", "zh": "進入 / 報名參加", "icon": "🚪", "ex": "Enter the dog contest today."},
+  {"week": 16, "unit": "Reading Plus — The Signs Are Ready", "word": "never", "zh": "從不", "icon": "🚫", "ex": "Never give up trying your best."},
+  {"week": 16, "unit": "Reading Plus — The Signs Are Ready", "word": "picture", "zh": "照片 / 圖畫", "icon": "🖼️", "ex": "Draw a lovely picture of your dog."},
+  {"week": 16, "unit": "Reading Plus — The Signs Are Ready", "word": "proud", "zh": "驕傲的 / 自豪的", "icon": "🌟", "ex": "We are proud of your good work."},
+  {"week": 16, "unit": "Reading Plus — The Signs Are Ready", "word": "shiny", "zh": "閃閃發光的", "icon": "✨", "ex": "The shiny gold medal sparkled."},
+  {"week": 16, "unit": "Reading Plus — The Signs Are Ready", "word": "spray", "zh": "噴漆 / 噴灑", "icon": "🧴", "ex": "Spray paint on the sign board."},
+  {"week": 17, "unit": "Reading Plus — Good Places for Signs", "word": "at once", "zh": "立刻 / 馬上", "icon": "⚡", "ex": "Come to the living room at once."},
+  {"week": 17, "unit": "Reading Plus — Good Places for Signs", "word": "dog toys", "zh": "狗狗玩具", "icon": "🎾", "ex": "Put the chewable dog toys away."},
+  {"week": 17, "unit": "Reading Plus — Good Places for Signs", "word": "guess", "zh": "猜測", "icon": "🤔", "ex": "Can you guess what is inside?"},
+  {"week": 17, "unit": "Reading Plus — Good Places for Signs", "word": "inside", "zh": "在裡面", "icon": "🏠", "ex": "Stay inside when it is pouring rain."},
+  {"week": 17, "unit": "Reading Plus — Good Places for Signs", "word": "judge", "zh": "裁判 / 評審", "icon": "⚖️", "ex": "The judge picked the prettiest dog."},
+  {"week": 17, "unit": "Reading Plus — Good Places for Signs", "word": "place", "zh": "地方 / 放置", "icon": "📍", "ex": "This is a great place for a sign."},
+  {"week": 17, "unit": "Reading Plus — Beautiful Ribbons", "word": "a can of", "zh": "一罐…", "icon": "🥫", "ex": "Open a can of dog food."},
+  {"week": 17, "unit": "Reading Plus — Beautiful Ribbons", "word": "enter", "zh": "報名 / 進入", "icon": "📝", "ex": "Enter the pet show before Friday."},
+  {"week": 17, "unit": "Reading Plus — Beautiful Ribbons", "word": "first", "zh": "第一名 / 首先", "icon": "🥇", "ex": "He won first place in the race."},
+  {"week": 17, "unit": "Reading Plus — Beautiful Ribbons", "word": "glitter", "zh": "亮粉 / 閃爍", "icon": "✨", "ex": "Sparkle the banner with blue glitter."},
+  {"week": 17, "unit": "Reading Plus — Beautiful Ribbons", "word": "gold", "zh": "黃金 / 金色的", "icon": "🪙", "ex": "The winner received a shiny gold cup."},
+  {"week": 17, "unit": "Reading Plus — Beautiful Ribbons", "word": "prizes", "zh": "獎品", "icon": "🏆", "ex": "Wonderful prizes were on display."},
+  {"week": 17, "unit": "Reading Plus — Beautiful Ribbons", "word": "second", "zh": "第二名 / 秒", "icon": "🥈", "ex": "She took second prize in art."},
+  {"week": 17, "unit": "Reading Plus — Beautiful Ribbons", "word": "sign up", "zh": "報名登記", "icon": "✍️", "ex": "Sign up for the talent contest."},
+  {"week": 17, "unit": "Reading Plus — Beautiful Ribbons", "word": "surely", "zh": "必定 / 當然", "icon": "💯", "ex": "We will surely do a great job."},
+  {"week": 17, "unit": "Reading Plus — Beautiful Ribbons", "word": "third", "zh": "第三名", "icon": "🥉", "ex": "Third place ribbon went to Nicky."},
+  {"week": 18, "unit": "Phonics", "word": "harp", "zh": "豎琴", "icon": "🎵", "ex": "Play sweet music on the harp."},
+  {"week": 18, "unit": "Phonics", "word": "fern", "zh": "蕨類植物", "icon": "🌿", "ex": "Green fern leaves grow in the shade."},
+  {"week": 18, "unit": "Phonics", "word": "camper", "zh": "露營者 / 露營車", "icon": "🚐", "ex": "The camper parked by the scenic lake."},
+  {"week": 18, "unit": "Phonics", "word": "dart", "zh": "飛鏢 / 急衝", "icon": "🎯", "ex": "Throw the dart at the target center."},
+  {"week": 18, "unit": "Phonics", "word": "barn", "zh": "穀倉 / 畜舍", "icon": "🚜", "ex": "Cows sleep safely inside the barn."},
+  {"week": 18, "unit": "Phonics", "word": "lumber", "zh": "木材", "icon": "🪵", "ex": "Stack the cut lumber behind the garage."},
+  {"week": 18, "unit": "Phonics", "word": "slipper", "zh": "拖鞋", "icon": "🩴", "ex": "Wear your cozy warm slipper indoors."},
+  {"week": 18, "unit": "Phonics", "word": "shark", "zh": "鯊魚", "icon": "🦈", "ex": "A great white shark swam in deep sea."},
+  {"week": 18, "unit": "Phonics", "word": "germ", "zh": "細菌 / 病菌", "icon": "🦠", "ex": "Wash hands with soap to kill every germ."},
+  {"week": 18, "unit": "Phonics", "word": "yard", "zh": "院子", "icon": "🏡", "ex": "Play tag across the grassy yard."},
+  {"week": 18, "unit": "Phonics", "word": "paper", "zh": "紙張", "icon": "📄", "ex": "Draw a picture on clean white paper."},
+  {"week": 18, "unit": "Phonics", "word": "farm", "zh": "農場", "icon": "🌾", "ex": "Feed the chickens on grandpa's farm."},
+  {"week": 18, "unit": "Reading Plus — Mom Helps the Show", "word": "look at", "zh": "注視 / 看", "icon": "👀", "ex": "Look at the colorful prize poster."},
+  {"week": 18, "unit": "Reading Plus — Mom Helps the Show", "word": "no cost", "zh": "免費", "icon": "🏷️", "ex": "Admission to the dog show is no cost."},
+  {"week": 18, "unit": "Reading Plus — Mom Helps the Show", "word": "nod", "zh": "點頭", "icon": "🙆", "ex": "Nod your head if you understand."},
+  {"week": 18, "unit": "Reading Plus — Mom Helps the Show", "word": "paste", "zh": "黏貼 / 漿糊", "icon": "🧴", "ex": "Paste the dog photo on cardboard."},
+  {"week": 18, "unit": "Reading Plus — Mom Helps the Show", "word": "permission", "zh": "許可 / 允許", "icon": "📜", "ex": "Ask Mom for permission first."},
+  {"week": 18, "unit": "Reading Plus — Nicky Remembers a Friend", "word": "basement", "zh": "地下室", "icon": "🏚️", "ex": "Keep storage crates in the basement."},
+  {"week": 18, "unit": "Reading Plus — Nicky Remembers a Friend", "word": "bright-eyed", "zh": "眼神明亮的", "icon": "🤩", "ex": "A bright-eyed puppy wagged its tail."},
+  {"week": 18, "unit": "Reading Plus — Nicky Remembers a Friend", "word": "lean", "zh": "倚靠 / 傾斜", "icon": "🧗", "ex": "Lean against the fence to watch."},
+  {"week": 18, "unit": "Reading Plus — Nicky Remembers a Friend", "word": "past", "zh": "走過 / 經過", "icon": "🚶", "ex": "He walked past the busy pet shop."},
+  {"week": 18, "unit": "Reading Plus — Nicky Remembers a Friend", "word": "wrong", "zh": "錯誤的", "icon": "❌", "ex": "Nothing went wrong during practice."},
+  {"week": 18, "unit": "Reading Plus — Nicky Remembers a Friend", "word": "remember", "zh": "記得 / 想起", "icon": "🧠", "ex": "Remember to bring your show ticket."},
+  {"week": 18, "unit": "Spelling", "word": "poke", "zh": "戳 / 刺", "icon": "👉", "ex": "Don't poke the sleeping puppy."},
+  {"week": 18, "unit": "Spelling", "word": "boat", "zh": "小船", "icon": "⛵", "ex": "Row the wooden boat across the lake."},
+  {"week": 18, "unit": "Spelling", "word": "row", "zh": "劃船 / 一排", "icon": "🚣", "ex": "Sit in the front row."},
+  {"week": 18, "unit": "Spelling", "word": "goat", "zh": "山羊", "icon": "🐐", "ex": "The friendly goat ate leafy greens."},
+  {"week": 18, "unit": "Spelling", "word": "snow", "zh": "積雪 / 下雪", "icon": "❄️", "ex": "Build a frosty snowman in the snow."},
+  {"week": 18, "unit": "Spelling", "word": "toad", "zh": "蟾蜍", "icon": "🐸", "ex": "A little bumpy toad hopped on the grass."},
+  {"week": 18, "unit": "Spelling", "word": "soap", "zh": "肥皂", "icon": "🧼", "ex": "Scrub hands with foaming soap."},
+  {"week": 18, "unit": "Spelling", "word": "blow", "zh": "吹拂 / 吹氣", "icon": "💨", "ex": "Blow soapy bubbles into the breeze."},
+  {"week": 18, "unit": "Spelling", "word": "coat", "zh": "外套 / 大衣", "icon": "🧥", "ex": "Button up your warm winter coat."},
+  {"week": 18, "unit": "Spelling", "word": "tow", "zh": "拖曳 / 拉走", "icon": "🛻", "ex": "The tow truck moved the stalled car."},
+  {"week": 18, "unit": "Spelling", "word": "coach", "zh": "教練 / 長途巴士", "icon": "🧑‍🏫", "ex": "Our friendly coach cheered us on."},
+  {"week": 18, "unit": "Spelling", "word": "float", "zh": "漂浮", "icon": "🛟", "ex": "Colorful balloons float in the air."},
+  {"week": 18, "unit": "Spelling", "word": "toast", "zh": "吐司", "icon": "🍞", "ex": "Butter warm slices of crispy toast."},
+  {"week": 18, "unit": "Spelling", "word": "slow", "zh": "緩慢的", "icon": "🐢", "ex": "Turtles walk with slow steady steps."},
+  {"week": 18, "unit": "Spelling", "word": "globe", "zh": "地球儀 / 地球", "icon": "🌍", "ex": "Spin the round school globe."},
+  {"week": 19, "unit": "Phonics", "word": "squirt", "zh": "噴出 / 射水", "icon": "🔫", "ex": "Squirt water from the bottle."},
+  {"week": 19, "unit": "Phonics", "word": "dirt", "zh": "泥土 / 塵土", "icon": "🪵", "ex": "Dig a hole in the moist brown dirt."},
+  {"week": 19, "unit": "Phonics", "word": "storm", "zh": "暴風雨", "icon": "⛈️", "ex": "A sudden thunderstorm swept over town."},
+  {"week": 19, "unit": "Phonics", "word": "fort", "zh": "堡壘 / 要塞", "icon": "🏰", "ex": "Build a blanket fort in the room."},
+  {"week": 19, "unit": "Phonics", "word": "horn", "zh": "號角 / 喇叭", "icon": "📯", "ex": "Honk the bicycle horn to warn others."},
+  {"week": 19, "unit": "Phonics", "word": "fork", "zh": "叉子", "icon": "🍴", "ex": "Pick up salad with a metal fork."},
+  {"week": 19, "unit": "Phonics", "word": "thorn", "zh": "植物尖刺 / 荊棘", "icon": "🌹", "ex": "Watch out for the sharp rose thorn."},
+  {"week": 19, "unit": "Phonics", "word": "cork", "zh": "軟木塞", "icon": "🍾", "ex": "Pop the cork out of the bottle."},
+  {"week": 19, "unit": "Phonics", "word": "circus", "zh": "馬戲團", "icon": "🎪", "ex": "Acrobats perform at the lively circus."},
+  {"week": 19, "unit": "Phonics", "word": "card", "zh": "卡片 / 賀卡", "icon": "💌", "ex": "Write a birthday card for mom."},
+  {"week": 19, "unit": "Phonics", "word": "stir", "zh": "攪拌", "icon": "🥣", "ex": "Stir sugar into the hot cocoa."},
+  {"week": 19, "unit": "Phonics", "word": "short", "zh": "短的 / 矮的", "icon": "📏", "ex": "He wore short sleeves in summer."},
+  {"week": 19, "unit": "Phonics", "word": "fur", "zh": "毛皮 / 軟毛", "icon": "🧸", "ex": "The rabbit has super soft white fur."},
+  {"week": 19, "unit": "Phonics", "word": "turn", "zh": "轉動 / 輪流", "icon": "🔄", "ex": "Now it is your turn to play."},
+  {"week": 19, "unit": "Phonics", "word": "torn", "zh": "撕破的", "icon": "📄", "ex": "Tape up the torn paper page."},
+  {"week": 19, "unit": "Phonics", "word": "curb", "zh": "路邊鑲邊石", "icon": "🛣️", "ex": "Step onto the sidewalk from the curb."},
+  {"week": 19, "unit": "Phonics", "word": "cord", "zh": "電線 / 細繩", "icon": "🔌", "ex": "Plug the appliance power cord in."},
+  {"week": 19, "unit": "Phonics", "word": "curl", "zh": "捲曲 / 捲髮", "icon": "💇", "ex": "Her hair has a pretty natural curl."},
+  {"week": 19, "unit": "Phonics", "word": "burn", "zh": "燃燒 / 燙傷", "icon": "🔥", "ex": "Logs burn brightly in the camp."},
+  {"week": 19, "unit": "Phonics", "word": "hurt", "zh": "受傷 / 疼", "icon": "🩹", "ex": "Put a bandage where it might hurt."},
+  {"week": 19, "unit": "Phonics", "word": "tar", "zh": "焦油 / 瀝青", "icon": "🛣️", "ex": "Fresh dark tar paved the road."},
+  {"week": 19, "unit": "Phonics", "word": "butter", "zh": "奶油", "icon": "🧈", "ex": "Spread creamy yellow butter on bread."},
+  {"week": 19, "unit": "Phonics", "word": "park", "zh": "公園 / 停車", "icon": "🏞️", "ex": "Play on swings in the neighborhood park."},
+  {"week": 19, "unit": "Phonics", "word": "farm", "zh": "農場", "icon": "🌾", "ex": "Visit farm animals on the weekend."},
+  {"week": 19, "unit": "Phonics", "word": "born", "zh": "出生的", "icon": "🐣", "ex": "A new little lamb was born today."},
+  {"week": 19, "unit": "Phonics", "word": "perch", "zh": "棲木 / 棲息", "icon": "🦜", "ex": "The bluebird landed on its perch."},
+  {"week": 19, "unit": "Reading Plus — The Dog Show", "word": "clap", "zh": "拍手 / 鼓掌", "icon": "👏", "ex": "Clap your hands for the performers."},
+  {"week": 19, "unit": "Reading Plus — The Dog Show", "word": "crowd", "zh": "人群 / 群眾", "icon": "👥", "ex": "A cheering crowd watched the event."},
+  {"week": 19, "unit": "Reading Plus — The Dog Show", "word": "hug", "zh": "擁抱", "icon": "🫂", "ex": "Give your best friend a warm hug."},
+  {"week": 19, "unit": "Reading Plus — The Dog Show", "word": "nervous", "zh": "緊張的", "icon": "😰", "ex": "I felt nervous before going on stage."},
+  {"week": 19, "unit": "Reading Plus — The Dog Show", "word": "people", "zh": "人們", "icon": "🧑‍🤝‍🧑", "ex": "Many people attended the dog show."},
+  {"week": 19, "unit": "Reading Plus — The Dog Show", "word": "ring", "zh": "表演圈 / 圓形場地", "icon": "🎪", "ex": "Walk the prize dog inside the ring."},
+  {"week": 19, "unit": "Reading Plus — Gold Ribbon Winner", "word": "different", "zh": "不同的", "icon": "🎨", "ex": "Each dog has a different collar."},
+  {"week": 19, "unit": "Reading Plus — Gold Ribbon Winner", "word": "hold up", "zh": "舉起 / 支撐", "icon": "🙋‍♂️", "ex": "Hold up your golden trophy high."},
+  {"week": 19, "unit": "Reading Plus — Gold Ribbon Winner", "word": "lay down", "zh": "躺下", "icon": "🛌", "ex": "Nicky lay down on the soft rug."},
+  {"week": 19, "unit": "Reading Plus — Gold Ribbon Winner", "word": "racehorse", "zh": "賽馬", "icon": "🐎", "ex": "The racehorse galloped like the wind."},
+  {"week": 19, "unit": "Reading Plus — Gold Ribbon Winner", "word": "win", "zh": "獲勝 / 贏得", "icon": "🏆", "ex": "Practice hard to win the match."},
+  {"week": 19, "unit": "Reading Plus — Gold Ribbon Winner", "word": "winner", "zh": "贏家 / 優勝者", "icon": "🥇", "ex": "The winner received a gold ribbon."},
+  {"week": 19, "unit": "Reading Plus — Gold Ribbon Winner", "word": "other", "zh": "其他的", "icon": "👉", "ex": "Look at the other lovely puppies."},
+  {"week": 19, "unit": "Spelling", "word": "tune", "zh": "曲調 / 旋律", "icon": "🎶", "ex": "Hum a cheerful catchy tune."},
+  {"week": 19, "unit": "Spelling", "word": "moon", "zh": "月亮", "icon": "🌕", "ex": "A bright full moon lit up the night."},
+  {"week": 19, "unit": "Spelling", "word": "pool", "zh": "游泳池", "icon": "🏊", "ex": "Dive into the cool swimming pool."},
+  {"week": 19, "unit": "Spelling", "word": "zoo", "zh": "動物園", "icon": "🦁", "ex": "See lions and pandas at the zoo."},
+  {"week": 19, "unit": "Spelling", "word": "rude", "zh": "無禮的 / 粗魯的", "icon": "😤", "ex": "Interrupting others is very rude."},
+  {"week": 19, "unit": "Spelling", "word": "soon", "zh": "很快 / 不久", "icon": "⏰", "ex": "Summer vacation will arrive soon."},
+  {"week": 19, "unit": "Spelling", "word": "boot", "zh": "靴子", "icon": "👢", "ex": "Wipe the mud off your winter boot."},
+  {"week": 19, "unit": "Spelling", "word": "food", "zh": "食物", "icon": "🍲", "ex": "Enjoy healthy and delicious food."},
+  {"week": 19, "unit": "Spelling", "word": "tube", "zh": "管子 / 軟管", "icon": "🧪", "ex": "Squeeze toothpaste from the tube."},
+  {"week": 19, "unit": "Spelling", "word": "room", "zh": "房間 / 空間", "icon": "🚪", "ex": "Keep your study room neat and clean."},
+  {"week": 19, "unit": "Spelling", "word": "moose", "zh": "麋鹿", "icon": "🫎", "ex": "A wild moose walked across the river."},
+  {"week": 19, "unit": "Spelling", "word": "goose", "zh": "鵝", "icon": "🪿", "ex": "The white goose waddled by the pond."},
+  {"week": 19, "unit": "Spelling", "word": "zoom", "zh": "呼嘯而過", "icon": "🏎️", "ex": "Toy cars zoom across the floor track."},
+  {"week": 19, "unit": "Spelling", "word": "balloon", "zh": "氣球", "icon": "🎈", "ex": "Tie a string to the red balloon."},
+  {"week": 19, "unit": "Spelling", "word": "shoot", "zh": "射擊 / 投籃", "icon": "🏀", "ex": "Shoot the basketball into the hoop."}
+];
+
+var currentMode = 'typing';
+var currentList = [];
+var currentIdx = 0;
+var score = 0;
+var answered = false;
+var wrongAnswers = [];
+
+var selectedQuestionCount = 10;
+var globalSpeechRate = 1.0;
+
+// 單字卡檢視清單
+var currentWeekBaseList = [];
+var viewerList = [];
+var viewerIndex = 0;
+
+// 遊戲狀態
+var targetWord = "";
+var currentInput = [];
+var letterPool = [];
+
+function setR(s, e) {
+  document.getElementById('start-w').value = s;
+  document.getElementById('end-w').value = e;
+  onWeekRangeChange();
+}
+
+function onWeekRangeChange() {
+  var s = parseInt(document.getElementById('start-w').value);
+  var e = parseInt(document.getElementById('end-w').value);
+  if (s > e) { var t = s; s = e; e = t; }
+
+  // 取得該週次範圍內的所有單字
+  currentWeekBaseList = ALL_VOCAB.filter(function(item) {
+    return item.week >= s && item.week <= e;
+  });
+
+  var total = currentWeekBaseList.length;
+  document.getElementById('total-week-words').innerText = total;
+
+  // 重建細項單字序號下拉選單
+  var startSel = document.getElementById('start-item');
+  var endSel = document.getElementById('end-item');
+  startSel.innerHTML = '';
+  endSel.innerHTML = '';
+
+  if (total === 0) {
+    startSel.innerHTML = '<option value="0">0</option>';
+    endSel.innerHTML = '<option value="0">0</option>';
+    onItemRangeChange();
+    return;
+  }
+
+  for (var i = 1; i <= total; i++) {
+    var opt1 = document.createElement('option');
+    opt1.value = i;
+    opt1.innerText = '第 ' + i + ' 字 (' + currentWeekBaseList[i - 1].word + ')';
+    startSel.appendChild(opt1);
+
+    var opt2 = document.createElement('option');
+    opt2.value = i;
+    opt2.innerText = '第 ' + i + ' 字 (' + currentWeekBaseList[i - 1].word + ')';
+    endSel.appendChild(opt2);
+  }
+
+  startSel.value = 1;
+  endSel.value = total;
+
+  onItemRangeChange();
+}
+
+function onItemRangeChange() {
+  var startIdx = parseInt(document.getElementById('start-item').value) || 1;
+  var endIdx = parseInt(document.getElementById('end-item').value) || 1;
+
+  if (startIdx > endIdx) {
+    var temp = startIdx;
+    startIdx = endIdx;
+    endIdx = temp;
+  }
+
+  if (currentWeekBaseList.length > 0) {
+    viewerList = currentWeekBaseList.slice(startIdx - 1, endIdx);
+    document.getElementById('word-range-hint').innerText = '已選 ' + viewerList.length + ' 字';
+  } else {
+    viewerList = [];
+    document.getElementById('word-range-hint').innerText = '0 字';
+  }
+
+  viewerIndex = 0;
+  renderVocabViewerCard();
+}
+
+function setQuestionCount(count, btn) {
+  selectedQuestionCount = count;
+  var btns = document.querySelectorAll('.count-btn');
+  btns.forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+}
+
+function updateSpeechRate(val) {
+  globalSpeechRate = parseFloat(val);
+  var label = globalSpeechRate.toFixed(1) + 'x';
+  if (globalSpeechRate === 1.0) label += ' (標準)';
+  else if (globalSpeechRate < 1.0) label += ' (偏慢)';
+  else label += ' (偏快)';
+  document.getElementById('speed-label').innerText = label;
+}
+
+function speakText(text) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  var u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US';
+  u.rate = globalSpeechRate;
+  window.speechSynthesis.speak(u);
+}
+
+function speakCurrentWord() {
+  if (currentList[currentIdx]) speakText(currentList[currentIdx].word);
+}
+
+function speakCurrentSentence() {
+  if (currentList[currentIdx]) speakText(currentList[currentIdx].ex);
+}
+
+function renderVocabViewerCard() {
+  if (!viewerList || viewerList.length === 0) {
+    document.getElementById('v-icon').innerText = '📝';
+    document.getElementById('v-word').innerText = '無單字';
+    document.getElementById('v-zh').innerText = '';
+    document.getElementById('v-ex').innerText = '所選範圍無資料';
+    document.getElementById('vocab-counter').innerText = '0 / 0';
+    document.getElementById('v-prev-btn').disabled = true;
+    document.getElementById('v-next-btn').disabled = true;
+    return;
+  }
+
+  var cur = viewerList[viewerIndex];
+  document.getElementById('v-icon').innerText = cur.icon || '📝';
+  document.getElementById('v-word').innerText = cur.word;
+  document.getElementById('v-zh').innerText = cur.zh;
+  document.getElementById('v-ex').innerText = cur.ex;
+  document.getElementById('vocab-counter').innerText = (viewerIndex + 1) + ' / ' + viewerList.length;
+
+  document.getElementById('v-prev-btn').disabled = (viewerIndex === 0);
+  document.getElementById('v-next-btn').disabled = (viewerIndex === viewerList.length - 1);
+}
+
+function stepVocabViewer(step) {
+  viewerIndex += step;
+  if (viewerIndex < 0) viewerIndex = 0;
+  if (viewerIndex >= viewerList.length) viewerIndex = viewerList.length - 1;
+  renderVocabViewerCard();
+}
+
+function speakCurrentViewerWord() {
+  if (viewerList[viewerIndex]) {
+    speakText(viewerList[viewerIndex].word);
+  }
+}
+
+function speakCurrentViewerSentence() {
+  if (viewerList[viewerIndex]) {
+    speakText(viewerList[viewerIndex].ex);
+  }
+}
+
+function initGame(mode) {
+  currentMode = mode;
+
+  // 使用目前精細範圍選取的 viewerList 當作題目來源
+  if (!viewerList || viewerList.length === 0) {
+    alert("選擇範圍內無單字！請確認週次與序號範圍。");
+    return;
+  }
+
+  var pool = viewerList.slice();
+  pool.sort(function() { return 0.5 - Math.random(); });
+  
+  if (selectedQuestionCount === 'all') {
+    currentList = pool;
+  } else {
+    currentList = pool.slice(0, Math.min(parseInt(selectedQuestionCount), pool.length));
+  }
+
+  currentIdx = 0;
+  score = 0;
+  wrongAnswers = [];
+
+  document.getElementById('setup-screen').style.display = 'none';
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('play-screen').style.display = 'block';
+
+  document.getElementById('section-typing').style.display = (mode === 'typing') ? 'block' : 'none';
+  document.getElementById('section-blocks').style.display = (mode === 'blocks') ? 'block' : 'none';
+  document.getElementById('section-quiz').style.display = (mode === 'quiz') ? 'block' : 'none';
+  document.getElementById('section-monster').style.display = (mode === 'monster') ? 'block' : 'none';
+
+  loadQuestion();
+}
+
+function loadQuestion() {
+  answered = false;
+  var item = currentList[currentIdx];
+  document.getElementById('prog-text').innerText = '第 ' + (currentIdx + 1) + ' / ' + currentList.length + ' 題';
+  document.getElementById('score-text').innerText = '⭐ ' + score + ' 分';
+  document.getElementById('feedback-msg').innerHTML = '';
+  document.getElementById('btn-next-step').style.display = 'none';
+
+  if (currentMode === 'typing') {
+    renderTypingMode(item);
+  } else if (currentMode === 'blocks') {
+    renderBlocksMode(item);
+  } else if (currentMode === 'quiz') {
+    renderQuizMode(item);
+  } else if (currentMode === 'monster') {
+    renderMonsterMode(item);
+  }
+}
+
+/* 模式 1：鍵盤打字 */
+function renderTypingMode(item) {
+  document.getElementById('t-unit-badge').innerText = 'Week ' + item.week + ' • ' + item.unit;
+  document.getElementById('t-q-icon').innerText = item.icon || '📝';
+  document.getElementById('t-q-zh').innerText = item.zh;
+
+  var exText = item.ex || '';
+  if (item.word) {
+    var parts = exText.split(new RegExp(item.word, 'i'));
+    exText = parts.join('_______');
+  }
+  document.getElementById('t-q-ex').innerText = '例句：' + exText;
+
+  var inputEl = document.getElementById('t-answer-input');
+  inputEl.value = '';
+  setTimeout(speakCurrentWord, 200);
+}
+
+function pressKey(letter) {
+  if (answered) return;
+  var inputEl = document.getElementById('t-answer-input');
+  inputEl.value += letter;
+}
+
+function pressBackspace() {
+  if (answered) return;
+  var inputEl = document.getElementById('t-answer-input');
+  inputEl.value = inputEl.value.slice(0, -1);
+}
+
+function pressClear() {
+  if (answered) return;
+  document.getElementById('t-answer-input').value = '';
+}
+
+function checkTypingAnswer() {
+  if (answered) return;
+  var inputEl = document.getElementById('t-answer-input');
+  var userAns = inputEl.value.replace(/^\s+|\s+$/g, '').toLowerCase();
+  var cur = currentList[currentIdx];
+  var correctAns = cur.word.replace(/^\s+|\s+$/g, '').toLowerCase();
+
+  if (!userAns) return;
+  answered = true;
+
+  var feedbackEl = document.getElementById('feedback-msg');
+  if (userAns === correctAns) {
+    score += 10;
+    feedbackEl.innerHTML = '<span style="color:var(--success);">🎉 太棒了！答對了！（' + cur.word + '）</span>';
+    speakText(cur.word + "! Good job!");
+  } else {
+    wrongAnswers.push({
+      word: cur.word,
+      zh: cur.zh,
+      icon: cur.icon || '📝',
+      userAns: userAns
+    });
+    feedbackEl.innerHTML = '<span style="color:var(--danger);">❌ 答錯囉！正確答案是：<strong>' + cur.word + '</strong></span>';
+    speakCurrentWord();
+  }
+
+  document.getElementById('score-text').innerText = '⭐ ' + score + ' 分';
+  document.getElementById('btn-next-step').style.display = 'block';
+}
+
+function giveTypingHint() {
+  if (answered) return;
+  var cur = currentList[currentIdx];
+  var inputEl = document.getElementById('t-answer-input');
+  if (!inputEl.value) {
+    inputEl.value = cur.word.charAt(0);
+  } else {
+    inputEl.value = cur.word.substring(0, Math.min(inputEl.value.length + 1, cur.word.length - 1));
+  }
+}
+
+/* 模式 2：積木拼字 */
+function renderBlocksMode(item) {
+  targetWord = item.word.toLowerCase();
+  currentInput = [];
+  document.getElementById('b-unit-badge').innerText = 'Week ' + item.week + ' • ' + item.unit;
+  document.getElementById('b-q-icon').innerText = item.icon || '📝';
+  document.getElementById('b-q-zh').innerText = item.zh;
+
+  var letters = targetWord.replace(/[^a-z]/g, '').split('');
+  var extraPool = "abcdefghijklmnopqrstuvwxyz";
+  var extraCount = Math.max(1, 8 - letters.length);
+  for (var i = 0; i < extraCount; i++) {
+    letters.push(extraPool[Math.floor(Math.random() * extraPool.length)]);
+  }
+  letters.sort(function() { return 0.5 - Math.random(); });
+  letterPool = letters.map(function(char, idx) {
+    return { id: idx, char: char, used: false };
+  });
+
+  updateSlots();
+  renderPool();
+  setTimeout(speakCurrentWord, 200);
+}
+
+function updateSlots() {
+  var slotsEl = document.getElementById('b-slots');
+  slotsEl.innerHTML = '';
+  var cleanTarget = targetWord.replace(/[^a-z]/g, '');
+  for (var i = 0; i < cleanTarget.length; i++) {
+    var slot = document.createElement('div');
+    slot.className = 'slot';
+    if (i < currentInput.length) {
+      slot.innerText = currentInput[i].char.toUpperCase();
+      (function(idx) {
+        slot.onclick = function() { removeInputLetter(idx); };
+      })(i);
+    } else {
+      slot.innerText = '';
+    }
+    slotsEl.appendChild(slot);
+  }
+}
+
+function renderPool() {
+  var poolEl = document.getElementById('b-pool');
+  poolEl.innerHTML = '';
+  letterPool.forEach(function(item) {
+    var btn = document.createElement('div');
+    btn.className = 'letter-btn' + (item.used ? ' used' : '');
+    btn.innerText = item.char.toUpperCase();
+    btn.onclick = function() { pickLetter(item); };
+    poolEl.appendChild(btn);
+  });
+}
+
+function pickLetter(item) {
+  var cleanTarget = targetWord.replace(/[^a-z]/g, '');
+  if (currentInput.length >= cleanTarget.length) return;
+  item.used = true;
+  currentInput.push(item);
+  updateSlots();
+  renderPool();
+
+  if (currentInput.length === cleanTarget.length) {
+    checkBlocksResult();
+  }
+}
+
+function removeInputLetter(idx) {
+  var removed = currentInput.splice(idx, 1)[0];
+  removed.used = false;
+  updateSlots();
+  renderPool();
+}
+
+function resetCurrentLetters() {
+  currentInput.forEach(function(item) { item.used = false; });
+  currentInput = [];
+  updateSlots();
+  renderPool();
+}
+
+function giveOneLetterHint() {
+  var cleanTarget = targetWord.replace(/[^a-z]/g, '');
+  var neededIdx = currentInput.length;
+  if (neededIdx >= cleanTarget.length) return;
+  var targetChar = cleanTarget[neededIdx];
+  var candidate = letterPool.find(function(l) { return !l.used && l.char === targetChar; });
+  if (candidate) pickLetter(candidate);
+}
+
+function checkBlocksResult() {
+  var typed = currentInput.map(function(l) { return l.char; }).join('');
+  var cleanTarget = targetWord.replace(/[^a-z]/g, '');
+  var fb = document.getElementById('feedback-msg');
+
+  if (typed === cleanTarget) {
+    score += 10;
+    fb.innerHTML = '<span style="color:var(--success);">🎉 答對了！太厲害了！</span>';
+    speakText(currentList[currentIdx].word + "! Awesome!");
+    document.getElementById('score-text').innerText = '⭐ ' + score + ' 分';
+    document.getElementById('btn-next-step').style.display = 'block';
+  } else {
+    wrongAnswers.push({
+      word: currentList[currentIdx].word,
+      zh: currentList[currentIdx].zh,
+      icon: currentList[currentIdx].icon || '📝',
+      userAns: typed
+    });
+    fb.innerHTML = '<span style="color:var(--danger);">😅 順序不太對喔，再試一次！</span>';
+    setTimeout(resetCurrentLetters, 900);
+  }
+}
+
+/* 模式 3：聽力快問快答（純中文大字） */
+function renderQuizMode(item) {
+  document.getElementById('q-unit-badge').innerText = 'Week ' + item.week + ' • ' + item.unit;
+  var optionsContainer = document.getElementById('q-options');
+  optionsContainer.innerHTML = '';
+
+  var options = [item];
+  var pool = ALL_VOCAB.filter(function(v) { return v.word !== item.word; });
+  pool.sort(function() { return 0.5 - Math.random(); });
+  for (var i = 0; i < 3 && i < pool.length; i++) {
+    options.push(pool[i]);
+  }
+  options.sort(function() { return 0.5 - Math.random(); });
+
+  options.forEach(function(opt) {
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'btn-option';
+    btn.innerHTML = (opt.icon ? '<span style="font-size:24px; line-height:1; flex-shrink:0;">' + opt.icon + '</span>' : '') + 
+                    '<span class="quiz-option-text">' + opt.zh + '</span>';
+    btn.onclick = function() {
+      if (answered) return;
+      answered = true;
+      if (opt.word === item.word) {
+        btn.classList.add('correct');
+        score += 10;
+        document.getElementById('feedback-msg').innerHTML = '<span style="color:var(--success);">🎉 聽力滿分！選對了！（' + item.word + '）</span>';
+        speakText("Correct! " + item.word);
+      } else {
+        btn.classList.add('wrong');
+        wrongAnswers.push({
+          word: item.word,
+          zh: item.zh,
+          icon: item.icon || '📝',
+          userAns: opt.word + ' (' + opt.zh + ')'
+        });
+        document.getElementById('feedback-msg').innerHTML = '<span style="color:var(--danger);">❌ 答錯囉！正解是：' + item.zh + ' (' + item.word + ')</span>';
+        speakCurrentWord();
+      }
+      document.getElementById('score-text').innerText = '⭐ ' + score + ' 分';
+      document.getElementById('btn-next-step').style.display = 'block';
+    };
+    optionsContainer.appendChild(btn);
+  });
+
+  setTimeout(speakCurrentWord, 200);
+}
+
+/* 模式 4：怪獸吃單字 */
+function renderMonsterMode(item) {
+  document.getElementById('m-avatar').innerText = '👾';
+  document.getElementById('m-speech').innerText = '「好餓喔！請餵我吃【 ' + item.zh + ' 】的英文單字！」';
+  var shelf = document.getElementById('m-food-shelf');
+  shelf.innerHTML = '';
+
+  var options = [item];
+  var pool = ALL_VOCAB.filter(function(v) { return v.word !== item.word; });
+  pool.sort(function() { return 0.5 - Math.random(); });
+  for (var i = 0; i < 3 && i < pool.length; i++) {
+    options.push(pool[i]);
+  }
+  options.sort(function() { return 0.5 - Math.random(); });
+
+  options.forEach(function(opt) {
+    var card = document.createElement('div');
+    card.className = 'food-card';
+    card.innerHTML = '<span>🍪</span> <span>' + opt.word + '</span>';
+    card.onclick = function() {
+      if (answered) return;
+      answered = true;
+      if (opt.word === item.word) {
+        document.getElementById('m-avatar').innerText = '😋';
+        document.getElementById('m-speech').innerText = '「好吃好吃！Yummy!」';
+        score += 10;
+        document.getElementById('feedback-msg').innerHTML = '<span style="color:var(--success);">🎉 成功餵食怪獸！（' + item.word + '）</span>';
+        speakText("Yummy! " + item.word);
+      } else {
+        document.getElementById('m-avatar').innerText = '🤢';
+        document.getElementById('m-speech').innerText = '「這不是我想吃的...」';
+        wrongAnswers.push({
+          word: item.word,
+          zh: item.zh,
+          icon: item.icon || '📝',
+          userAns: opt.word
+        });
+        document.getElementById('feedback-msg').innerHTML = '<span style="color:var(--danger);">❌ 怪獸吐出來了！正解是：' + item.word + '</span>';
+        speakCurrentWord();
+      }
+      document.getElementById('score-text').innerText = '⭐ ' + score + ' 分';
+      document.getElementById('btn-next-step').style.display = 'block';
+    };
+    shelf.appendChild(card);
+  });
+
+  setTimeout(speakCurrentWord, 200);
+}
+
+/* 換題與主流程 */
+function goToNext() {
+  currentIdx++;
+  if (currentIdx < currentList.length) {
+    loadQuestion();
+  } else {
+    document.getElementById('play-screen').style.display = 'none';
+    document.getElementById('result-screen').style.display = 'block';
+    
+    var totalPossible = currentList.length * 10;
+    document.getElementById('final-stats').innerText = '總得分：' + score + ' / ' + totalPossible + ' 分！';
+
+    var wrongContainer = document.getElementById('wrong-container');
+    var wrongListEl = document.getElementById('wrong-list');
+    wrongListEl.innerHTML = '';
+
+    if (wrongAnswers.length > 0) {
+      wrongContainer.style.display = 'block';
+      var uniqueWrongs = [];
+      var seenWords = {};
+      wrongAnswers.forEach(function(item) {
+        if (!seenWords[item.word]) {
+          seenWords[item.word] = true;
+          uniqueWrongs.push(item);
+        }
+      });
+
+      uniqueWrongs.forEach(function(item) {
+        var div = document.createElement('div');
+        div.className = 'wrong-word-item';
+        div.innerHTML = 
+          '<div class="wrong-item-left">' +
+            '<span class="wrong-item-icon">' + item.icon + '</span>' +
+            '<div>' +
+              '<div style="color:#0f172a; font-size:15px; font-weight:800;">' + item.word + '</div>' +
+              '<div style="color:#64748b; font-size:13px;">' + item.zh + '</div>' +
+            '</div>' +
+          '</div>' +
+          '<button type="button" class="vocab-btn-speak" style="padding:4px 10px; font-size:12px;" onclick="speakText(\'' + item.word + '\')">🔊 聽發音</button>';
+        wrongListEl.appendChild(div);
+      });
+    } else {
+      wrongContainer.style.display = 'none';
+    }
+  }
+}
+
+function backToMenu() {
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  document.getElementById('play-screen').style.display = 'none';
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('setup-screen').style.display = 'block';
+  onItemRangeChange();
+}
+
+// 頁面初始化
+window.onload = function() {
+  onWeekRangeChange();
+};
+</script>
+</body>
+</html>
