@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎒 Grade 2 英語文法闖關樂園</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+    body {
+      font-family: 'Fredoka', 'Noto Sans TC', sans-serif;
+      background: #f4f6fb;
+      color: #334155;
+    }
+    .custom-dashed { border: 2px dashed #cbd5e1; }
+    .card-shadow { box-shadow: 0 4px 16px rgba(99, 102, 241, 0.08); }
+    .pill-active {
+      background: #4f46e5 !important;
+      color: white !important;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    }
+    .key-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-bottom: 3px solid #94a3b8;
+      border-radius: 0.65rem;
+      font-weight: 800;
+      color: #1e293b;
+      user-select: none;
+      transition: all 0.08s ease-in-out;
+    }
+    .key-btn:active {
+      transform: translateY(2px);
+      border-bottom-width: 1px;
+      background: #f1f5f9;
+    }
+    .key-action-btn {
+      background: #e2e8f0;
+      border: 1px solid #cbd5e1;
+      border-bottom: 3px solid #94a3b8;
+      border-radius: 0.65rem;
+      font-weight: 800;
+      color: #334155;
+      user-select: none;
+      transition: all 0.08s ease-in-out;
+    }
+    .key-action-btn:active {
+      transform: translateY(2px);
+      border-bottom-width: 1px;
+      background: #cbd5e1;
+    }
+  </style>
+</head>
+<body class="p-3 sm:p-6 flex justify-center">
+
+  <div class="w-full max-w-xl bg-white rounded-3xl p-5 sm:p-7 shadow-xl border border-slate-100 flex flex-col gap-6">
+
+    <!-- 頂部功能列與標題 -->
+    <div>
+      <div class="flex justify-between items-center mb-2">
+        <button id="sfx-toggle-btn" onclick="toggleSfx()" class="px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-600 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-volume-high text-indigo-500"></i> 音效：開
+        </button>
+        <button onclick="openMistakeNotebookModal()" class="px-3 py-1 rounded-full text-xs font-bold bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 transition flex items-center gap-1.5 shadow-sm">
+          <span>📕 錯題本</span>
+          <span id="mistake-badge-count" class="bg-rose-500 text-white text-[10px] px-1.5 py-0.2 rounded-full font-black">0</span>
+        </button>
+      </div>
+
+      <div class="text-center">
+        <div class="flex items-center justify-center gap-2 text-2xl sm:text-3xl font-black text-slate-800 tracking-wide">
+          <span>🎒</span>
+          <span class="text-indigo-600">Grade 2</span> 英語文法闖關樂園
+        </div>
+        <p class="text-xs sm:text-sm text-slate-500 mt-1 font-medium tracking-wide">
+          動態零重複抽題 • 虛擬鍵盤拼字 • 錯題永久追蹤
+        </p>
+      </div>
+    </div>
+
+    <!-- 模塊 1：上方主題選擇與設定 -->
+    <div class="custom-dashed rounded-2xl p-4 bg-slate-50/60 flex flex-col gap-4">
+      <div>
+        <div class="text-sm font-bold text-slate-700 flex items-center justify-between mb-2">
+          <span class="flex items-center gap-1.5"><span class="text-rose-500">🎯</span> 請選擇文法單元：</span>
+          <span id="topic-status-pill" class="text-[11px] bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold">嚴選不重複題庫</span>
+        </div>
+        <select id="topic-select" class="w-full bg-white border border-slate-200 text-slate-700 text-sm font-bold rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-400">
+          <option value="step1-pronouns">第 1 單元：代名詞家族 (主格・受格・所有格・並列受格)</option>
+          <option value="step2-wh-questions">第 2 單元：疑問詞 5W+Which+Whose (選擇與歸屬)</option>
+          <option value="step3-modals">第 3 單元：助動詞 can / could / should (能力與建議)</option>
+          <option value="step4-have-has">第 4 單元：擁有表達 have / has / have got (照妖鏡與動作例外)</option>
+          <option value="step5-present-simple">第 5 單元：現在簡單式 (子音+y vs 母音+y & do/does)</option>
+          <option value="step6-present-continuous">第 6 單元：現在進行式 (重複字尾 & 去e & 狀態動詞)</option>
+          <option value="step7-past-regular">第 7 單元：過去式規則 (-ied、重複字尾、was/were、did)</option>
+          <option value="step8-past-irregular">第 8 單元：過去式超常用不規則 (went, ate, saw, had 等)</option>
+          <option value="step9-future-simple">第 9 單元：未來簡單式 (will + 原形 & be going to)</option>
+          <option value="all-comprehensive">🌟 全單元大綜合會考 (隨機抽取所有題庫)</option>
+        </select>
+      </div>
+
+      <!-- 快速標籤 Pill Buttons -->
+      <div class="flex flex-wrap gap-1.5 text-xs" id="quick-pills">
+        <button onclick="setTopic('step1-pronouns')" class="pill-btn px-2.5 py-1 rounded-full border border-slate-200 bg-white font-medium hover:bg-slate-100 transition pill-active" data-id="step1-pronouns">1. 代名詞</button>
+        <button onclick="setTopic('step2-wh-questions')" class="pill-btn px-2.5 py-1 rounded-full border border-slate-200 bg-white font-medium hover:bg-slate-100 transition" data-id="step2-wh-questions">2. 疑問詞</button>
+        <button onclick="setTopic('step3-modals')" class="pill-btn px-2.5 py-1 rounded-full border border-slate-200 bg-white font-medium hover:bg-slate-100 transition" data-id="step3-modals">3. can/should</button>
+        <button onclick="setTopic('step4-have-has')" class="pill-btn px-2.5 py-1 rounded-full border border-slate-200 bg-white font-medium hover:bg-slate-100 transition" data-id="step4-have-has">4. have/has</button>
+        <button onclick="setTopic('step5-present-simple')" class="pill-btn px-2.5 py-1 rounded-full border border-slate-200 bg-white font-medium hover:bg-slate-100 transition" data-id="step5-present-simple">5. 現在簡單</button>
+        <button onclick="setTopic('step6-present-continuous')" class="pill-btn px-2.5 py-1 rounded-full border border-slate-200 bg-white font-medium hover:bg-slate-100 transition" data-id="step6-present-continuous">6. 現在進行</button>
+        <button onclick="setTopic('step7-past-regular')" class="pill-btn px-2.5 py-1 rounded-full border border-slate-200 bg-white font-medium hover:bg-slate-100 transition" data-id="step7-past-regular">7. 過去規則</button>
+        <button onclick="setTopic('step8-past-irregular')" class="pill-btn px-2.5 py-1 rounded-full border border-slate-200 bg-white font-medium hover:bg-slate-100 transition" data-id="step8-past-irregular">8. 不規則過去</button>
+        <button onclick="setTopic('step9-future-simple')" class="pill-btn px-2.5 py-1 rounded-full border border-slate-200 bg-white font-medium hover:bg-slate-100 transition" data-id="step9-future-simple">9. 未來式</button>
+        <button onclick="setTopic('all-comprehensive')" class="pill-btn px-2.5 py-1 rounded-full border border-amber-300 bg-amber-50 text-amber-900 font-bold hover:bg-amber-100 transition" data-id="all-comprehensive">🌟 全會考</button>
+      </div>
+
+      <!-- 設定題數與語速 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-slate-200/80">
+        <div>
+          <div class="text-xs font-bold text-slate-600 mb-1.5 flex items-center justify-between">
+            <span class="flex items-center gap-1"><span>📝</span> 挑戰題數：</span>
+            <span id="pool-count-hint" class="text-[10px] text-indigo-600 font-bold">庫存不足會自動調整</span>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="setQuizCount(10)" id="btn-count-10" class="quiz-count-btn flex-1 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white shadow-sm">10 題</button>
+            <button onclick="setQuizCount(20)" id="btn-count-20" class="quiz-count-btn flex-1 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-600 border border-slate-200">20 題</button>
+            <button onclick="setQuizCount(50)" id="btn-count-50" class="quiz-count-btn flex-1 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-600 border border-slate-200">50 題(全刷)</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex justify-between items-center text-xs font-bold text-slate-600 mb-1.5">
+            <span class="flex items-center gap-1"><span>🔊</span> 英文例句朗讀語速：</span>
+            <span id="speech-rate-label" class="text-indigo-600 font-bold">0.85x (慢速清晰)</span>
+          </div>
+          <div class="flex items-center gap-2 text-xs text-slate-400">
+            <span>慢</span>
+            <input id="speech-rate" type="range" min="0.6" max="1.2" step="0.05" value="0.85" class="w-full accent-indigo-600 cursor-pointer" oninput="updateSpeechRate(this.value)">
+            <span>快</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 模塊 2：中間詳細文法教學卡片 -->
+    <div class="bg-white border-2 border-indigo-100 rounded-3xl p-5 card-shadow relative">
+      <div class="flex justify-between items-center mb-3">
+        <span class="text-sm font-black text-indigo-900 flex items-center gap-2">
+          <span>📖</span> <span id="teaching-title">重點文法詳解教學與例外提示</span>
+        </span>
+        <span id="card-counter" class="text-xs font-black text-indigo-500 bg-indigo-50 px-2.5 py-1 rounded-full">
+          1 / 3
+        </span>
+      </div>
+
+      <div id="teaching-card-content" class="bg-gradient-to-br from-indigo-50/80 to-blue-50/40 rounded-2xl p-4 sm:p-5 border border-indigo-100 flex flex-col justify-between transition-all min-h-[220px]">
+        <!-- 動態填入 -->
+      </div>
+
+      <div class="flex gap-3 mt-4">
+        <button onclick="prevTeachingCard()" class="flex-1 py-2.5 rounded-xl border border-slate-200 text-slate-600 font-bold text-xs sm:text-sm hover:bg-slate-50 transition active:scale-95">
+          ← 上一個重點
+        </button>
+        <button onclick="nextTeachingCard()" class="flex-1 py-2.5 rounded-xl bg-indigo-600 text-white font-bold text-xs sm:text-sm hover:bg-indigo-700 shadow-md shadow-indigo-200 transition active:scale-95">
+          下一個重點與例外 →
+        </button>
+      </div>
+    </div>
+
+    <!-- 模塊 3：測試模式選擇區 -->
+    <div>
+      <div class="flex items-center justify-between mb-2">
+        <div class="text-sm font-extrabold text-slate-800 flex items-center gap-1.5">
+          <span>🚀</span> 選擇測試模式（保證同次測驗零重複）：
+        </div>
+      </div>
+      <div class="bg-indigo-50/80 border border-indigo-200/70 rounded-xl px-3 py-2 text-xs font-bold text-indigo-800 mb-3 flex items-center justify-between">
+        <span>📍 目前出題單元：</span>
+        <span id="current-quiz-scope-text" class="text-indigo-600 font-black">第 1 單元：代名詞家族</span>
+      </div>
+
+      <div class="grid grid-cols-1 gap-3">
+        <!-- 模式 1: 選擇題 -->
+        <div onclick="startQuizMode(1)" class="group cursor-pointer bg-white border border-slate-200 hover:border-indigo-300 rounded-2xl p-4 flex items-center gap-4 transition hover:shadow-md hover:bg-indigo-50/20 active:scale-[0.99]">
+          <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl flex-shrink-0 group-hover:scale-110 transition">✏️</div>
+          <div class="flex-1">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-slate-800 text-sm sm:text-base group-hover:text-indigo-600 transition">模式 1：選擇題小達人</span>
+                <span class="text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full">基礎入門</span>
+              </div>
+              <span id="mode-1-count" class="text-xs font-black text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">-- 題在庫</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-1">選出最符合句意的答案！(動態庫存不重複)</p>
+          </div>
+          <i class="fa-solid fa-chevron-right text-slate-300 group-hover:text-indigo-500 group-hover:translate-x-1 transition"></i>
+        </div>
+
+        <!-- 模式 2: 虛擬鍵盤填空題 -->
+        <div onclick="startQuizMode(2)" class="group cursor-pointer bg-white border-2 border-emerald-300 hover:border-emerald-500 rounded-2xl p-4 flex items-center gap-4 transition hover:shadow-md hover:bg-emerald-50/30 active:scale-[0.99]">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl flex-shrink-0 group-hover:scale-110 transition">⌨️</div>
+          <div class="flex-1">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-slate-800 text-sm sm:text-base group-hover:text-emerald-600 transition">模式 2：鍵盤動詞拼字變身</span>
+                <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">螢幕鍵盤</span>
+              </div>
+              <span id="mode-2-count" class="text-xs font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">-- 題在庫</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-1">配備 QWERTY 虛擬按鍵、燈泡提示與刪除鍵，平板手機超好按！</p>
+          </div>
+          <i class="fa-solid fa-chevron-right text-slate-300 group-hover:text-emerald-500 group-hover:translate-x-1 transition"></i>
+        </div>
+
+        <!-- 模式 3: 空格精準選擇題 -->
+        <div onclick="startQuizMode(3)" class="group cursor-pointer bg-white border border-slate-200 hover:border-purple-300 rounded-2xl p-4 flex items-center gap-4 transition hover:shadow-md hover:bg-purple-50/20 active:scale-[0.99]">
+          <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-2xl flex-shrink-0 group-hover:scale-110 transition">🕵️‍♂️</div>
+          <div class="flex-1">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-slate-800 text-sm sm:text-base group-hover:text-purple-600 transition">模式 3：文法偵探 (空格選擇題)</span>
+                <span class="text-[10px] bg-purple-100 text-purple-800 font-bold px-2 py-0.5 rounded-full">高手挑戰</span>
+              </div>
+              <span id="mode-3-count" class="text-xs font-black text-purple-700 bg-purple-50 px-2 py-0.5 rounded-md">-- 題在庫</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-1">從選項中選出填入空格【 ______ 】的最正確單字！</p>
+          </div>
+          <i class="fa-solid fa-chevron-right text-slate-300 group-hover:text-purple-500 group-hover:translate-x-1 transition"></i>
+        </div>
+
+        <!-- 模式 4: 美式短文小編輯日記改錯 -->
+        <div onclick="startQuizMode(4)" class="group cursor-pointer bg-white border border-slate-200 hover:border-indigo-300 rounded-2xl p-4 flex items-center gap-4 transition hover:shadow-md hover:bg-indigo-50/40 active:scale-[0.99]">
+          <div class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-2xl flex-shrink-0 group-hover:scale-110 transition">📰</div>
+          <div class="flex-1">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-slate-800 text-sm sm:text-base group-hover:text-indigo-600 transition">模式 4：小編輯日記改錯 (美式思維)</span>
+                <span class="text-[10px] bg-indigo-100 text-indigo-800 font-bold px-2 py-0.5 rounded-full">語感寫作</span>
+              </div>
+              <span id="mode-4-count" class="text-xs font-black text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md">-- 篇短文</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-1">閱讀小日記，在上下文情境中抓出時態跑票的動詞！</p>
+          </div>
+          <i class="fa-solid fa-chevron-right text-slate-300 group-hover:text-indigo-500 group-hover:translate-x-1 transition"></i>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 測驗彈窗 Modal -->
+  <div id="quiz-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3">
+    <div class="bg-white rounded-3xl w-full max-w-xl p-5 sm:p-6 shadow-2xl relative border border-slate-100 flex flex-col max-h-[96vh]">
+      <div class="flex justify-between items-center pb-3 border-b border-slate-100">
+        <div>
+          <span id="modal-mode-tag" class="text-xs font-bold px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-600">模式 2</span>
+          <span id="modal-scope-tag" class="text-[11px] font-bold px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 ml-1">代名詞</span>
+          <span id="quiz-progress" class="text-xs font-bold text-slate-400 ml-2">第 1 / 10 題</span>
+          <span id="streak-counter" class="text-xs font-black text-amber-500 ml-2 hidden"><i class="fa-solid fa-fire"></i> 連勝 0</span>
+        </div>
+        <button onclick="closeQuizModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center text-sm font-bold transition">✕</button>
+      </div>
+
+      <div class="w-full bg-slate-100 h-2 rounded-full mt-3 overflow-hidden">
+        <div id="quiz-progress-bar" class="bg-indigo-600 h-full rounded-full transition-all duration-300" style="width: 10%;"></div>
+      </div>
+
+      <div id="quiz-body" class="my-3 flex-1 overflow-y-auto pr-1"></div>
+      <div id="quiz-feedback" class="hidden rounded-2xl p-3 mb-2 text-xs sm:text-sm font-medium"></div>
+
+      <div id="quiz-modal-footer" class="flex justify-between items-center pt-2 border-t border-slate-100">
+        <button id="listen-sentence-btn" onclick="speakCurrentSentence()" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-volume-high text-indigo-500"></i> 聽完整朗讀
+        </button>
+        <button id="next-quiz-btn" onclick="nextQuestion()" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold transition shadow-md shadow-indigo-200 disabled:opacity-40" disabled>
+          下一題 →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 永久錯題本彈窗 Modal -->
+  <div id="mistake-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3">
+    <div class="bg-white rounded-3xl w-full max-w-xl p-5 sm:p-6 shadow-2xl relative border border-slate-100 flex flex-col max-h-[92vh]">
+      <div class="flex justify-between items-center pb-3 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <span class="text-lg">📕</span>
+          <h3 class="font-black text-slate-800 text-base">我的專屬錯題本</h3>
+          <span id="notebook-count-label" class="text-xs bg-rose-100 text-rose-700 px-2 py-0.5 rounded-full font-bold">0 題</span>
+        </div>
+        <button onclick="closeMistakeNotebookModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center text-sm font-bold transition">✕</button>
+      </div>
+      <div id="mistake-list-container" class="my-4 flex-1 overflow-y-auto pr-1 space-y-3"></div>
+      <div class="flex gap-2 pt-2 border-t border-slate-100">
+        <button onclick="startMistakePractice()" id="practice-mistakes-btn" class="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs sm:text-sm transition shadow-md shadow-rose-200 disabled:opacity-40">🎯 專攻重考錯題</button>
+        <button onclick="clearAllMistakes()" class="py-2.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold text-xs transition">🗑️ 清空錯題本</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let sfxEnabled = true;
+    let audioCtx = null;
+    const MISTAKE_STORAGE_KEY = 'g2_grammar_mistakes_v2_unique';
+
+    function getAudioContext() {
+      try {
+        if (!audioCtx) {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          if (AudioContextClass) audioCtx = new AudioContextClass();
+        }
+        if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+        return audioCtx;
+      } catch (e) { return null; }
+    }
+
+    function toggleSfx() {
+      sfxEnabled = !sfxEnabled;
+      const btn = document.getElementById('sfx-toggle-btn');
+      if (btn) {
+        btn.innerHTML = sfxEnabled ? `<i class="fa-solid fa-volume-high text-indigo-500"></i> 音效：開` : `<i class="fa-solid fa-volume-xmark text-slate-400"></i> 音效：關`;
+      }
+      if (sfxEnabled) playCorrectSound();
+    }
+
+    function playTone(freq, type, duration, delay = 0, gainLevel = 0.15) {
+      if (!sfxEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+        setTimeout(() => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, ctx.currentTime);
+          gain.gain.setValueAtTime(gainLevel, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + duration);
+        }, delay * 1000);
+      } catch (e) {}
+    }
+
+    function playKeySound() { playTone(600, 'sine', 0.04, 0, 0.06); }
+    function playCorrectSound() {
+      playTone(523.25, 'sine', 0.12, 0.0);
+      playTone(659.25, 'sine', 0.12, 0.08);
+      playTone(783.99, 'sine', 0.25, 0.16);
+    }
+    function playStreakSound() {
+      playTone(523.25, 'triangle', 0.1, 0.0);
+      playTone(659.25, 'triangle', 0.1, 0.07);
+      playTone(783.99, 'triangle', 0.1, 0.14);
+      playTone(1046.50, 'triangle', 0.3, 0.21);
+    }
+    function playWrongSound() {
+      playTone(330, 'sawtooth', 0.15, 0.0, 0.1);
+      playTone(260, 'sawtooth', 0.25, 0.15, 0.1);
+    }
+    function playCheerSound() {
+      playTone(523.25, 'sine', 0.15, 0.0);
+      playTone(659.25, 'sine', 0.15, 0.1);
+      playTone(783.99, 'sine', 0.15, 0.2);
+      playTone(1046.50, 'sine', 0.4, 0.3);
+    }
+
+    function getSavedMistakes() {
+      try {
+        const data = localStorage.getItem(MISTAKE_STORAGE_KEY);
+        return data ? JSON.parse(data) : [];
+      } catch (e) { return []; }
+    }
+
+    function saveMistakeToStorage(mistakeObj) {
+      try {
+        const list = getSavedMistakes();
+        const exists = list.some(item => item.question === mistakeObj.question);
+        if (!exists) {
+          list.unshift({ ...mistakeObj, date: new Date().toLocaleDateString() });
+          localStorage.setItem(MISTAKE_STORAGE_KEY, JSON.stringify(list));
+          updateMistakeBadge();
+        }
+      } catch (e) {}
+    }
+
+    function removeMistakeFromStorage(index) {
+      try {
+        const list = getSavedMistakes();
+        list.splice(index, 1);
+        localStorage.setItem(MISTAKE_STORAGE_KEY, JSON.stringify(list));
+        updateMistakeBadge();
+        renderMistakeNotebookList();
+      } catch (e) {}
+    }
+
+    function clearAllMistakes() {
+      if (confirm("確定要清空整本錯題本嗎？")) {
+        localStorage.removeItem(MISTAKE_STORAGE_KEY);
+        updateMistakeBadge();
+        renderMistakeNotebookList();
+      }
+    }
+
+    function updateMistakeBadge() {
+      const list = getSavedMistakes();
+      const badge = document.getElementById('mistake-badge-count');
+      if (badge) {
+        badge.textContent = list.length;
+        badge.className = list.length > 0 ? "bg-rose-500 text-white text-[10px] px-1.5 py-0.2 rounded-full font-black animate-pulse" : "bg-slate-300 text-white text-[10px] px-1.5 py-0.2 rounded-full font-bold";
+      }
+    }
+
+    function openMistakeNotebookModal() {
+      renderMistakeNotebookList();
+      document.getElementById('mistake-modal').classList.remove('hidden');
+    }
+
+    function closeMistakeNotebookModal() {
+      document.getElementById('mistake-modal').classList.add('hidden');
+    }
+
+    function renderMistakeNotebookList() {
+      const list = getSavedMistakes();
+      const container = document.getElementById('mistake-list-container');
+      const countLabel = document.getElementById('notebook-count-label');
+      const practiceBtn = document.getElementById('practice-mistakes-btn');
+
+      if (countLabel) countLabel.textContent = `${list.length} 題`;
+      if (practiceBtn) practiceBtn.disabled = (list.length === 0);
+
+      if (!container) return;
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-12 text-slate-400">
+            <span class="text-5xl">🎉</span>
+            <p class="text-sm font-bold mt-2">太棒了！目前沒有任何累積錯題！</p>
+            <p class="text-xs mt-1">練習過程中做錯的題目會自動存入這裡方便複習。</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = list.map((item, idx) => `
+        <div class="bg-rose-50/50 border border-rose-200/80 rounded-2xl p-3.5 text-xs text-left relative">
+          <button onclick="removeMistakeFromStorage(${idx})" title="從錯題本移除" class="absolute top-2.5 right-2.5 text-slate-400 hover:text-rose-500 text-sm font-bold">✕</button>
+          <div class="font-bold text-slate-800 text-xs sm:text-sm mb-1.5 pr-6">
+            <span class="text-rose-600">Q${idx+1}.</span> ${item.question}
+          </div>
+          <div class="grid grid-cols-2 gap-2 bg-white/80 p-2 rounded-xl border border-rose-100 mb-2">
+            <div><span class="text-slate-400">做錯紀錄：</span><span class="font-bold text-rose-600 line-through">${item.userAns}</span></div>
+            <div><span class="text-slate-400">正確解答：</span><span class="font-bold text-emerald-700">${item.correctAns}</span></div>
+          </div>
+          <div class="text-slate-700 bg-amber-50/90 p-2 rounded-xl border border-amber-200 leading-relaxed font-medium">
+            💡 <b>解題口訣：</b>${item.explanation}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function startMistakePractice() {
+      const list = getSavedMistakes();
+      if (list.length === 0) return;
+      closeMistakeNotebookModal();
+
+      activeQuizList = list.map((m, idx) => ({
+        id: 88000 + idx,
+        mode: 1,
+        title: m.question,
+        options: [m.correctAns, m.userAns, "None of above"].sort(() => Math.random() - 0.5),
+        currentShuffledOptions: [m.correctAns, m.userAns, "None of above"].sort(() => Math.random() - 0.5),
+        currentCorrectIndex: 0,
+        correctWord: m.correctAns,
+        answer: 0,
+        clue: m.explanation,
+        speechSentence: m.question.replace("【 ______ 】", m.correctAns)
+      }));
+
+      activeQuizList.forEach(q => {
+        q.currentCorrectIndex = q.currentShuffledOptions.indexOf(q.correctWord);
+        q.answer = q.currentCorrectIndex;
+      });
+
+      currentQuizMode = 1;
+      currentQuestionIdx = 0;
+      wrongQuestionsRecord = [];
+      streakCount = 0;
+
+      document.getElementById('modal-mode-tag').textContent = "🎯 錯題靶向特訓";
+      document.getElementById('modal-scope-tag').textContent = "歷史弱點複習";
+      document.getElementById('quiz-modal-footer').style.display = 'flex';
+      document.getElementById('quiz-modal').classList.remove('hidden');
+      loadQuestion();
+    }
+
+    // 教學資料庫
+    const grammarLessons = {
+      'step1-pronouns': [
+        {
+          tag: "重點 1：主格 vs 受格位置判斷", icon: "👑",
+          rule: "句首動作主角用【主格】；動詞與介系詞後用【受格】",
+          formula: "【I / He / She / They】+ 動詞 + 【me / him / her / them】",
+          example: "He likes my sister, and she likes him.", chinese: "他喜歡我妹妹，而她也喜歡他。",
+          goodTip: "⭕ 正確：Look at him. / Play with me.", badTip: "❌ 經典大陷阱：Look at he! (介系詞後不能放主格！)",
+          tip: "💡 口訣：動詞前是國王(主格)，動詞後與介系詞後是衛兵(受格)！"
+        },
+        {
+          tag: "重點 2：所有格與 it's vs its", icon: "🎒",
+          rule: "所有格（my, your, his, her, its, our, their）後面必須加名詞！",
+          formula: "所有格 + 名詞（如 its tail, my schoolbag）",
+          example: "The dog is wagging its tail happily.", chinese: "小狗正開心地搖著它的尾巴。",
+          goodTip: "⭕ 正確：its tail (它的尾巴，無逗號)", badTip: "❌ 例外陷阱：it's tail (錯！it's 是 it is 的縮寫！)",
+          tip: "⚠️ 考試必考：所有格 its 絕不加撇號點點！"
+        }
+      ],
+      'step2-wh-questions': [
+        {
+          tag: "重點 1：5W 基礎分工", icon: "🕵️",
+          rule: "Who(問人), Where(問地點), When(問時間), What(問事情), Why(問原因)",
+          formula: "Why 提問 ➔ 答句一律用 Because 開頭！",
+          example: "Why are you smiling? - Because I got a 100!", chinese: "你為什麼在微笑？— 因為我考了100分！",
+          goodTip: "⭕ 問地點用 Where / 問時間用 When", badTip: "❌ 常見錯誤：把 Where 與 When 拼字看顛倒！",
+          tip: "💡 口訣：Why 尋原因，答句 Because 來相伴！"
+        },
+        {
+          tag: "重點 2：例外疑問詞 Which (二選一)", icon: "🎯",
+          rule: "二選一或有明確範圍時用 Which；詢問誰的物品用 Whose (後接名詞)",
+          formula: "Which fruit do you want? / Whose shoes are these?",
+          example: "Whose eraser is this? - It's Timmy's.", chinese: "這是誰的橡皮擦？— 是提米的。",
+          goodTip: "⭕ 正確：Whose book is this?", badTip: "❌ 常混淆：Who's (Who is) vs Whose (誰的)！",
+          tip: "💡 口訣：有選擇二選一請出 Which，問物品主人請出 Whose！"
+        }
+      ],
+      'step3-modals': [
+        {
+          tag: "重點 1：can 與 could (能力)", icon: "🦸",
+          rule: "can 表現在能做；could 表過去能力。後方【永遠接原形動詞】！",
+          formula: "主詞 + can / could + 【原形動詞】",
+          example: "When she was five, she could ride a bicycle.", chinese: "當她五歲時，她就能夠騎腳踏車了。",
+          goodTip: "⭕ 正確：He could swim when he was little.", badTip: "❌ 例外陷阱：could swam (錯！後方動詞一律原形！)",
+          tip: "💡 口訣：不管是 can 還是 could，後面的動詞絕不變形！"
+        },
+        {
+          tag: "重點 2：should / shouldn't (建議)", icon: "🌟",
+          rule: "should 表示「建議/應該」，後方同樣搭配【原形動詞】",
+          formula: "You should brush your teeth twice a day.",
+          example: "You shouldn't watch TV in the dark.", chinese: "你不應該在黑暗中看電視。",
+          goodTip: "⭕ 正確：We should listen to our teacher.", badTip: "❌ 陷阱題：後方不可加 -ed 或 -s！",
+          tip: "💡 口訣：should 是好朋友給建議，動詞原形最整齊！"
+        }
+      ],
+      'step4-have-has': [
+        {
+          tag: "重點 1：have vs has & do/does 照妖鏡", icon: "🎁",
+          rule: "三單 (He/She/It) 用 has，其他人用 have；Does 出現變回 have！",
+          formula: "Does he have a dog? (has 變回 have！)",
+          example: "Does Hannah have the storybook? - Yes, she does.", chinese: "漢娜有這本故事書嗎？— 是的，她有。",
+          goodTip: "⭕ 正確：She doesn't have any money.", badTip: "❌ 超大陷阱：Does she has... (絕對錯誤！)",
+          tip: "⚠️ 照妖鏡必背：Does 出現，has 尾巴的 s 被吃掉，變回 have！"
+        },
+        {
+          tag: "重點 2：have got 與習慣動詞例外", icon: "☕",
+          rule: "have got 只能表「靜態擁有」，不能表「動作(吃/喝/洗澡)」！",
+          formula: "擁有用 have got；吃早餐/洗澡用 have breakfast / shower！",
+          example: "I have got a bicycle, and I have breakfast at 7:00.", chinese: "我擁有一輛腳踏車，且在七點吃早餐。",
+          goodTip: "⭕ 擁有：She has got blue gloves.", badTip: "❌ 例外考題：I have got dinner. (錯！吃晚餐只能用 have！)",
+          tip: "💡 口訣：有東西用 have got，吃飯喝水洗澡只能單用 have！"
+        }
+      ],
+      'step5-present-simple': [
+        {
+          tag: "重點 1：日常習慣與時間線索詞", icon: "☀️",
+          rule: "日常規律習慣。三單主詞一般動詞加 -s 或 -es",
+          formula: "信號詞：every day, always, usually, often, on Sundays",
+          example: "The earth goes around the sun.", chinese: "地球繞著太陽轉。（永恆真理用現在簡單式）",
+          goodTip: "⭕ 天天做、大自然真理用現在簡單式", badTip: "❌ 常見錯誤：看到 every day 卻寫進行式！",
+          tip: "💡 口訣：規律生活不間斷，現在簡單天天見！"
+        },
+        {
+          tag: "重點 2：字尾變身例外：母音+y vs 子音+y", icon: "🪄",
+          rule: "子音+y「去 y 加 -ies」；母音+y「直接加 -s」！",
+          formula: "play ➔ plays (母音+y) | fly ➔ flies, study ➔ studies (子音+y)",
+          example: "He plays basketball, but his sister studies English.", chinese: "他打籃球，但他妹妹讀英文。",
+          goodTip: "⭕ 正確：enjoys, stays, says (母音+y直接加s)", badTip: "❌ 考試陷阱：plaies (大錯特錯！是 plays！)",
+          tip: "⚠️ 必記例外：a/e/i/o/u 加 y 是好朋友，直接加 s 不分開！"
+        },
+        {
+          tag: "重點 3：-o, -s, -sh, -ch, -x 字尾加 -es", icon: "⚡",
+          rule: "發音擠擠的字尾要加 -es：goes, washes, watches, fixes",
+          formula: "watch ➔ watches / wash ➔ washes / fix ➔ fixes",
+          example: "Dad washes his car every Saturday.", chinese: "爸爸每個週六都洗車。",
+          goodTip: "⭕ 正確：teaches, misses, buzzes", badTip: "❌ 拼寫錯誤：washs, fixs (漏寫 e！)",
+          tip: "💡 口訣：s, sh, ch, x, o 聲音重，穿上 -es 才好唸！"
+        }
+      ],
+      'step6-present-continuous': [
+        {
+          tag: "重點 1：現在進行式雙腳公式", icon: "🏃‍♂️",
+          rule: "強調「此時此刻當下正在做」。主詞 + be (am/is/are) + V-ing",
+          formula: "信號詞：now, right now, Look!, Listen!",
+          example: "Look! The baby is sleeping peacefully.", chinese: "看！小嬰兒正在安靜地睡覺。",
+          goodTip: "⭕ 雙腳站穩：be 動詞 + V-ing 缺一不可！", badTip: "❌ 扣分殺手：The baby sleeping. (忘記寫 is！)",
+          tip: "💡 口訣：左腳 be 動詞，右腳 ing，兩腳一起走！"
+        },
+        {
+          tag: "重點 2：拼寫例外與狀態動詞", icon: "✂️",
+          rule: "去 e 加 ing；重複字尾；like, love, want 不用進行式！",
+          formula: "write ➔ writing / swim ➔ swimming, run ➔ running",
+          example: "I want a cup of hot water right now.", chinese: "我現在想要一杯水。（want 不用進行式）",
+          goodTip: "⭕ 重複字尾：sitting, clapping, hopping", badTip: "❌ 陷阱：I am wanting... (錯！喜好動詞不加 ing！)",
+          tip: "💡 口訣：短母音重複字尾，心裡想法不穿 ing 衣服！"
+        }
+      ],
+      'step7-past-regular': [
+        {
+          tag: "重點 1：be 動詞過去式 was / were", icon: "⏳",
+          rule: "過去時間（yesterday, ago）。am/is 變 was；are 變 were",
+          formula: "I / He / She / It ➔ was | You / We / They ➔ were",
+          example: "They were not at home two hours ago.", chinese: "兩個小時前他們不在家。",
+          goodTip: "⭕ 否定縮寫：wasn't / weren't", badTip: "❌ 常見錯誤：They was late. (They 必須配 were！)",
+          tip: "💡 口訣：單數 was，複數 were，昨天時間看準確！"
+        },
+        {
+          tag: "重點 2：規則 -ed 與 did 照妖鏡", icon: "🦖",
+          rule: "一般加 -ed；子音+y去y加 -ied；didn't 出現動詞打回原形！",
+          formula: "study ➔ studied | didn't + 原形動詞",
+          example: "Tom didn't walk to school yesterday.", chinese: "湯姆昨天沒有走路去上學。（有 didn't 動詞原形）",
+          goodTip: "⭕ 正確：studied, stopped, cried", badTip: "❌ 陷阱：didn't walked (錯！不能同時 didn't 又加 ed！)",
+          tip: "⚠️ 老大口訣：did / didn't 走在前面，後面的動詞全部拔掉 ed！"
+        },
+        {
+          tag: "重點 3：過去式疑問句 Did + 原形", icon: "❓",
+          rule: "過去式的問句將 Did 搬到句首，句中的動詞還原",
+          formula: "Did you play tennis yesterday? - Yes, I did.",
+          example: "Did Dad clean his car yesterday?", chinese: "爸爸昨天有洗車嗎？",
+          goodTip: "⭕ 正確：Did she call you?", badTip: "❌ 大陷阱：Did she called you? (動詞忘了變回原形！)",
+          tip: "💡 口訣：Did 來敲門，動詞馬上脫掉 ed！"
+        }
+      ],
+      'step8-past-irregular': [
+        {
+          tag: "重點 1：超常用不規則動詞變身表", icon: "🌟",
+          rule: "不加 ed，徹底變身：go➔went, see➔saw, eat➔ate, have➔had",
+          formula: "buy➔bought, come➔came, fly➔flew, drink➔drank",
+          example: "We went to the park and ate pizza yesterday.", chinese: "我們昨天去公園並吃了披薩。",
+          goodTip: "⭕ 正確：saw, flew, bought, gave", badTip: "❌ 絕對不要寫出：goed, eated, seed, buyed！",
+          tip: "💡 口訣：去 went、看 saw、吃 ate、買 bought！"
+        },
+        {
+          tag: "重點 2：不規則動詞遇 didn't 還原", icon: "🪄",
+          rule: "只要否定句 didn't 一出來，立刻恢復原形！",
+          formula: "didn't + go (不可寫 didn't went) / didn't + eat",
+          example: "Mom bought some bread, but she didn't buy milk.", chinese: "媽媽買了麵包，但沒買牛奶。（didn't 後接原形 buy）",
+          goodTip: "⭕ 正確：I didn't see the movie.", badTip: "❌ 資優生也常錯：didn't saw (大錯！必須是 didn't see！)",
+          tip: "⚠️ 還原心法：遇到 didn't 一律變回最原本的長相！"
+        }
+      ],
+      'step9-future-simple': [
+        {
+          tag: "重點 1：未來式 will + 原形動詞", icon: "🚀",
+          rule: "表示未來的預測或打算。will 後方永遠接【原形動詞】！",
+          formula: "主詞 + will + 【原形動詞】（否定：won't）",
+          example: "It will snow in the mountains tomorrow.", chinese: "明天山上將會下雪。",
+          goodTip: "⭕ 信號詞：tomorrow, next week, tonight", badTip: "❌ 拼寫陷阱：will not 縮寫是 won't，不是 willn't！",
+          tip: "💡 口訣：will 帶你飛向未來，後面動詞不加 s 也不加 ing！"
+        },
+        {
+          tag: "重點 2：計劃好的未來 (be going to)", icon: "📅",
+          rule: "事先安排好的打算。主詞 + am/is/are + going to + 原形動詞",
+          formula: "We are going to visit Taipei Zoo next weekend.",
+          example: "He is going to play soccer this Saturday.", chinese: "他這週六打算去踢足球。",
+          goodTip: "⭕ 抱團公式：be + going to + 原形", badTip: "❌ 常見漏字：We going to visit... (漏掉 are！)",
+          tip: "💡 口訣：be going to 抱團走，be 動詞在前不能溜！"
+        }
+      ],
+      'all-comprehensive': [
+        {
+          tag: "重點 1：四大時態時間線索秒殺法", icon: "🧭",
+          rule: "昨天(ago/yesterday ➔ -ed/went) | 天天(every day ➔ -s/es) | 此刻(now ➔ be+Ving) | 明天(tomorrow ➔ will+原形)",
+          formula: "先找時間字 ➔ 看主詞單複數 ➔ 注意助動詞照妖鏡",
+          example: "Look! (進行) / Every day (現在) / Yesterday (過去) / Tomorrow (未來)",
+          chinese: "只要抓出題目裡的時間線索字，就能一秒破題！",
+          goodTip: "⭕ 先圈時間信號詞！", badTip: "❌ 絕不盲目下筆！",
+          tip: "💡 總結心法：時間是最高指揮官，照妖鏡是動詞殺手！"
+        },
+        {
+          tag: "重點 2：三大人稱助動詞總合體", icon: "🛡️",
+          rule: "do / does / did 是三大照妖鏡，看到它們動詞一律打回原形！",
+          formula: "Does he like...? / He didn't go... / Don't play...",
+          example: "Does she have the book? - Yes, she does.", chinese: "她有這本書嗎？— 是的，她有。",
+          goodTip: "⭕ 照妖鏡後方永遠原形動詞", badTip: "❌ 絕不能出現 does likes 或 didn't went！",
+          tip: "💡 口訣：助動詞照妖鏡一照，妖魔鬼怪變身全還原！"
+        }
+      ]
+    };
+
+    // 智能字典庫：提供千種亂數組合，保證每次出題都有變化
+    const dict = {
+      M: ["Kevin", "Tom", "Alex", "Peter", "Sam", "Jack", "Hank", "Ryder", "Tony", "Leo", "Max", "Danny", "Owen", "Luke"],
+      F: ["Jenny", "Heidi", "Hannah", "Lucy", "Sarah", "Kelly", "Linda", "Mary", "Amy", "Bella", "Tina", "Chloe", "Mia", "Lily"],
+      food: ["apple", "pizza", "cookie", "cake", "sandwich", "banana", "hamburger", "bread", "salad", "hot dog", "soup", "candy"],
+      obj: ["book", "pencil", "ruler", "bag", "jacket", "umbrella", "scooter", "bicycle", "eraser", "toy", "pen", "cap", "watch", "cup"],
+      animal: ["dog", "cat", "rabbit", "bird", "puppy", "kitten", "duck", "monkey", "turtle", "bear", "tiger", "lion"],
+      adj: ["big", "small", "cute", "heavy", "light", "new", "old", "nice", "beautiful", "funny", "cool", "smart", "fast", "slow"],
+      timeF: ["tomorrow", "next week", "next weekend", "tonight", "this Saturday", "next month", "on Sunday"],
+      timeP: ["yesterday", "last week", "last weekend", "two days ago", "last night", "this morning", "a week ago"],
+      timePr: ["every day", "on Sundays", "every morning", "every evening", "usually", "often", "always"],
+      place: ["at the park", "at school", "in the living room", "at the zoo", "in the garden", "in the kitchen", "at home", "in the yard"],
+      color: ["red", "blue", "green", "yellow", "pink", "black", "white", "purple", "orange", "brown", "gray", "silver"]
+    };
+
+    function replaceTags(str) {
+      return str.replace(/\{(\w+)\}/g, (match, p1) => {
+        if (dict[p1]) {
+          return dict[p1][Math.floor(Math.random() * dict[p1].length)];
+        }
+        return match;
+      });
+    }
+
+    // 正確宣告 baseSeeds (僅宣告一次，避免產生語法錯誤！)
+    const baseSeeds = {
+      'step1-pronouns': {
+        mc: [
+          ["Can you give that {color} {obj} to ____, please?", ["him", "he", "his"], 0, "介系詞 to 後面要接受格 him！"],
+          ["____ {obj} is very {adj} today.", ["His", "Him", "He"], 0, "修飾物品要用所有格 His！"],
+          ["The {animal} wagged ____ tail happily.", ["its", "it's", "it"], 0, "所有格它的用 its，不帶撇號！"],
+          ["{F}'s mom made a {adj} {food} for you and ____.", ["me", "I", "my"], 0, "介系詞 for 後面受格要用 me！"],
+          ["Look at ____! She is reading a {color} {obj}.", ["her", "she", "hers"], 0, "介系詞 at 後面要放受格 her！"],
+          ["____ are the smartest students {place}.", ["They", "Them", "Their"], 0, "句首當主詞主角要用主格 They！"],
+          ["Is that {adj} {obj} ____ or {F}'s?", ["yours", "your", "you"], 0, "後面無名詞，表示你的東西用 yours！"],
+          ["Our English teacher told ____ a {adj} story.", ["us", "we", "our"], 0, "動詞 told 後面要接受格 us！"],
+          ["Where is {M}? I want to give this {obj} to ____.", ["him", "he", "his"], 0, "介系詞 to 後面接受格 him！"],
+          ["The {color} {animal} licked ____ soft fur.", ["its", "it's", "it"], 0, "所有格它的皮毛用 its！"]
+        ],
+        blank: [
+          ["{M} likes {food}, and I like ____ (he) too.", "he", "him", "動詞 like 後面要接受格 him！"],
+          ["This is ____ (she) {adj} {color} {obj}.", "she", "her", "修飾物品用所有格 her！"],
+          ["Please listen to ____ (I) carefully, class.", "I", "me", "介系詞 to 後面要用受格 me！"],
+          ["The bird spread ____ (it) wings and flew {place}.", "it", "its", "修飾 wings 用所有格 its！"],
+          ["Dad drove ____ (we) to the {place} this morning.", "we", "us", "動詞 drove 後面接受格 us！"],
+          ["Give ____ (they) some {adj} {food}.", "they", "them", "動詞 Give 後面接受格 them！"],
+          ["Is that ____ (you) {color} {obj} near the gate?", "you", "your", "修飾物品用所有格 your！"],
+          ["Grandpa loves eating {food} with ____ (I).", "I", "me", "介系詞 with 後面用受格 me！"],
+          ["That {adj} {animal} {place} is ____ (he).", "he", "his", "表示他的東西，用所有格代名詞 his！"],
+          ["We washed ____ (we) hands before eating {food}.", "we", "our", "修飾 hands 用所有格 our！"]
+        ],
+        space: [
+          ["Look at 【 ______ 】! She is playing {place}.", "her", ["her", "she", "hers"], "介系詞 at 後面必須使用受格 her！"],
+          ["Between you and 【 ______ 】, this is a secret.", "me", ["me", "I", "my"], "between 是介系詞，後面要用受格 me！"],
+          ["The {animal} wagged 【 ______ 】 tail when it saw {M}.", "its", ["its", "it's", "it"], "表示它的尾巴是所有格 its，不加點！"],
+          ["【 ______ 】 and my sister like to eat {food}.", "I", ["I", "Me", "My"], "句首當主角主詞必須用主格 I！"],
+          ["Please give the {color} {obj} to 【 ______ 】.", "them", ["them", "they", "their"], "介系詞 to 後面要用受格 them！"],
+          ["【 ______ 】 is the fastest runner {place}.", "She", ["She", "Her", "Hers"], "句首當主角主詞要用主格 She！"],
+          ["【 ______ 】 lives in a {adj} house with his family.", "He", ["He", "Him", "His"], "句首主詞要用主格 He！"],
+          ["Can you help 【 ______ 】 carry these {adj} bags?", "us", ["us", "we", "our"], "動詞 help 後面要用受格 us！"],
+          ["That {color} backpack {place} is 【 ______ 】.", "mine", ["mine", "my", "me"], "後面沒有名詞，表示我的東西用 mine！"],
+          ["The bird built 【 ______ 】 nest in the tree.", "its", ["its", "it's", "it"], "所有格「它的」是 its，不加撇號！"]
+        ],
+        passage: [
+          ["Yesterday, {F} and I met {M} {place}. We threw a {color} ball to 【 ______ 】. He was happy.", "him", ["him", "he", "his"], "介系詞 to 後面要接受格 him！"],
+          ["Mom bought two {food}s. She gave one to {M} and one to 【 ______ 】. I ate it happily.", "me", ["me", "I", "my"], "介系詞 to 後面要接受格 me！"],
+          ["My friend {F} loves her new {color} {obj}. She takes 【 ______ 】 everywhere {timePr}.", "it", ["it", "its", "it's"], "代替單數物品用受格 it！"],
+          ["The children are playing {place}. Dad is watching 【 ______ 】 with a smile.", "them", ["them", "they", "their"], "動詞 watching 後面要接受格 them！"],
+          ["{M} and {F} are best friends. 【 ______ 】 always do homework together {place}.", "They", ["They", "Them", "Their"], "句首作主詞用主格 They！"]
+        ]
+      },
+      'step2-wh-questions': {
+        mc: [
+          ["____ is my {color} {obj}? - {place}.", ["Where", "When", "Who"], 0, "問地點用 Where！"],
+          ["____ are you eating the {food}? - Because I am hungry.", ["Why", "What", "Where"], 0, "問原因用 Why！"],
+          ["____ {obj} is this? - {M}'s.", ["Whose", "Who's", "Which"], 0, "問誰的物品用 Whose！"],
+          ["____ {food} do you prefer, apple or banana?", ["Which", "What", "Who"], 0, "二選一用 Which！"],
+          ["____ is that {adj} boy? - He is {M}.", ["Who", "Where", "When"], 0, "問人名用 Who！"],
+          ["____ time is breakfast served? - At 7:30.", ["What", "Which", "Where"], 0, "問幾點用 What time！"],
+          ["____ does school finish? - At 4:00.", ["When", "Where", "Who"], 0, "問時間用 When！"],
+          ["____ {animal}s are these? - {F}'s.", ["Whose", "Who", "Which"], 0, "問主人用 Whose！"],
+          ["____ is your birthday? - In July.", ["When", "Where", "Why"], 0, "問月份用 When！"],
+          ["____ animal is bigger, tiger or monkey?", ["Which", "What", "Who"], 0, "二選一用 Which！"]
+        ],
+        blank: [
+          ["____ (Who / What) is your math teacher? - Mr. Brown.", "Who/What", "who", "回答是人名，填 Who！"],
+          ["____ (When / Where) is the post office? - Down the street.", "When/Where", "where", "街道底是地點，填 Where！"],
+          ["____ (Whose / Who) backpack is this? - It's {M}'s.", "Whose/Who", "whose", "問誰的書包，填 Whose！"],
+          ["____ (Why / What) are you late? - Because I ran.", "Why/What", "why", "Because 回答原因，填 Why！"],
+          ["____ (Which / What) color do you want, {color} or {color}?", "Which/What", "which", "二選一用 Which！"],
+          ["____ (When / Where) does the train arrive? - At 10:00.", "When/Where", "when", "問具體時間填 When！"],
+          ["____ (What / Who) is in your pocket? - A {color} coin.", "What/Who", "what", "問物品事物填 What！"],
+          ["____ (Where / Who) are my crayons? - {place}.", "Where/Who", "where", "回答是地點，填 Where！"],
+          ["____ (Whose / Which) {animal} is barking? - {M}'s.", "Whose/Which", "whose", "問誰的狗填 Whose！"],
+          ["____ (Why / Where) is {F} sad? - Because she lost her {obj}.", "Why/Where", "why", "問原因填 Why！"]
+        ],
+        space: [
+          ["【 ______ 】 is your {obj}? - {place}.", "Where", ["Where", "When", "Who"], "回答地點用 Where！"],
+          ["【 ______ 】 color do you prefer, {color} or {color}?", "Which", ["Which", "What", "Who"], "二選一用 Which！"],
+          ["【 ______ 】 {animal} is playing {place}? - {M}'s.", "Whose", ["Whose", "Who's", "Who"], "詢問誰的用 Whose！"],
+          ["【 ______ 】 are you smiling? - Because I have a {food}.", "Why", ["Why", "Where", "When"], "回答有 Because 用 Why！"],
+          ["【 ______ 】 is your best friend? - {F}.", "Who", ["Who", "What", "Where"], "詢問是誰用 Who！"],
+          ["【 ______ 】 do you live? - In New York.", "Where", ["Where", "Who", "When"], "問住在哪裡用 Where！"],
+          ["【 ______ 】 is dinner ready? - At 6:30 p.m.", "When", ["When", "Where", "Who"], "回答具體時間用 When！"],
+          ["【 ______ 】 are you crying? - Because I lost my {obj}.", "Why", ["Why", "Which", "Where"], "詢問原因用 Why！"],
+          ["【 ______ 】 umbrella is this? - {F}'s.", "Whose", ["Whose", "What", "Who"], "問物品是誰的用 Whose！"],
+          ["【 ______ 】 is the library? - Behind the bank.", "Where", ["Where", "When", "Who"], "在銀行後面是地點，用 Where！"]
+        ],
+        passage: [
+          ["{M} looked around the {place}. He asked, '【 ______ 】 is my {color} {obj}?' His friend pointed to the desk.", "Where", ["Where", "When", "Who"], "問地點用 Where！"],
+          ["{F} was smiling all day. Mom asked, '【 ______ 】 are you so happy?' {F} answered, 'Because I got a {adj} {obj}!'", "Why", ["Why", "What", "When"], "說明原因問句用 Why！"],
+          ["The teacher held up a {color} {obj}. She asked, '【 ______ 】 {obj} is this?' {M} raised his hand.", "Whose", ["Whose", "Who's", "Who"], "問物品主人用 Whose！"],
+          ["Dad brought two {food}s. He asked {F}, '【 ______ 】 one do you want?' {F} chose the big one.", "Which", ["Which", "What", "Who"], "二選一用 Which！"],
+          ["{M} looked at the calendar. He asked his mom, '【 ______ 】 are we going to the zoo?' Mom said 'Next Sunday!'", "When", ["When", "Where", "Why"], "問時間日子用 When！"]
+        ]
+      },
+      'step3-modals': {
+        mc: [
+          ["{M} ____ drink milk {timePr}.", ["can", "cans", "is can"], 0, "can 絕不加 -s，後接原形！"],
+          ["When {F} was four, she ____ count to one hundred.", ["could", "can", "should"], 0, "過去能力用 could！"],
+          ["You ____ play games in the dark {place}.", ["shouldn't", "couldn't", "doesn't"], 0, "建議不該做用 shouldn't！"],
+          ["{F} can ____ the guitar skillfully.", ["play", "plays", "played"], 0, "can 後接原形 play！"],
+          ["We should ____ quietly {place}.", ["walk", "walks", "walking"], 0, "should 後接原形 walk！"],
+          ["Two years ago, {M} ____ ride a {obj}.", ["couldn't", "can't", "shouldn't"], 0, "過去無法做用 couldn't！"],
+          ["You look tired. You ____ go to bed.", ["should", "can't", "couldn't"], 0, "建議應該用 should！"],
+          ["Penguins ____ fly like eagles.", ["can't", "cans not", "not can"], 0, "企鵝不能飛用 can't！"],
+          ["Could you ____ the {color} window quietly?", ["open", "opens", "opened"], 0, "Could 後接原形 open！"],
+          ["Children ____ run across busy streets.", ["shouldn't", "should", "could"], 0, "不應該做用 shouldn't！"]
+        ],
+        blank: [
+          ["You should ____ (wash) your hands before eating {food}.", "wash", "wash", "should 後接原形 wash！"],
+          ["{M} could ____ (swim) across the pool last summer.", "swim", "swim", "could 後接原形 swim！"],
+          ["{F} can ____ (ride) a {color} scooter safely.", "ride", "ride", "can 後接原形 ride！"],
+          ["Students should ____ (listen) to the teacher {place}.", "listen", "listen", "should 後接原形 listen！"],
+          ["{animal}s can ____ (run) very fast.", "run", "run", "can 後接原形 run！"],
+          ["You shouldn't ____ (eat) too much {food}.", "eat", "eat", "shouldn't 後接原形 eat！"],
+          ["When she was three, she couldn't ____ (speak) French.", "speak", "speak", "couldn't 後接原形 speak！"],
+          ["Can {M} ____ (play) baseball?", "play", "play", "Can 後接原形 play！"],
+          ["We should ____ (help) clean the room.", "help", "help", "should 後接原形 help！"],
+          ["He could ____ (run) very fast when young.", "run", "run", "could 後接原形 run！"]
+        ],
+        space: [
+          ["{M} can 【 ______ 】 the piano very well.", "play", ["play", "plays", "playing"], "can 後方必須接原形 play！"],
+          ["You should 【 ______ 】 your teeth every morning.", "brush", ["brush", "brushed", "brushes"], "should 後方動詞原形 brush！"],
+          ["When Mom was little, she 【 ______ 】 speak French.", "could", ["could", "can", "should"], "過去時間能力用 could！"],
+          ["You shouldn't 【 ______ 】 TV in the dark.", "watch", ["watch", "watching", "watched"], "shouldn't 後接原形 watch！"],
+          ["My brother 【 ______ 】 swim across the river.", "can", ["can", "cans", "coulds"], "can 本身絕不加 -s！"],
+          ["Could you please 【 ______ 】 me carry this {obj}?", "help", ["help", "helping", "helped"], "Could 後接原形 help！"],
+          ["We should 【 ______ 】 to our parents carefully.", "listen", ["listen", "listened", "listening"], "should 後接原形 listen！"],
+          ["The {animal} could 【 ______ 】 when it was two months old.", "swim", ["swim", "swam", "swimming"], "could 後接原形 swim！"],
+          ["He 【 ______ 】 drink more warm water today.", "should", ["should", "shoulds", "coulds"], "should 本身不加 s！"],
+          ["{F} can 【 ______ 】 English songs beautifully.", "sing", ["sing", "sings", "singing"], "can 後面動詞一律原形 sing！"]
+        ],
+        passage: [
+          ["Mom told {M}, 'Dinner is ready. You should 【 ______ 】 your hands before you eat.' He smiled and ran to wash.", "wash", ["wash", "washes", "washed"], "should 後方必須接原形動詞 wash！"],
+          ["When {F} was four years old, she could 【 ______ 】 across the pool. Now she is very fast.", "swim", ["swim", "swam", "swimming"], "could 後方必須接原形動詞 swim！"],
+          ["It is very dark {place}. You shouldn't 【 ______ 】 a book without turning on the light.", "read", ["read", "reads", "reading"], "shouldn't 後方接原形動詞 read！"],
+          ["{M} is very strong. He can 【 ______ 】 that {adj} box all by himself.", "carry", ["carry", "carries", "carried"], "can 後面接原形動詞 carry！"],
+          ["Dad asked {F}, 'Could you 【 ______ 】 the window? It is hot {place}.'", "open", ["open", "opens", "opened"], "Could 後面接原形動詞 open！"]
+        ]
+      },
+      'step4-have-has': {
+        mc: [
+          ["Does {M} ____ any {adj} books?", ["have", "has", "having"], 0, "有 Does 照妖鏡，動詞打回原形 have！"],
+          ["{F} has got {color} gloves, but I ____ got any.", ["haven't", "hasn't", "don't"], 0, "主詞 I 搭配 haven't got！"],
+          ["We usually ____ breakfast {place} at 7:00.", ["have", "have got", "has"], 0, "吃早餐是動作，只能用 have breakfast！"],
+          ["My uncle ____ a fast {color} car.", ["has", "have", "is having"], 0, "單數 My uncle 用 has！"],
+          ["Do they ____ enough {obj}s?", ["have", "has", "had"], 0, "Do they 搭配原形 have！"],
+          ["The {animal} ____ got long {color} ears.", ["has", "have", "is"], 0, "單數搭配 has got！"],
+          ["{M} doesn't ____ a baby brother.", ["have", "has", "had"], 0, "有 doesn't，動詞回歸原形 have！"],
+          ["____ you got an extra {obj} for me?", ["Have", "Has", "Do"], 0, "主詞 you 搭配 Have you got！"],
+          ["{F} ____ got two adorable kittens.", ["has", "have", "is"], 0, "單數搭配 has got！"],
+          ["We ____ lunch {place} today.", ["have", "have got", "has"], 0, "吃午餐是動作，只能用 have lunch！"]
+        ],
+        blank: [
+          ["{F} ____ (have got) two fluffy {animal}s.", "have got", "has got", "三單搭配 has got！"],
+          ["My brother doesn't ____ (have) a {color} {obj}.", "have", "have", "doesn't 後面動詞打回原形 have！"],
+          ["{M} ____ (have) a smart {animal}.", "have", "has", "三單搭配 has！"],
+          ["Does your mother ____ (have) a car?", "have", "have", "有 Does 照妖鏡，動詞填原形 have！"],
+          ["We ____ (have got) twenty {color} {obj}s.", "have got", "have got", "主詞 We 搭配 have got！"],
+          ["The giraffe ____ (have) a very long neck.", "have", "has", "單數 giraffe 搭配 has！"],
+          ["They don't ____ (have) classes on Saturday.", "have", "have", "don't 後接原形 have！"],
+          ["{M} ____ (have got) a brand new scooter.", "have got", "has got", "三單搭配 has got！"],
+          ["Does {F} ____ (have) fresh strawberries?", "have", "have", "有 Does，動詞原形 have！"],
+          ["I ____ (have) dinner with family {place}.", "have", "have", "主詞 I 吃晚餐用 have！"]
+        ],
+        space: [
+          ["Does she 【 ______ 】 a cute little {animal}?", "have", ["have", "has", "had"], "有 Does 照妖鏡，動詞變回原形 have！"],
+          ["I 【 ______ 】 a warm shower every evening.", "have", ["have", "have got", "has"], "洗澡是動作，用 have a shower！"],
+          ["He doesn't 【 ______ 】 any {obj}s in his bag.", "have", ["have", "has", "had"], "有 doesn't，動詞打回原形 have！"],
+          ["She 【 ______ 】 a lovely smile on her face.", "has", ["has", "have", "is having"], "三單 She 必須搭配 has！"],
+          ["Does {M} 【 ______ 】 got a new {obj}?", "have", ["have", "has", "had"], "Does 後面接原形 have got！"],
+          ["They 【 ______ 】 two pet cats and a bird.", "have", ["have", "has", "are having"], "複數 They 搭配 have！"],
+          ["My brother doesn't 【 ______ 】 a bicycle.", "have", ["have", "has", "had"], "doesn't 後面接原形 have！"],
+          ["{M} 【 ______ 】 a {color} winter jacket.", "has got", ["has got", "have got", "is got"], "三單要用 has got！"],
+          ["【 ______ 】 your sister have any dolls at home?", "Does", ["Does", "Do", "Is"], "單數 your sister 助動詞用 Does！"],
+          ["We 【 ______ 】 five tickets to the zoo.", "have got", ["have got", "has got", "are got"], "主詞 We 搭配 have got！"]
+        ],
+        passage: [
+          ["Farmer {M} has a {adj} farm. He 【 ______ 】 two {color} horses and ten {adj} chickens.", "has got", ["has got", "have got", "having"], "單數擁有動物用 has got！"],
+          ["Every morning, {F} wakes up early. She 【 ______ 】 a warm breakfast at 7:00 and then goes to school.", "has", ["has", "has got", "having"], "吃早餐是動作，單數用 has！"],
+          ["{M} and {F} are very lucky. They 【 ______ 】 many {adj} toys {place}.", "have got", ["have got", "has got", "are got"], "複數 They 搭配 have got！"],
+          ["Mom looked at {M}'s drawing. She asked, 'Does the monster 【 ______ 】 three eyes?' {M} nodded happily.", "have", ["have", "has", "had"], "Does 照妖鏡後面用原形 have！"],
+          ["It's raining outside. We don't 【 ______ 】 umbrellas, so we stay {place}.", "have", ["have", "has", "have got"], "don't 後面接原形動詞 have！"]
+        ]
+      },
+      'step5-present-simple': {
+        mc: [
+          ["The baby ____ whenever he is hungry.", ["cries", "crys", "cry"], 0, "cry 是子音+y，去 y 改 -ies 變 cries！"],
+          ["{M} ____ tennis in the club {timePr}.", ["plays", "plaies", "play"], 0, "play 是母音+y，直接加 -s 變 plays！"],
+          ["Dad ____ cartoons after dinner {timePr}.", ["watches", "watchs", "is watching"], 0, "watch 字尾是 ch，加 -es 變 watches！"],
+          ["{M} ____ to cram school on weekdays.", ["goes", "gos", "go"], 0, "go 字尾是 o，加 -es 變 goes！"],
+          ["Does {F} ____ badminton on Sundays?", ["play", "plays", "playing"], 0, "有 Does 照妖鏡，動詞打回原形 play！"],
+          ["The sun ____ brightly in the east.", ["rises", "rise", "is rising"], 0, "大自然真理，單數 The sun 搭配 rises！"],
+          ["{M} doesn't ____ bitter melon at all.", ["like", "likes", "liking"], 0, "doesn't 後面動詞打回原形 like！"],
+          ["Mom ____ the dirty clothes {timePr}.", ["washes", "washs", "wash"], 0, "wash 字尾是 sh，加 -es 變 washes！"],
+          ["An eagle ____ high in the blue sky.", ["flies", "flys", "fly"], 0, "fly 是子音+y，去 y 改 -ies 變 flies！"],
+          ["They ____ to the library every weekend.", ["go", "goes", "going"], 0, "主詞 They 是複數，用原形動詞 go！"]
+        ],
+        blank: [
+          ["{M} ____ (go) to cram school {timePr}.", "go", "goes", "三單 go 加 -es 變 goes！"],
+          ["A bird ____ (fly) in the clear sky.", "fly", "flies", "fly 是子音+y，去 y 改 -ies 變 flies！"],
+          ["My brother ____ (enjoy) reading {obj}s.", "enjoy", "enjoys", "enjoy 是母音+y，直接加 -s 變 enjoys！"],
+          ["{F} ____ (wash) her hands before eating.", "wash", "washes", "wash 字尾是 sh，加 -es 變 washes！"],
+          ["Does your father ____ (watch) news at night?", "watch", "watch", "有 Does 照妖鏡，動詞填原形 watch！"],
+          ["{M} ____ (study) English every afternoon.", "study", "studies", "study 是子音+y，去 y 改 -ies 變 studies！"],
+          ["The mechanic ____ (fix) broken cars.", "fix", "fixes", "fix 字尾是 x，加 -es 變 fixes！"],
+          ["{F} doesn't ____ (eat) green onions.", "eat", "eat", "doesn't 後接原形動詞 eat！"],
+          ["They ____ (play) baseball on Sundays.", "play", "play", "複數 They 搭配原形動詞 play！"],
+          ["Water ____ (freeze) at zero degrees.", "freeze", "freezes", "不可數單數 Water 搭配 freezes！"]
+        ],
+        space: [
+          ["He doesn't 【 ______ 】 eating {food} at all.", "like", ["like", "likes", "liking"], "有 doesn't，後方動詞打回原形 like！"],
+          ["She 【 ______ 】 math very hard {timePr}.", "studies", ["studies", "studys", "study"], "study 是子音+y，去 y 改 -ies 變 studies！"],
+          ["{M} 【 ______ 】 basketball with his classmates.", "plays", ["plays", "plaies", "play"], "play 是母音+y，直接加 -s 變 plays！"],
+          ["Does she 【 ______ 】 to school by yellow bus?", "go", ["go", "goes", "going"], "有 Does 照妖鏡，動詞變回原形 go！"],
+          ["Dad 【 ______ 】 his car every Saturday morning.", "washes", ["washes", "washs", "wash"], "wash 字尾是 sh，要加 -es 變 washes！"],
+          ["The sun 【 ______ 】 in the east every morning.", "rises", ["rises", "rise", "rising"], "單數 The sun 動詞加 -s 變 rises！"],
+          ["A bird 【 ______ 】 in the clear sunny sky.", "flies", ["flies", "flys", "fly"], "fly 是子音+y，去 y 改 -ies 變 flies！"],
+          ["They 【 ______ 】 television after dinner.", "watch", ["watch", "watches", "watching"], "複數 They 搭配原形動詞 watch！"],
+          ["My brother 【 ______ 】 like fresh {food}.", "doesn't", ["doesn't", "don't", "isn't"], "三單 My brother 否定用 doesn't！"],
+          ["{F} 【 ______ 】 to the library every Wednesday.", "goes", ["goes", "go", "going"], "三單動詞 go 要加 -es 變 goes！"]
+        ],
+        passage: [
+          ["My father is very healthy. He 【 ______ 】 basketball {place} every Friday evening.", "plays", ["plays", "plaies", "is playing"], "play 是母音+y，直接加 -s 變 plays！"],
+          ["{F} wants to be a doctor. She 【 ______ 】 English and math diligently every afternoon.", "studies", ["studies", "studys", "study"], "study 是子音+y，去 y 改 -ies 變 studies！"],
+          ["The {adj} bus 【 ______ 】 at the station {timePr} at 8:00 AM.", "stops", ["stops", "stop", "is stopping"], "單數主詞 The bus 動詞加 -s！"],
+          ["{M} is very helpful. He always 【 ______ 】 his mom with the dishes after dinner.", "helps", ["helps", "help", "helping"], "日常習慣三單加 -s 變 helps！"],
+          ["Every Saturday, our family 【 ______ 】 to the park and enjoys a picnic.", "goes", ["goes", "go", "going"], "單數集合名詞 our family 習慣動詞加 -es 變 goes！"]
+        ]
+      },
+      'step6-present-continuous': {
+        mc: [
+          ["Look! The boy ____ soccer {place} now.", ["is playing", "plays", "playing"], 0, "Look! 表當下正在做，用 is playing！"],
+          ["Listen! The duck is ____ in the pond.", ["swimming", "swiming", "swims"], 0, "swim 重複 m 再加 ing 變 swimming！"],
+          ["I ____ a {adj} {obj} right now.", ["want", "am wanting", "wants"], 0, "狀態動詞 want 不用進行式，直接用 want！"],
+          ["Look at the rabbit! It is ____ over grass.", ["hopping", "hoping", "hops"], 0, "hop 重複 p 再加 ing 變 hopping！"],
+          ["{F} is ____ a sweet smile at her friend.", ["smiling", "smileing", "smiled"], 0, "smile 去 e 再加 ing 變 smiling！"],
+          ["Are they ____ their homework right now?", ["doing", "do", "did"], 0, "Are they 後接 V-ing doing！"],
+          ["The students ____ listening to the teacher now.", ["are", "is", "be"], 0, "複數 The students 搭配 be 動詞 are！"],
+          ["Listen! Someone is ____ at the front door.", ["knocking", "knock", "knocks"], 0, "Listen! 表當下，is knocking！"],
+          ["The girl is ____ a letter to her cousin.", ["writing", "writeing", "writes"], 0, "write 去 e 加 ing 變 writing！"],
+          ["Look! The {animal}s are ____ on the rug.", ["sitting", "siting", "sits"], 0, "sit 重複 t 加 ing 變 sitting！"]
+        ],
+        blank: [
+          ["{F} is ____ (write) an adventure story now.", "write", "writing", "write 去 e 加 ing 變 writing！"],
+          ["The children ____ (watch) cartoons right now.", "watch", "are watching", "複數 children 搭配 are watching！"],
+          ["Look! The {animal} is ____ (swim) across pond.", "swim", "swimming", "swim 重複 m 加 ing 變 swimming！"],
+          ["Listen! The birds ____ (sing) in the tree.", "sing", "are singing", "複數 birds 搭配 are singing！"],
+          ["The {animal} is ____ (run) after the ball.", "run", "running", "run 重複 n 加 ing 變 running！"],
+          ["Mom is ____ (make) {color} {food} now.", "make", "making", "make 去 e 加 ing 變 making！"],
+          ["{M} ____ (play) the drums right now.", "play", "is playing", "單數搭配 is playing！"],
+          ["They are ____ (cut) paper shapes with scissors.", "cut", "cutting", "cut 重複 t 加 ing 變 cutting！"],
+          ["Is she ____ (ride) her new {color} bicycle?", "ride", "riding", "ride 去 e 加 ing 變 riding！"],
+          ["We ____ (eat) {food} in cafeteria now.", "eat", "are eating", "We 搭配 are eating！"]
+        ],
+        space: [
+          ["Look! The {animal}s 【 ______ 】 running very fast.", "are", ["are", "is", "am"], "複數用 are running！"],
+          ["I 【 ______ 】 this {food} very much now.", "like", ["like", "am likeing", "likes"], "like 是心理狀態動詞不用進行式，用 I like！"],
+          ["{F} is 【 ______ 】 a long letter to her teacher.", "writing", ["writing", "writeing", "writes"], "write 字尾有 e，先去 e 再加 ing！"],
+          ["Listen! The baby 【 ______ 】 loudly {place}.", "is crying", ["is crying", "crying", "cries"], "進行式不能漏掉 be 動詞，寫 is crying！"],
+          ["The boys are 【 ______ 】 in the outdoor pool now.", "swimming", ["swimming", "swiming", "swims"], "swim 重複 m 寫成 swimming！"],
+          ["Are they 【 ______ 】 television right now?", "watching", ["watching", "watch", "watches"], "Are they 後面動詞要加 ing 變 watching！"],
+          ["Look! A monkey 【 ______ 】 on the tree branch.", "is hopping", ["is hopping", "hop", "hopping"], "看到 Look! 要用進行式 is hopping！"],
+          ["Mom is 【 ______ 】 delicious {food}.", "baking", ["baking", "bakeing", "bakes"], "bake 先去掉 e 再加 ing 變 baking！"],
+          ["{M} is 【 ______ 】 as fast as he can right now.", "running", ["running", "runing", "runs"], "run 必須重複 n 寫成 running！"],
+          ["We 【 ______ 】 having a wonderful picnic.", "are", ["are", "is", "am"], "主詞 We 必須搭配 are having！"]
+        ],
+        passage: [
+          ["The sun is shining today. Look! Two ducks are 【 ______ 】 peacefully in the small green pond.", "swimming", ["swimming", "swiming", "swims"], "swim 是短母音+單子音，重複 m 加 ing 變 swimming！"],
+          ["We are inside the library now. The students are 【 ______ 】 interesting books very quietly.", "reading", ["reading", "read", "reads"], "are 後面接 V-ing reading！"],
+          ["{M} is in the kitchen. He is 【 ______ 】 a {adj} cake for {F}'s birthday right now.", "baking", ["baking", "bakeing", "bakes"], "bake 去 e 加 ing 變 baking！"],
+          ["Listen! The baby is 【 ______ 】 loudly upstairs. Mom is going to check on him.", "crying", ["crying", "cries", "cry"], "is 後面接 V-ing crying！"],
+          ["Look at {M} and {F}! They are 【 ______ 】 happily {place} with their new {obj}.", "playing", ["playing", "play", "plays"], "They are 後接 V-ing playing！"]
+        ]
+      },
+      'step7-past-regular': {
+        mc: [
+          ["We ____ at the playground {timeP}.", ["were", "was", "are"], 0, "過去時間，複數 We 搭配 were！"],
+          ["Dad didn't ____ his motorcycle {timeP}.", ["clean", "cleaned", "cleans"], 0, "照妖鏡 didn't 出現，動詞打回原形 clean！"],
+          ["The bus ____ suddenly three minutes ago.", ["stopped", "stoped", "stops"], 0, "stop 重複 p 加 -ed 變 stopped！"],
+          ["{F} ____ math with her mother {timeP}.", ["studied", "studyed", "studies"], 0, "study 去 y 改 -ied 變 studied！"],
+          ["Did you ____ your bedroom {timeP}?", ["clean", "cleaned", "cleaning"], 0, "句首有 Did，動詞打回原形 clean！"],
+          ["They ____ badminton in gym {timeP}.", ["played", "plaied", "plays"], 0, "play 是母音+y，直接加 -ed 變 played！"],
+          ["I ____ my grandparents {timeP}.", ["visited", "visitted", "visit"], 0, "visit 直接加 -ed 變 visited！"],
+          ["The little baby ____ all night long.", ["cried", "cryed", "cries"], 0, "cry 去 y 改 -ied 變 cried！"],
+          ["{M} ____ not at the party last Friday.", ["was", "were", "is"], 0, "單數搭配 was not！"],
+          ["Mom ____ beef noodles for us {timeP}.", ["cooked", "cookd", "cooks"], 0, "cook 直接加 -ed 變 cooked！"]
+        ],
+        blank: [
+          ["{F} ____ (study) English with mom {timeP}.", "study", "studied", "study 去 y 改 -ied 變 studied！"],
+          ["The car ____ (stop) at red light two minutes ago.", "stop", "stopped", "stop 重複 p 加 -ed 變 stopped！"],
+          ["They didn't ____ (wash) the car {timeP}.", "wash", "wash", "didn't 後接原形動詞 wash！"],
+          ["I ____ (play) tennis with Dad {timeP}.", "play", "played", "play 直接加 -ed 變 played！"],
+          ["The baby ____ (cry) loudly {timeP}.", "cry", "cried", "cry 去 y 改 -ied 變 cried！"],
+          ["Did you ____ (clean) your desk {timeP}?", "clean", "clean", "Did 後面接原形動詞 clean！"],
+          ["{F} ____ (smile) happily at teacher {timeP}.", "smile", "smiled", "smile 有 e 直接加 -d 變 smiled！"],
+          ["We ____ (visit) the science museum {timeP}.", "visit", "visited", "visit 直接加 -ed 變 visited！"],
+          ["Dad ____ (fix) my bicycle {timeP}.", "fix", "fixed", "fix 直接加 -ed 變 fixed！"],
+          ["He didn't ____ (call) me on the phone {timeP}.", "call", "call", "didn't 後接原形動詞 call！"]
+        ],
+        space: [
+          ["{M} didn't 【 ______ 】 to the park {timeP}.", "walk", ["walk", "walked", "walks"], "有了 didn't，後方動詞打回原形 walk！"],
+          ["We 【 ______ 】 late for school {timeP}.", "were", ["were", "was", "are"], "主詞 We 是複數，過去式 be 動詞用 were！"],
+          ["She 【 ______ 】 very hard for the test {timeP}.", "studied", ["studied", "studyed", "study"], "study 去 y 改 -ied 變 studied！"],
+          ["The car 【 ______ 】 at the red traffic light.", "stopped", ["stopped", "stoped", "stops"], "stop 重複 p 加 -ed 寫成 stopped！"],
+          ["Did you 【 ______ 】 your aunt {timeP}?", "visit", ["visit", "visited", "visiting"], "問句有 Did，動詞打回原形 visit！"],
+          ["They 【 ______ 】 soccer until it was dark outside.", "played", ["played", "plaied", "plays"], "play 是母音+y，直接加 -ed 變 played！"],
+          ["Dad didn't 【 ______ 】 his {color} car {timeP}.", "clean", ["clean", "cleaned", "cleans"], "有 didn't，動詞必須立刻打回原形 clean！"],
+          ["The baby 【 ______ 】 all night because of fever.", "cried", ["cried", "cryed", "cries"], "cry 去 y 改 -ied 變 cried！"],
+          ["They 【 ______ 】 not happy with the test score.", "were", ["were", "was", "are"], "複數 They 過去式搭配 were not！"],
+          ["Did he 【 ______ 】 you on the phone {timeP}?", "call", ["call", "called", "calling"], "Did 後面動詞必須打回原形 call！"]
+        ],
+        passage: [
+          ["{timeP}, it rained hard. The school bus 【 ______ 】 suddenly at the traffic light.", "stopped", ["stopped", "stoped", "stops"], "stop 過去式重複 p 加 -ed 變 stopped！"],
+          ["Dad asked {M} about his room. {M} said, 'I didn't 【 ______ 】 it {timeP}, but I will today.'", "clean", ["clean", "cleaned", "cleans"], "didn't 後面動詞打回原形 clean！"],
+          ["We went to the zoo {timeP}. {F} 【 ______ 】 at the cute {animal} happily.", "smiled", ["smiled", "smile", "smiling"], "smile 有 e 直接加 -d 變 smiled！"],
+          ["The teacher asked a question. {M} 【 ______ 】 his hand quickly to answer.", "raised", ["raised", "raise", "raises"], "過去式動作 raise 直接加 d 變 raised！"],
+          ["Mom cooked a {adj} {food} {timeP}. We all 【 ______ 】 it very much.", "liked", ["liked", "like", "likes"], "過去式動作 like 直接加 d 變 liked！"]
+        ]
+      },
+      'step8-past-irregular': {
+        mc: [
+          ["{timeP}, {F} ____ an apple and drank juice.", ["ate", "eats", "eated"], 0, "eat 的過去式是不規則動詞 ate！"],
+          ["We ____ to the mountain {timeP}.", ["went", "goed", "go"], 0, "go 的過去式是不規則動詞 went！"],
+          ["Dad bought {food}, but he didn't ____ any milk.", ["buy", "bought", "buys"], 0, "didn't 後面動詞打回原形 buy！"],
+          ["A {color} hawk ____ over our house {timeP}.", ["flew", "flied", "flyed"], 0, "fly 的過去式是不規則動詞 flew！"],
+          ["I ____ a cute white {animal} in the garden.", ["saw", "seed", "sees"], 0, "see 的過去式是不規則動詞 saw！"],
+          ["{F} ____ a cup of warm tea this morning.", ["drank", "drinked", "drinks"], 0, "drink 的過去式是不規則動詞 drank！"],
+          ["Mom ____ a chocolate birthday cake {timeP}.", ["made", "maked", "makes"], 0, "make 的過去式是不規則動詞 made！"],
+          ["They ____ home late {timeP}.", ["came", "comed", "comes"], 0, "come 的過去式是不規則動詞 came！"],
+          ["{M} ____ his glasses on the kitchen table.", ["left", "leaved", "leaves"], 0, "leave 的過去式是不規則動詞 left！"],
+          ["Did you ____ the rainbow after rain {timeP}?", ["see", "saw", "seen"], 0, "有 Did 照妖鏡，動詞打回原形 see！"]
+        ],
+        blank: [
+          ["We ____ (go) to the Taipei Zoo {timeP}.", "go", "went", "go 的過去式是不規則 went！"],
+          ["I ____ (see) fireworks show {timeP}.", "see", "saw", "see 的過去式是不規則 saw！"],
+          ["{F} ____ (eat) fresh fruit for breakfast.", "eat", "ate", "eat 的過去式是不規則 ate！"],
+          ["Mom ____ (buy) a {adj} jacket {timeP}.", "buy", "bought", "buy 的過去式是不規則 bought！"],
+          ["{M} ____ (drink) two glasses of lemonade.", "drink", "drank", "drink 的過去式是不規則 drank！"],
+          ["A big pigeon ____ (fly) over our school.", "fly", "flew", "fly 的過去式是不規則 flew！"],
+          ["They didn't ____ (eat) any {food} {timeP}.", "eat", "eat", "didn't 後面接原形動詞 eat！"],
+          ["Dad ____ (come) home early {timeP}.", "come", "came", "come 的過去式是不規則 came！"],
+          ["She ____ (have) a wonderful time at party.", "have", "had", "have 的過去式是不規則 had！"],
+          ["Did you ____ (go) to the park {timeP}?", "go", "go", "Did 後面接原形動詞 go！"]
+        ],
+        space: [
+          ["She didn't 【 ______ 】 to school {timeP}.", "go", ["go", "went", "goes"], "didn't 是最強照妖鏡，動詞打回原形 go！"],
+          ["{timeP} I 【 ______ 】 a delicious {food} for lunch.", "ate", ["ate", "eated", "eat"], "eat 的過去式是不規則動詞 ate！"],
+          ["We 【 ______ 】 to the beach with parents {timeP}.", "went", ["went", "goed", "go"], "go 的過去式是不規則動詞 went！"],
+          ["I 【 ______ 】 a colorful butterfly {timeP}.", "saw", ["saw", "seed", "seen"], "see 的過去式是不規則動詞 saw！"],
+          ["Dad 【 ______ 】 a new computer two days ago.", "bought", ["bought", "buyed", "buys"], "buy 的過去式是不規則動詞 bought！"],
+          ["Did you 【 ______ 】 the fireworks {timeP}?", "see", ["see", "saw", "seen"], "問句有 Did，動詞打回原形 see！"],
+          ["He 【 ______ 】 three glasses of milk this morning.", "drank", ["drank", "drinked", "drinks"], "drink 的過去式是不規則動詞 drank！"],
+          ["The airplane 【 ______ 】 very high {timeP}.", "flew", ["flew", "flyed", "flied"], "fly 的過去式是不規則動詞 flew！"],
+          ["Mom 【 ______ 】 delicious {food}.", "made", ["made", "maked", "make"], "make 的過去式是不規則動詞 made！"],
+          ["He didn't 【 ______ 】 any breakfast this morning.", "eat", ["eat", "ate", "eats"], "didn't 後面必須變回原形動詞 eat！"]
+        ],
+        passage: [
+          ["Last Saturday, our family took the train. We 【 ______ 】 to the park and saw {adj} birds.", "went", ["went", "goed", "go"], "go 的過去式是不規則動詞 went！"],
+          ["{timeP} was {F}'s birthday. We sang a song, and she 【 ______ 】 a big slice of {food}.", "ate", ["ate", "eated", "eats"], "eat 的過去式是不規則動詞 ate！"],
+          ["{M} looked in his {obj}, but he didn't 【 ______ 】 his favorite {color} pen.", "find", ["find", "found", "finds"], "didn't 後接原形動詞 find！"],
+          ["Mom went to the supermarket. She 【 ______ 】 some fresh milk and {food}.", "bought", ["bought", "buyed", "buys"], "buy 的過去式是不規則動詞 bought！"],
+          ["We were walking {place} when suddenly a {color} bird 【 ______ 】 past us.", "flew", ["flew", "flied", "flys"], "fly 的過去式是不規則動詞 flew！"]
+        ]
+      },
+      'step9-future-simple': {
+        mc: [
+          ["They ____ to Kenting {timeF}.", ["will go", "went", "goes"], 0, "未來時間，用 will go！"],
+          ["It ____ rain tomorrow afternoon.", ["won't", "willn't", "doesn't"], 0, "will not 的縮寫是 won't！"],
+          ["Look at dark clouds! It is ____ to rain.", ["going", "go", "goes"], 0, "be + going to + 原形，填 going！"],
+          ["I will ____ you with math homework tonight.", ["help", "helps", "helped"], 0, "will 後面接原形動詞 help！"],
+          ["We are going to ____ Grandma {timeF}.", ["visit", "visited", "visiting"], 0, "be going to 後面接原形動詞 visit！"],
+          ["{M} ____ ten years old next year.", ["will be", "is", "was"], 0, "next year 是未來時間，用 will be！"],
+          ["What will you ____ tomorrow morning?", ["do", "did", "does"], 0, "will 後面接原形動詞 do！"],
+          ["The movie ____ start in five minutes.", ["will", "was", "did"], 0, "in five minutes 用 will！"],
+          ["{M} is going to ____ soccer {timeF}.", ["play", "plays", "playing"], 0, "be going to 後面接原形動詞 play！"],
+          ["They ____ not come to the party tonight.", ["will", "are", "were"], 0, "will not come 表示今晚將不會來！"]
+        ],
+        blank: [
+          ["{M} will ____ (visit) his grandparents tomorrow.", "visit", "visit", "will 後接原形動詞 visit！"],
+          ["We are ____ (go) to have a picnic this Sunday.", "go", "going", "be going to 結構填 going！"],
+          ["It will ____ (rain) in Taipei tomorrow.", "rain", "rain", "will 後接原形動詞 rain！"],
+          ["They are going to ____ (play) baseball tomorrow.", "play", "play", "be going to 後接原形 play！"],
+          ["I will ____ (clean) my room tonight.", "clean", "clean", "will 後接原形動詞 clean！"],
+          ["Mom is going to ____ (bake) {food} tomorrow.", "bake", "bake", "be going to 後接原形 bake！"],
+          ["Will you ____ (come) to my birthday party?", "come", "come", "Will 後接原形動詞 come！"],
+          ["The train will ____ (arrive) in ten minutes.", "arrive", "arrive", "will 後接原形動詞 arrive！"],
+          ["She won't ____ (eat) spicy {food} tonight.", "eat", "eat", "won't 後接原形動詞 eat！"],
+          ["Dad is going to ____ (wash) the car {timeF}.", "wash", "wash", "be going to 後接原形 wash！"]
+        ],
+        space: [
+          ["He will 【 ______ 】 to the playground tomorrow.", "go", ["go", "goes", "going"], "will 後面必須接原形動詞 go！"],
+          ["We 【 ______ 】 watch a new movie tonight.", "are going to", ["are going to", "going to", "will going to"], "be going to 不能少了 be 動詞！"],
+          ["It 【 ______ 】 rain tomorrow afternoon.", "won't", ["won't", "willn't", "doesn't"], "will not 正確縮寫是 won't！"],
+          ["She is going to 【 ______ 】 her aunt {timeF}.", "visit", ["visit", "visits", "visiting"], "be going to 後面接原形 visit！"],
+          ["Will you 【 ______ 】 me when you arrive?", "call", ["call", "calls", "called"], "Will 後面動詞一律原形 call！"],
+          ["I will 【 ______ 】 you with that heavy {obj}.", "help", ["help", "helped", "helps"], "will 後面動詞必須原形 help！"],
+          ["They are 【 ______ 】 play tennis tomorrow morning.", "going to", ["going to", "go to", "will to"], "結構是 are going to play！"],
+          ["The sun will 【 ______ 】 at 6:00 tomorrow.", "rise", ["rise", "rises", "rising"], "will 後面動詞接原形 rise！"],
+          ["{M} is going to 【 ______ 】 a new bike.", "buy", ["buy", "bought", "buys"], "be going to 後面必須接原形 buy！"],
+          ["We will 【 ______ 】 camping next Saturday.", "go", ["go", "goes", "going"], "will 後面接原形動詞 go！"]
+        ],
+        passage: [
+          ["The weather forecast says it will be sunny. We are going to 【 ______ 】 Grandma and have a picnic tomorrow.", "visit", ["visit", "visits", "visited"], "be going to 後方接原形動詞 visit！"],
+          ["Hurry up, children! The {adj} cartoon movie will 【 ______ 】 in ten minutes.", "start", ["start", "starts", "started"], "will 後方接原形動詞 start！"],
+          ["{M} is excited about the trip. He will 【 ______ 】 his {color} {obj} on the bus.", "bring", ["bring", "brings", "brought"], "will 後面接原形動詞 bring！"],
+          ["Look at those dark clouds! I think it is 【 ______ 】 rain very soon.", "going to", ["going to", "will to", "go to"], "be going to 表示根據跡象即將發生的事！"],
+          ["Mom said to {F}, 'I 【 ______ 】 make your favorite {food} for dinner tonight.'", "will", ["will", "won't", "going"], "will 用於表達未來的承諾或打算！"]
+        ]
+      }
+    };
+
+    const rawQuestionBank = [];
+    let globalIdCounter = 1;
+
+    // 動態擴展引擎：確保所有單元、所有模式都有 50 題完全不同的題目！
+    for (const [topicKey, data] of Object.entries(baseSeeds)) {
+      [
+        { arr: data.mc, mode: 1 },
+        { arr: data.blank, mode: 2 },
+        { arr: data.space, mode: 3 },
+        { arr: data.passage, mode: 4 }
+      ].forEach(config => {
+        if (!config.arr || config.arr.length === 0) return;
+
+        let generatedSet = new Set();
+        let targetCount = 50; // 保證每模式 50 題
+
+        for (let count = 0; count < targetCount; count++) {
+          let seed = config.arr[count % config.arr.length];
+          let maxTries = 40;
+          let generatedTitle = "";
+          let uniqueFound = false;
+
+          for (let t = 0; t < maxTries; t++) {
+            generatedTitle = replaceTags(seed[0]);
+            if (!generatedSet.has(generatedTitle)) {
+              generatedSet.add(generatedTitle);
+              uniqueFound = true;
+              break;
+            }
+          }
+          
+          if (!uniqueFound) {
+            generatedTitle = replaceTags(seed[0]) + " " + ".".repeat((count % 3) + 1);
+            generatedSet.add(generatedTitle);
+          }
+
+          if (config.mode === 1) {
+            rawQuestionBank.push({
+              id: globalIdCounter++, mode: 1, topic: topicKey,
+              title: generatedTitle, options: [...seed[1]], answer: seed[2], clue: seed[3],
+              speechSentence: generatedTitle.replace("____", seed[1][seed[2]])
+            });
+          } else if (config.mode === 2) {
+            rawQuestionBank.push({
+              id: globalIdCounter++, mode: 2, topic: topicKey,
+              title: generatedTitle, baseWord: seed[1], answer: seed[2], clue: seed[3],
+              speechSentence: generatedTitle.replace("____", seed[2]).replace(/\(.*?\)/, "")
+            });
+          } else if (config.mode === 3) {
+            rawQuestionBank.push({
+              id: globalIdCounter++, mode: 3, topic: topicKey,
+              sentenceText: generatedTitle, correctWord: seed[1], options: [...seed[2]], answer: 0, clue: seed[3],
+              speechSentence: generatedTitle.replace("【 ______ 】", seed[1])
+            });
+          } else if (config.mode === 4) {
+            rawQuestionBank.push({
+              id: globalIdCounter++, mode: 4, topic: topicKey,
+              title: `📰 小日記 #${count+1}`,
+              passageText: generatedTitle,
+              correctWord: seed[1],
+              options: [...seed[2]],
+              answer: 0,
+              clue: seed[3],
+              speechSentence: generatedTitle.replace("【 ______ 】", seed[1])
+            });
+          }
+        }
+      });
+    }
+
+    const topicDisplayNames = {
+      'step1-pronouns': "第 1 單元：代名詞家族",
+      'step2-wh-questions': "第 2 單元：疑問詞 5W+Which+Whose",
+      'step3-modals': "第 3 單元：能力與建議 can/should",
+      'step4-have-has': "第 4 單元：擁有表達 have/has",
+      'step5-present-simple': "第 5 單元：現在簡單式",
+      'step6-present-continuous': "第 6 單元：現在進行式",
+      'step7-past-regular': "第 7 單元：過去式規則 -ed",
+      'step8-past-irregular': "第 8 單元：過去式不規則超難題",
+      'step9-future-simple': "第 9 單元：未來簡單式",
+      'all-comprehensive': "🌟 全單元大綜合會考"
+    };
+
+    const askedQuestionIds = new Set();
+    let currentTopic = 'step1-pronouns';
+    let currentCardIndex = 0;
+    let quizQuestionLimit = 10;
+    let speechRate = 0.85;
+
+    let activeQuizList = [];
+    let currentQuestionIdx = 0;
+    let currentQuizMode = 1;
+    let isQuestionAnswered = false;
+    let wrongQuestionsRecord = [];
+    let streakCount = 0;
+
+    window.addEventListener('DOMContentLoaded', () => {
+      try {
+        updateMistakeBadge();
+        renderTeachingCard();
+        updateQuizScopeIndicator();
+        const topicSelect = document.getElementById('topic-select');
+        if (topicSelect) {
+          topicSelect.addEventListener('change', (e) => {
+            setTopic(e.target.value);
+          });
+        }
+      } catch (err) {
+        console.error("Initialization error:", err);
+      }
+    });
+
+    function setQuizCount(num) {
+      quizQuestionLimit = num;
+      document.querySelectorAll('.quiz-count-btn').forEach(btn => {
+        btn.className = "quiz-count-btn flex-1 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-600 border border-slate-200";
+      });
+      const target = document.getElementById(`btn-count-${num}`);
+      if (target) {
+        target.className = "quiz-count-btn flex-1 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white shadow-sm";
+      }
+    }
+
+    function updateSpeechRate(val) {
+      speechRate = parseFloat(val);
+      const label = document.getElementById('speech-rate-label');
+      if (label) {
+        let speedText = "正常";
+        if (speechRate < 0.9) speedText = "慢速清晰";
+        else if (speechRate > 1.0) speedText = "稍快";
+        label.textContent = `${speechRate}x (${speedText})`;
+      }
+    }
+
+    function speakText(text) {
+      try {
+        if (!('speechSynthesis' in window)) return;
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = speechRate;
+        window.speechSynthesis.speak(utterance);
+      } catch (e) {}
+    }
+
+    function renderTeachingCard() {
+      const container = document.getElementById('teaching-card-content');
+      const counter = document.getElementById('card-counter');
+      const titleEl = document.getElementById('teaching-title');
+      const lessons = grammarLessons[currentTopic] || [];
+      
+      if (lessons.length === 0 || !container) return;
+      if (currentCardIndex >= lessons.length) currentCardIndex = 0;
+      if (currentCardIndex < 0) currentCardIndex = lessons.length - 1;
+
+      const item = lessons[currentCardIndex];
+      if (counter) counter.textContent = `${currentCardIndex + 1} / ${lessons.length}`;
+      if (titleEl) titleEl.textContent = item.tag;
+
+      container.innerHTML = `
+        <div class="flex flex-col gap-2.5">
+          <div class="flex items-center gap-2">
+            <span class="text-2xl">${item.icon}</span>
+            <span class="font-black text-indigo-950 text-sm sm:text-base">${item.rule}</span>
+          </div>
+          <div class="bg-white/90 p-3 rounded-xl border border-indigo-100 text-xs sm:text-sm font-bold text-indigo-900 font-mono">
+            📌 ${item.formula}
+          </div>
+          <div class="bg-white/80 p-3 rounded-xl border border-indigo-100 text-xs sm:text-sm text-slate-700">
+            <p class="font-bold text-slate-900">💬 例句：${item.example}</p>
+            <p class="text-slate-500 mt-0.5">中文：${item.chinese}</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            <div class="bg-emerald-50/80 p-2 rounded-lg border border-emerald-200 text-emerald-900 font-medium">${item.goodTip}</div>
+            <div class="bg-rose-50/80 p-2 rounded-lg border border-rose-200 text-rose-900 font-medium">${item.badTip}</div>
+          </div>
+          <div class="bg-amber-50/90 p-2.5 rounded-xl border border-amber-200 text-xs font-bold text-amber-900">
+            ${item.tip}
+          </div>
+        </div>
+      `;
+    }
+
+    function prevTeachingCard() {
+      const lessons = grammarLessons[currentTopic] || [];
+      currentCardIndex = (currentCardIndex - 1 + lessons.length) % lessons.length;
+      renderTeachingCard();
+    }
+
+    function nextTeachingCard() {
+      const lessons = grammarLessons[currentTopic] || [];
+      currentCardIndex = (currentCardIndex + 1) % lessons.length;
+      renderTeachingCard();
+    }
+
+    function setTopic(topicKey) {
+      currentTopic = topicKey;
+      currentCardIndex = 0;
+      const topicSelect = document.getElementById('topic-select');
+      if (topicSelect) topicSelect.value = topicKey;
+      
+      document.querySelectorAll('.pill-btn').forEach(btn => {
+        if(btn.dataset.id === topicKey) {
+          btn.classList.add('pill-active');
+        } else {
+          btn.classList.remove('pill-active');
+        }
+      });
+
+      updateQuizScopeIndicator();
+      renderTeachingCard();
+    }
+
+    function updateQuizScopeIndicator() {
+      const scopeLabel = document.getElementById('current-quiz-scope-text');
+      if (scopeLabel) scopeLabel.textContent = topicDisplayNames[currentTopic] || "綜合單元";
+
+      const m1 = document.getElementById('mode-1-count');
+      const m2 = document.getElementById('mode-2-count');
+      const m3 = document.getElementById('mode-3-count');
+      const m4 = document.getElementById('mode-4-count');
+
+      // 即時顯示這輪還剩下幾題沒被抽過
+      if (m1) m1.textContent = `${getAvailableQuestions(1).length} 題在庫`;
+      if (m2) m2.textContent = `${getAvailableQuestions(2).length} 題在庫`;
+      if (m3) m3.textContent = `${getAvailableQuestions(3).length} 題在庫`;
+      if (m4) m4.textContent = `${getAvailableQuestions(4).length} 篇短文`;
+    }
+
+    function getAllScopeQuestions(modeNum) {
+      if (currentTopic === 'all-comprehensive') {
+        return rawQuestionBank.filter(q => q.mode === modeNum);
+      } else {
+        return rawQuestionBank.filter(q => q.mode === modeNum && q.topic === currentTopic);
+      }
+    }
+
+    function getAvailableQuestions(modeNum) {
+      const all = getAllScopeQuestions(modeNum);
+      return all.filter(q => !askedQuestionIds.has(q.id));
+    }
+
+    function startQuizMode(modeNum) {
+      currentQuizMode = modeNum;
+      wrongQuestionsRecord = [];
+      streakCount = 0;
+
+      const allEligible = getAllScopeQuestions(modeNum);
+      if (allEligible.length === 0) {
+        alert("此模式題庫準備中，請先體驗其他模式！");
+        return;
+      }
+
+      let pool = getAvailableQuestions(modeNum);
+      let targetCount = quizQuestionLimit;
+
+      // 當該單元未使用題庫低於使用者要求的數量時
+      if (pool.length < targetCount) {
+        if (pool.length === 0) {
+          // 如果真的 50 題都被抽乾了，清空記憶重新洗牌（這就是無縫接軌複習）
+          allEligible.forEach(q => askedQuestionIds.delete(q.id));
+          pool = [...allEligible];
+        } 
+        // 保證抽出的題目 100% 來自目前尚未作答過的池子
+        targetCount = Math.min(quizQuestionLimit, pool.length);
+      } else if (targetCount === 50) {
+        targetCount = Math.min(50, pool.length); // 全刷模式最多50題
+      }
+
+      const shuffled = [...pool].sort(() => Math.random() - 0.5);
+      activeQuizList = shuffled.slice(0, targetCount);
+
+      activeQuizList.forEach(q => {
+        askedQuestionIds.add(q.id);
+        if (q.mode === 1 || q.mode === 3 || q.mode === 4) {
+          const correctText = (q.mode === 1) ? q.options[q.answer] : q.correctWord;
+          const shuffledOpts = [...q.options].sort(() => Math.random() - 0.5);
+          q.currentShuffledOptions = shuffledOpts;
+          q.currentCorrectIndex = shuffledOpts.indexOf(correctText);
+        }
+      });
+
+      currentQuestionIdx = 0;
+      const modeNames = {
+        1: "模式 1：選擇題小達人",
+        2: "模式 2：鍵盤動詞拼字變身",
+        3: "模式 3：文法偵探 (空格選擇題)",
+        4: "模式 4：小編輯日記改錯 (美式思維)"
+      };
+      
+      const tag = document.getElementById('modal-mode-tag');
+      const scopeTag = document.getElementById('modal-scope-tag');
+      const streak = document.getElementById('streak-counter');
+      const footer = document.getElementById('quiz-modal-footer');
+      const modal = document.getElementById('quiz-modal');
+
+      if (tag) tag.textContent = modeNames[modeNum];
+      if (scopeTag) scopeTag.textContent = topicDisplayNames[currentTopic];
+      if (streak) streak.classList.add('hidden');
+      if (footer) footer.style.display = 'flex';
+      if (modal) modal.classList.remove('hidden');
+
+      loadQuestion();
+    }
+
+    function closeQuizModal() {
+      const modal = document.getElementById('quiz-modal');
+      if (modal) modal.classList.add('hidden');
+      window.speechSynthesis.cancel();
+      updateQuizScopeIndicator();
+      updateMistakeBadge();
+    }
+
+    function loadQuestion() {
+      isQuestionAnswered = false;
+      const q = activeQuizList[currentQuestionIdx];
+      const total = activeQuizList.length;
+
+      const progress = document.getElementById('quiz-progress');
+      const bar = document.getElementById('quiz-progress-bar');
+      const nextBtn = document.getElementById('next-quiz-btn');
+      const feedback = document.getElementById('quiz-feedback');
+      const quizBody = document.getElementById('quiz-body');
+
+      if (progress) progress.textContent = `第 ${currentQuestionIdx + 1} / ${total} 題`;
+      if (bar) bar.style.width = `${((currentQuestionIdx + 1) / total) * 100}%`;
+      if (nextBtn) {
+        nextBtn.disabled = true;
+        nextBtn.textContent = (currentQuestionIdx === total - 1) ? "結算成果與錯題診斷 📊" : "下一題 →";
+      }
+      if (feedback) {
+        feedback.className = "hidden";
+        feedback.innerHTML = "";
+      }
+      if (!quizBody) return;
+
+      if (currentQuizMode === 1) {
+        quizBody.innerHTML = `
+          <div class="mb-4">
+            <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md">單選題</span>
+            <p class="text-base sm:text-lg font-bold text-slate-800 mt-2 font-sans">${q.title}</p>
+          </div>
+          <div class="space-y-2.5">
+            ${q.currentShuffledOptions.map((opt, idx) => `
+              <button onclick="handleOptionSelect(${idx})" id="opt-${idx}" class="w-full text-left px-4 py-3 rounded-2xl border-2 border-slate-200 hover:border-indigo-400 bg-white text-slate-700 font-bold text-sm sm:text-base flex items-center justify-between transition active:scale-[0.99]">
+                <span><span class="inline-block w-6 text-indigo-600 font-sans">(${String.fromCharCode(65 + idx)})</span>${opt}</span>
+                <span class="status-icon text-xs"></span>
+              </button>
+            `).join('')}
+          </div>
+        `;
+      } 
+      else if (currentQuizMode === 2) {
+        quizBody.innerHTML = `
+          <div class="mb-3">
+            <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">填空題</span>
+            <p class="text-base sm:text-lg font-bold text-slate-800 mt-1.5 font-sans">${q.title}</p>
+            <p class="text-xs text-slate-500 mt-0.5">請將括號內的單字 <b>${q.baseWord}</b> 依規則完成變化：</p>
+          </div>
+
+          <div class="flex items-center gap-2 mb-3">
+            <div class="flex-1 bg-white border-2 border-slate-300 rounded-2xl px-4 py-3 shadow-inner flex items-center">
+              <input id="vk-display-input" type="text" placeholder="點擊下方鍵盤拼字..." readonly
+                class="w-full text-base sm:text-lg font-black text-indigo-950 outline-none bg-transparent select-none cursor-default font-sans" />
+            </div>
+            <button onclick="handleKeyHint()" title="取得第1個字母提示" class="w-12 h-12 rounded-2xl border border-amber-300 bg-amber-50 hover:bg-amber-100 text-amber-600 flex items-center justify-center text-xl font-bold transition shadow-sm active:scale-95">
+              💡
+            </button>
+            <button onclick="submitVirtualKeyboardAnswer()" class="px-5 h-12 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white text-base font-black transition shadow-md shadow-indigo-200 flex items-center justify-center active:scale-95">
+              送出
+            </button>
+          </div>
+
+          <div class="bg-slate-100/90 border border-slate-200 p-2.5 sm:p-3 rounded-2xl shadow-inner flex flex-col gap-1.5">
+            <div class="grid grid-cols-10 gap-1 sm:gap-1.5">
+              ${['Q','W','E','R','T','Y','U','I','O','P'].map(k => `
+                <button onclick="handleKeyInput('${k.toLowerCase()}')" class="key-btn h-10 sm:h-11 flex items-center justify-center text-sm sm:text-base font-sans">${k}</button>
+              `).join('')}
+            </div>
+
+            <div class="grid grid-cols-9 gap-1 sm:gap-1.5 px-3 sm:px-4">
+              ${['A','S','D','F','G','H','J','K','L'].map(k => `
+                <button onclick="handleKeyInput('${k.toLowerCase()}')" class="key-btn h-10 sm:h-11 flex items-center justify-center text-sm sm:text-base font-sans">${k}</button>
+              `).join('')}
+            </div>
+
+            <div class="grid grid-cols-9 gap-1 sm:gap-1.5">
+              ${['Z','X','C','V','B','N','M'].map(k => `
+                <button onclick="handleKeyInput('${k.toLowerCase()}')" class="key-btn h-10 sm:h-11 flex items-center justify-center text-sm sm:text-base font-sans">${k}</button>
+              `).join('')}
+              <button onclick="handleKeyBackspace()" class="key-action-btn h-10 sm:h-11 flex items-center justify-center text-xs font-sans">⌫ 刪除</button>
+              <button onclick="handleKeyClear()" class="key-action-btn h-10 sm:h-11 flex items-center justify-center text-xs font-sans">清空</button>
+            </div>
+
+            <div class="flex justify-center mt-0.5">
+              <button onclick="handleKeyInput(' ')" class="key-btn w-3/5 h-10 sm:h-11 flex items-center justify-center text-xs sm:text-sm gap-2 font-sans tracking-wide">
+                <span>Space</span> <span class="text-slate-400 text-xs font-normal">空白鍵</span>
+              </button>
+            </div>
+          </div>
+        `;
+      } 
+      else if (currentQuizMode === 3) {
+        const sentenceWithCleanBlank = q.sentenceText.replace(
+          "【 ______ 】",
+          `<span class="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-xl border-2 border-dashed border-indigo-300 font-black tracking-widest mx-1 font-mono">______</span>`
+        );
+        quizBody.innerHTML = `
+          <div class="mb-4">
+            <span class="text-xs font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-md">文法空格選擇題</span>
+            <p class="text-sm font-bold text-slate-700 mt-2">請選出填入空格處最正確的單字：</p>
+            <div class="p-4 bg-purple-50/70 border border-purple-200 rounded-2xl mt-2.5 font-bold text-slate-800 text-base font-sans leading-relaxed">
+              ${sentenceWithCleanBlank}
+            </div>
+          </div>
+          <div class="space-y-2.5">
+            ${q.currentShuffledOptions.map((opt, idx) => `
+              <button onclick="handleOptionSelect(${idx})" id="opt-${idx}" class="w-full text-left px-4 py-3 rounded-2xl border-2 border-slate-200 hover:border-purple-400 bg-white text-slate-700 font-bold text-sm sm:text-base flex items-center justify-between transition active:scale-[0.99]">
+                <span><span class="inline-block w-6 text-purple-600 font-sans">(${String.fromCharCode(65 + idx)})</span>${opt}</span>
+                <span class="status-icon text-xs"></span>
+              </button>
+            `).join('')}
+          </div>
+        `;
+      }
+      else if (currentQuizMode === 4) {
+        const formattedPassage = q.passageText.replace(
+          "【 ______ 】",
+          `<span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-xl border-2 border-dashed border-indigo-400 font-black tracking-widest mx-1 font-mono animate-pulse">______</span>`
+        );
+        quizBody.innerHTML = `
+          <div class="mb-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black text-indigo-700 bg-indigo-50 px-2.5 py-0.5 rounded-md">${q.title}</span>
+              <span class="text-[11px] text-slate-400">🇺🇸 美式小學 Mentor Sentences</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-1.5 font-medium">閱讀小日記，找出上下文時態線索，為空格選擇正確動詞：</p>
+            
+            <div class="p-4 bg-gradient-to-br from-amber-50/60 to-orange-50/40 border border-amber-200/80 rounded-2xl mt-2.5 text-slate-800 text-sm sm:text-base font-sans leading-relaxed shadow-sm">
+              ${formattedPassage}
+            </div>
+          </div>
+          <div class="space-y-2.5">
+            ${q.currentShuffledOptions.map((opt, idx) => `
+              <button onclick="handleOptionSelect(${idx})" id="opt-${idx}" class="w-full text-left px-4 py-3 rounded-2xl border-2 border-slate-200 hover:border-indigo-400 bg-white text-slate-700 font-bold text-sm sm:text-base flex items-center justify-between transition active:scale-[0.99]">
+                <span><span class="inline-block w-6 text-indigo-600 font-sans">(${String.fromCharCode(65 + idx)})</span>${opt}</span>
+                <span class="status-icon text-xs"></span>
+              </button>
+            `).join('')}
+          </div>
+        `;
+      }
+    }
+
+    function handleOptionSelect(idx) {
+      if (isQuestionAnswered) return;
+      isQuestionAnswered = true;
+
+      const q = activeQuizList[currentQuestionIdx];
+      const correctIdx = q.currentCorrectIndex;
+      const isCorrect = (idx === correctIdx);
+      const chosenBtn = document.getElementById(`opt-${idx}`);
+      const correctBtn = document.getElementById(`opt-${correctIdx}`);
+
+      if (isCorrect) {
+        streakCount++;
+        if (streakCount >= 3) {
+          playStreakSound();
+          const streakEl = document.getElementById('streak-counter');
+          if (streakEl) {
+            streakEl.innerHTML = `<i class="fa-solid fa-fire text-amber-500"></i> 連勝 ${streakCount}！`;
+            streakEl.classList.remove('hidden');
+          }
+        } else {
+          playCorrectSound();
+        }
+
+        if (chosenBtn) {
+          chosenBtn.className = "w-full text-left px-4 py-3 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-800 font-bold text-sm sm:text-base flex items-center justify-between";
+          const icon = chosenBtn.querySelector('.status-icon');
+          if (icon) icon.innerHTML = "✅ 正確！";
+        }
+      } else {
+        streakCount = 0;
+        const streakEl = document.getElementById('streak-counter');
+        if (streakEl) streakEl.classList.add('hidden');
+        playWrongSound();
+
+        if (chosenBtn) {
+          chosenBtn.className = "w-full text-left px-4 py-3 rounded-2xl border-2 border-rose-400 bg-rose-50 text-rose-800 font-bold text-sm sm:text-base flex items-center justify-between";
+          const icon = chosenBtn.querySelector('.status-icon');
+          if (icon) icon.innerHTML = "❌ 答錯囉";
+        }
+        
+        if (correctBtn) {
+          correctBtn.className = "w-full text-left px-4 py-3 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-800 font-bold text-sm sm:text-base flex items-center justify-between";
+          const icon = correctBtn.querySelector('.status-icon');
+          if (icon) icon.innerHTML = "⭕ 正確答案";
+        }
+
+        const questionText = (q.mode === 4) ? q.passageText : (q.mode === 3) ? q.sentenceText : q.title;
+        const correctText = (q.mode === 1) ? q.options[q.answer] : q.correctWord;
+        const userText = q.currentShuffledOptions[idx];
+
+        const mistakeObj = {
+          question: questionText,
+          userAns: userText,
+          correctAns: correctText,
+          explanation: q.clue
+        };
+
+        wrongQuestionsRecord.push(mistakeObj);
+        saveMistakeToStorage(mistakeObj);
+      }
+
+      showFeedback(isCorrect, q.clue);
+      speakCurrentSentence();
+    }
+
+    function submitVirtualKeyboardAnswer() {
+      if (isQuestionAnswered) return;
+      const input = document.getElementById('vk-display-input');
+      if (!input) return;
+      const val = input.value.trim().toLowerCase();
+      if (!val) {
+        alert("請先點選下方鍵盤拼出答案喔！");
+        return;
+      }
+
+      isQuestionAnswered = true;
+      const q = activeQuizList[currentQuestionIdx];
+      const isCorrect = (val === q.answer.toLowerCase());
+
+      if (isCorrect) {
+        streakCount++;
+        if (streakCount >= 3) {
+          playStreakSound();
+          const streakEl = document.getElementById('streak-counter');
+          if (streakEl) {
+            streakEl.innerHTML = `<i class="fa-solid fa-fire text-amber-500"></i> 連勝 ${streakCount}！`;
+            streakEl.classList.remove('hidden');
+          }
+        } else {
+          playCorrectSound();
+        }
+        input.parentElement.className = "flex-1 bg-emerald-50 border-2 border-emerald-500 rounded-2xl px-4 py-3 shadow-inner flex items-center";
+      } else {
+        streakCount = 0;
+        const streakEl = document.getElementById('streak-counter');
+        if (streakEl) streakEl.classList.add('hidden');
+        playWrongSound();
+        input.parentElement.className = "flex-1 bg-rose-50 border-2 border-rose-500 rounded-2xl px-4 py-3 shadow-inner flex items-center";
+
+        const mistakeObj = {
+          question: q.title,
+          userAns: val,
+          correctAns: q.answer,
+          explanation: q.clue
+        };
+
+        wrongQuestionsRecord.push(mistakeObj);
+        saveMistakeToStorage(mistakeObj);
+      }
+
+      const explanation = isCorrect ? q.clue : `正確答案是【${q.answer}】！<br>${q.clue}`;
+      showFeedback(isCorrect, explanation);
+      speakCurrentSentence();
+    }
+
+    function showFeedback(isCorrect, text) {
+      const feedback = document.getElementById('quiz-feedback');
+      if (!feedback) return;
+      feedback.classList.remove('hidden');
+      if (isCorrect) {
+        feedback.className = "rounded-2xl p-3 mb-2 text-xs sm:text-sm font-medium bg-emerald-50 border border-emerald-200 text-emerald-900";
+        feedback.innerHTML = `<b>🌟 太棒了，答對了！</b><br>${text}`;
+      } else {
+        feedback.className = "rounded-2xl p-3 mb-2 text-xs sm:text-sm font-medium bg-rose-50 border border-rose-200 text-rose-900";
+        feedback.innerHTML = `<b>💪 再接再厲！(已自動存入錯題本)</b><br>${text}`;
+      }
+      const nextBtn = document.getElementById('next-quiz-btn');
+      if (nextBtn) nextBtn.disabled = false;
+    }
+
+    function speakCurrentSentence() {
+      const q = activeQuizList[currentQuestionIdx];
+      if (q && q.speechSentence) {
+        speakText(q.speechSentence);
+      }
+    }
+
+    function nextQuestion() {
+      if (currentQuestionIdx < activeQuizList.length - 1) {
+        currentQuestionIdx++;
+        loadQuestion();
+      } else {
+        showQuizResults();
+      }
+    }
+
+    function showQuizResults() {
+      const total = activeQuizList.length;
+      const wrongCount = wrongQuestionsRecord.length;
+      const correctCount = total - wrongCount;
+      const score = Math.round((correctCount / total) * 100);
+
+      const footer = document.getElementById('quiz-modal-footer');
+      const feedback = document.getElementById('quiz-feedback');
+      const progress = document.getElementById('quiz-progress');
+      const bar = document.getElementById('quiz-progress-bar');
+      const quizBody = document.getElementById('quiz-body');
+
+      if (footer) footer.style.display = 'none';
+      if (feedback) feedback.className = "hidden";
+      if (progress) progress.textContent = "挑戰結算";
+      if (bar) bar.style.width = "100%";
+
+      if (score === 100) playCheerSound();
+
+      let wrongListHtml = "";
+      if (wrongCount === 0) {
+        wrongListHtml = `
+          <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-center mt-4">
+            <div class="text-3xl">🏅</div>
+            <h4 class="font-bold text-emerald-800 text-sm sm:text-base mt-1">滿分全對！超級文法小達人！</h4>
+            <p class="text-xs text-emerald-600 mt-0.5">本次抽出的所有題目你都完全掌握囉，太優秀了！</p>
+          </div>
+        `;
+      } else {
+        wrongListHtml = `
+          <div class="mt-4">
+            <div class="flex items-center justify-between mb-2">
+              <div class="text-rose-600 font-extrabold text-sm flex items-center gap-1.5">
+                <i class="fa-solid fa-triangle-exclamation"></i> 錯題特訓與解析 (${wrongCount} 題)：
+              </div>
+            </div>
+            <div class="space-y-3">
+              ${wrongQuestionsRecord.map((item, i) => `
+                <div class="bg-rose-50/60 border border-rose-200 rounded-2xl p-3.5 text-xs text-left">
+                  <div class="font-bold text-slate-800 text-xs sm:text-sm mb-1.5 flex items-center gap-1.5">
+                    <span class="w-5 h-5 rounded-full bg-rose-500 text-white flex items-center justify-center text-[10px] flex-shrink-0">${i+1}</span>
+                    <span class="font-sans">${item.question}</span>
+                  </div>
+                  <div class="grid grid-cols-2 gap-2 bg-white/80 p-2 rounded-xl border border-rose-100 mb-2">
+                    <div><span class="text-slate-400">做錯紀錄：</span><span class="font-bold text-rose-600 line-through">${item.userAns}</span></div>
+                    <div><span class="text-slate-400">正確答案：</span><span class="font-bold text-emerald-700">${item.correctAns}</span></div>
+                  </div>
+                  <div class="text-slate-700 bg-amber-50/90 p-2 rounded-xl border border-amber-200 leading-relaxed font-medium">
+                    💡 <b>解題心法：</b>${item.explanation}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      if (quizBody) {
+        quizBody.innerHTML = `
+          <div class="text-center py-2">
+            <div class="text-5xl">${score >= 80 ? '🎉' : '💪'}</div>
+            <h3 class="text-xl font-black text-slate-800 mt-2">測驗完成！得分：<span class="${score >= 80 ? 'text-emerald-600' : 'text-amber-600'}">${score} 分</span></h3>
+            <p class="text-xs text-slate-500 mt-0.5">範圍：【${topicDisplayNames[currentTopic]}】</p>
+            <p class="text-xs text-slate-400 mt-0.5">總共 ${total} 題，答對 ${correctCount} 題，答錯 ${wrongCount} 題</p>
+            
+            ${wrongListHtml}
+
+            <div class="mt-5 flex gap-2">
+              <button onclick="startQuizMode(currentQuizMode)" class="flex-1 py-3 rounded-2xl bg-indigo-600 text-white font-bold text-xs sm:text-sm hover:bg-indigo-700 transition shadow-md shadow-indigo-200">
+                繼續挑戰新題庫 🔄
+              </button>
+              <button onclick="closeQuizModal()" class="flex-1 py-3 rounded-2xl bg-slate-100 text-slate-700 font-bold text-xs sm:text-sm hover:bg-slate-200 transition">
+                回到主畫面 🏠
+              </button>
+            </div>
+          </div>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>
