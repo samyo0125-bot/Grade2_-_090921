@@ -831,7 +831,7 @@ input[type=range] {
 <div class="game-container">
   <div class="header">
     <h1>🎒 Grade 2 英語闖關樂園</h1>
-    <p>打字拼字 • 字母積木 • 聽力快問 • 怪獸餵食 • 單字清單</p>
+    <p>打字拼字 • 字母積木 • 聽力快問 • 怪獸餵食 • 同音字大偵探</p>
   </div>
 
   <!-- 主選單畫面 -->
@@ -850,6 +850,8 @@ input[type=range] {
           <option value="13">Week 13</option><option value="14">Week 14</option><option value="15">Week 15</option>
           <option value="16">Week 16</option><option value="17">Week 17</option><option value="18">Week 18</option>
           <option value="19">Week 19</option><option value="20">期中考字庫</option>
+          <option value="21">Spelling Bee Part 1</option><option value="22">Spelling Bee Part 2</option>
+          <option value="23">Spelling Bee Part 3</option><option value="24">Spelling Bee Part 4</option>
         </select>
         <span style="font-weight:bold; color:#94a3b8;">➔</span>
         <select id="end-w" onchange="onWeekRangeChange()">
@@ -860,6 +862,8 @@ input[type=range] {
           <option value="13">Week 13</option><option value="14">Week 14</option><option value="15">Week 15</option>
           <option value="16">Week 16</option><option value="17">Week 17</option><option value="18">Week 18</option>
           <option value="19">Week 19</option><option value="20">期中考字庫</option>
+          <option value="21">Spelling Bee Part 1</option><option value="22">Spelling Bee Part 2</option>
+          <option value="23">Spelling Bee Part 3</option><option value="24">Spelling Bee Part 4</option>
         </select>
       </div>
 
@@ -871,7 +875,12 @@ input[type=range] {
         <button type="button" class="chip" onclick="setR(11,15)">Week 11~15</button>
         <button type="button" class="chip" onclick="setR(16,19)">Week 16~19</button>
         <button type="button" class="chip" onclick="setR(20,20)" style="background:#fef3c7; border-color:#f59e0b; color:#b45309;">📝 期中考字庫</button>
-        <button type="button" class="chip" onclick="setR(1,20)" style="background:#e0e7ff; font-weight:700;">全部 (1~20)</button>
+        <button type="button" class="chip" onclick="setR(21,21)" style="background:#fef3c7; border-color:#f59e0b; color:#b45309;">🐝 Part 1</button>
+        <button type="button" class="chip" onclick="setR(22,22)" style="background:#fef3c7; border-color:#f59e0b; color:#b45309;">🐝 Part 2</button>
+        <button type="button" class="chip" onclick="setR(23,23)" style="background:#fef3c7; border-color:#f59e0b; color:#b45309;">🐝 Part 3</button>
+        <button type="button" class="chip" onclick="setR(24,24)" style="background:#fef3c7; border-color:#f59e0b; color:#b45309;">🐝 Part 4</button>
+        <button type="button" class="chip" onclick="setR(21,24)" style="background:#fbcfe8; border-color:#ec4899; color:#9d174d; font-weight:700;">🐝 Part 1~4 全部</button>
+        <button type="button" class="chip" onclick="setR(1,24)" style="background:#e0e7ff; font-weight:700;">全部 (1~24)</button>
       </div>
 
       <!-- 新增：精確單字序號範圍調整 -->
@@ -894,6 +903,7 @@ input[type=range] {
           <div class="count-btn-group">
             <button type="button" class="count-btn active" onclick="setQuestionCount(10, this)">10 題</button>
             <button type="button" class="count-btn" onclick="setQuestionCount(20, this)">20 題</button>
+            <button type="button" class="count-btn" onclick="setQuestionCount(50, this)">50 題</button>
             <button type="button" class="count-btn" onclick="setQuestionCount('all', this)">全部</button>
           </div>
         </div>
@@ -979,6 +989,13 @@ input[type=range] {
         <div class="mode-info">
           <h3>模式 4：怪獸吃單字</h3>
           <p>怪獸肚子餓了！聽出怪獸想吃的英文點心餵牠！</p>
+        </div>
+      </div>
+      <div class="mode-card" onclick="initGame('homophone')" style="border-color:#c7d2fe; background:#faf5ff;">
+        <div class="mode-icon">🔍</div>
+        <div class="mode-info">
+          <h3 style="color:#6d28d9;">模式 5：同音字大偵探 (Homophones)</h3>
+          <p>讀音相同但意思不同！看句子情境與小圖標，抓出正確單字！(精選 100 題完整庫)</p>
         </div>
       </div>
     </div>
@@ -1090,6 +1107,34 @@ input[type=range] {
         </div>
       </div>
       <div id="q-options" class="quiz-options-grid"></div>
+    </div>
+
+    <!-- 模式 5：同音字大偵探 -->
+    <div id="section-homophone" style="display:none;">
+      <div class="target-card" style="border-color:#c4b5fd; background:#faf5ff;">
+        <div id="h-unit-badge" class="badge" style="background:#ede9fe; color:#6d28d9;">🔍 同音字辨析</div>
+        <div style="font-size:36px; margin: 4px 0;">🎯</div>
+        <div id="h-sentence" style="font-size:20px; font-weight:800; color:#1e1b4b; line-height:1.4; margin-bottom:8px;"></div>
+        <div id="h-zh-sentence" style="font-size:14px; font-weight:700; color:#6b7280; min-height:20px; margin-bottom:10px;"></div>
+        <div class="audio-bar">
+          <button type="button" class="btn-sound" onclick="speakHomophoneSentence()">🗣️ 唸完整例句 (Sentence)</button>
+          <button type="button" class="btn-sound" onclick="speakHomophoneTarget()">🔊 唸目標讀音 (Sound)</button>
+        </div>
+      </div>
+
+      <div style="font-size:13px; font-weight:700; color:#475569; text-align:center; margin-bottom:10px;">
+        👇 請點選適合這個句子的正確單字：
+      </div>
+
+      <div id="h-options" class="quiz-options-grid" style="grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));"></div>
+
+      <!-- 答題後的成對比較學習卡 -->
+      <div id="h-study-card" style="display:none; background:#ffffff; border:2px solid #ddd6fe; border-radius:16px; padding:14px; margin-top:14px; text-align:left;">
+        <div style="font-size:13px; font-weight:800; color:#6d28d9; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+          <span>💡</span> <span>同音字小教室 (同音異義對比)：</span>
+        </div>
+        <div id="h-comparison-content" style="display:flex; flex-direction:column; gap:6px; font-size:13.5px;"></div>
+      </div>
     </div>
 
     <!-- 模式 4：怪獸吃單字 -->
@@ -1941,7 +1986,114 @@ var ALL_VOCAB = [
   {"week": 20, "unit": "期中考字庫", "word": "yesterday", "zh": "昨天", "icon": "📅", "ex": "Yesterday was Sunday."},
   {"week": 20, "unit": "期中考字庫", "word": "got", "zh": "得到", "icon": "🎁", "ex": "I got a birthday gift."},
   {"week": 20, "unit": "期中考字庫", "word": "paint", "zh": "顏料 / 繪畫", "icon": "🎨", "ex": "Paint a picture of a house."},
-  {"week": 20, "unit": "期中考字庫", "word": "his", "zh": "他的", "icon": "👦", "ex": "This is his backpack."}
+  {"week": 20, "unit": "期中考字庫", "word": "his", "zh": "他的", "icon": "👦", "ex": "This is his backpack."},
+  // ==========================================
+  // Spelling Bee Part 1 ~ Part 4 (Week 21 ~ 24)
+  // ==========================================
+  {"week": 21, "unit": "Spelling Bee Part 1", "word": "ace", "zh": "頂尖者 / 撲克A", "icon": "🂡", "ex": "He is an ace soccer player."},
+  {"week": 21, "unit": "Spelling Bee Part 1", "word": "actor", "zh": "演員", "icon": "🎭", "ex": "The actor performed on the stage."},
+  {"week": 21, "unit": "Spelling Bee Part 1", "word": "almond", "zh": "杏仁", "icon": "🥜", "ex": "I like to eat almond nuts."},
+  {"week": 21, "unit": "Spelling Bee Part 1", "word": "alphabet", "zh": "字母表", "icon": "🔤", "ex": "Learn the letters of the alphabet."},
+  {"week": 21, "unit": "Spelling Bee Part 1", "word": "amount", "zh": "數量 / 總額", "icon": "🔢", "ex": "A small amount of sugar."},
+  {"week": 21, "unit": "Spelling Bee Part 1", "word": "arrow", "zh": "箭頭 / 箭", "icon": "🏹", "ex": "Follow the green arrow."},
+  {"week": 21, "unit": "Spelling Bee Part 1", "word": "article", "zh": "文章 / 物品", "icon": "📰", "ex": "Read an interesting article."},
+  {"week": 21, "unit": "Spelling Bee Part 1", "word": "badger", "zh": "獾", "icon": "🦡", "ex": "The badger digs in the ground."},
+  {"week": 21, "unit": "Spelling Bee Part 1", "word": "barber", "zh": "理髮師", "icon": "💈", "ex": "The barber cuts my hair."},
+  {"week": 21, "unit": "Spelling Bee Part 1", "word": "basic", "zh": "基礎的", "icon": "🧱", "ex": "Practice basic English words."},
+  {"week": 21, "unit": "Spelling Bee Part 1", "word": "battle", "zh": "戰役 / 戰鬥", "icon": "⚔️", "ex": "The knights won the battle."},
+  {"week": 21, "unit": "Spelling Bee Part 1", "word": "beginner", "zh": "初學者", "icon": "🔰", "ex": "A beginner lesson for kids."},
+  {"week": 21, "unit": "Spelling Bee Part 1", "word": "bind", "zh": "綑綁 / 裝訂", "icon": "🧵", "ex": "Bind the papers together."},
+  {"week": 21, "unit": "Spelling Bee Part 1", "word": "borrow", "zh": "借入", "icon": "📚", "ex": "Can I borrow your pencil?"},
+  {"week": 21, "unit": "Spelling Bee Part 1", "word": "bother", "zh": "打擾 / 煩擾", "icon": "🙅", "ex": "Please don't bother the baby."},
+  {"week": 21, "unit": "Spelling Bee Part 1", "word": "cactus", "zh": "仙人掌", "icon": "🌵", "ex": "A cactus grows in the desert."},
+  {"week": 21, "unit": "Spelling Bee Part 1", "word": "cartoon", "zh": "卡通", "icon": "📺", "ex": "Watch a funny cartoon on TV."},
+  {"week": 21, "unit": "Spelling Bee Part 1", "word": "center", "zh": "中心 / 中央", "icon": "🎯", "ex": "Stand right in the center."},
+  {"week": 21, "unit": "Spelling Bee Part 1", "word": "checkers", "zh": "西洋跳棋", "icon": "🏁", "ex": "Let's play a game of checkers."},
+  {"week": 21, "unit": "Spelling Bee Part 1", "word": "chimney", "zh": "煙囪", "icon": "🧱", "ex": "Smoke rises from the chimney."},
+  {"week": 21, "unit": "Spelling Bee Part 1", "word": "claim", "zh": "宣稱 / 認領", "icon": "🙋", "ex": "Claim your lost jacket."},
+  {"week": 21, "unit": "Spelling Bee Part 1", "word": "clerk", "zh": "店員 / 辦事員", "icon": "🧑‍💼", "ex": "Pay the store clerk for bread."},
+  {"week": 21, "unit": "Spelling Bee Part 1", "word": "click", "zh": "點擊 / 喀嗒聲", "icon": "🖱️", "ex": "Click the link on the screen."},
+  {"week": 21, "unit": "Spelling Bee Part 1", "word": "cliff", "zh": "懸崖", "icon": "⛰️", "ex": "Stand carefully on the cliff."},
+  {"week": 21, "unit": "Spelling Bee Part 1", "word": "clue", "zh": "線索", "icon": "🔍", "ex": "Find a clue to solve the riddle."},
+
+  {"week": 22, "unit": "Spelling Bee Part 2", "word": "cocoon", "zh": "繭", "icon": "🐛", "ex": "A caterpillar spins a silk cocoon."},
+  {"week": 22, "unit": "Spelling Bee Part 2", "word": "control", "zh": "控制 / 主控", "icon": "🎮", "ex": "Control the remote toy car."},
+  {"week": 22, "unit": "Spelling Bee Part 2", "word": "corner", "zh": "角落 / 轉角", "icon": "📐", "ex": "Turn left at the street corner."},
+  {"week": 22, "unit": "Spelling Bee Part 2", "word": "cue", "zh": "暗示 / 提示", "icon": "🎬", "ex": "The music was the cue to start."},
+  {"week": 22, "unit": "Spelling Bee Part 2", "word": "daydream", "zh": "白日夢", "icon": "💭", "ex": "Don't daydream during class."},
+  {"week": 22, "unit": "Spelling Bee Part 2", "word": "disk", "zh": "圓盤 / 磁碟", "icon": "💿", "ex": "Throw the toy flying disk."},
+  {"week": 22, "unit": "Spelling Bee Part 2", "word": "drill", "zh": "鑽頭 / 訓練演習", "icon": "🛠️", "ex": "We practiced a fire drill."},
+  {"week": 22, "unit": "Spelling Bee Part 2", "word": "dust", "zh": "灰塵 / 擦灰塵", "icon": "🧹", "ex": "Wipe the dust off your desk."},
+  {"week": 22, "unit": "Spelling Bee Part 2", "word": "enemy", "zh": "敵人", "icon": "🦹", "ex": "The brave knight stopped the enemy."},
+  {"week": 22, "unit": "Spelling Bee Part 2", "word": "equal", "zh": "平等的 / 相等的", "icon": "🟰", "ex": "Two plus two is equal to four."},
+  {"week": 22, "unit": "Spelling Bee Part 2", "word": "erase", "zh": "擦除 / 抹去", "icon": "🧼", "ex": "Erase the wrong pencil mark."},
+  {"week": 22, "unit": "Spelling Bee Part 2", "word": "example", "zh": "例子 / 範例", "icon": "📝", "ex": "Look at this simple example."},
+  {"week": 22, "unit": "Spelling Bee Part 2", "word": "field", "zh": "原野 / 運動場", "icon": "⚽", "ex": "Run across the soccer field."},
+  {"week": 22, "unit": "Spelling Bee Part 2", "word": "firefly", "zh": "螢火蟲", "icon": "🪲", "ex": "A bright firefly glows in the dark."},
+  {"week": 22, "unit": "Spelling Bee Part 2", "word": "fireworks", "zh": "煙火", "icon": "🎆", "ex": "Watch colorful fireworks in the sky."},
+  {"week": 22, "unit": "Spelling Bee Part 2", "word": "firm", "zh": "結實的 / 穩固的", "icon": "✊", "ex": "Give a firm handshake."},
+  {"week": 22, "unit": "Spelling Bee Part 2", "word": "flash", "zh": "閃爍 / 閃光", "icon": "⚡", "ex": "A sudden flash of lightning."},
+  {"week": 22, "unit": "Spelling Bee Part 2", "word": "flight", "zh": "飛行 / 班機", "icon": "✈️", "ex": "The flight leaves at morning."},
+  {"week": 22, "unit": "Spelling Bee Part 2", "word": "fresh", "zh": "新鮮的", "icon": "🍎", "ex": "Fresh crisp apples from the farm."},
+  {"week": 22, "unit": "Spelling Bee Part 2", "word": "giant", "zh": "巨大的 / 巨人", "icon": "🦕", "ex": "A giant dinosaur walked past."},
+  {"week": 22, "unit": "Spelling Bee Part 2", "word": "grand", "zh": "宏偉的", "icon": "🏰", "ex": "A grand palace on the mountain."},
+  {"week": 22, "unit": "Spelling Bee Part 2", "word": "harbor", "zh": "港口 / 港灣", "icon": "⛵", "ex": "Ships stay safe inside the harbor."},
+  {"week": 22, "unit": "Spelling Bee Part 2", "word": "haunt", "zh": "出沒 / 縈繞", "icon": "👻", "ex": "Ghosts haunt the spooky castle."},
+  {"week": 22, "unit": "Spelling Bee Part 2", "word": "history", "zh": "歷史", "icon": "📜", "ex": "We learn world history at school."},
+  {"week": 22, "unit": "Spelling Bee Part 2", "word": "hungry", "zh": "飢餓的", "icon": "🍽️", "ex": "The hungry kitten wanted milk."},
+
+  {"week": 23, "unit": "Spelling Bee Part 3", "word": "iron", "zh": "鐵 / 熨斗", "icon": "🔩", "ex": "The gate is made of strong iron."},
+  {"week": 23, "unit": "Spelling Bee Part 3", "word": "island", "zh": "島嶼", "icon": "🏝️", "ex": "A sunny tropical island."},
+  {"week": 23, "unit": "Spelling Bee Part 3", "word": "jellyfish", "zh": "水母", "icon": "🪼", "ex": "A jellyfish floats in the ocean."},
+  {"week": 23, "unit": "Spelling Bee Part 3", "word": "knight", "zh": "騎士", "icon": "🛡️", "ex": "The noble knight wore steel armor."},
+  {"week": 23, "unit": "Spelling Bee Part 3", "word": "know-how", "zh": "技能 / 實用知識", "icon": "💡", "ex": "He has the technical know-how."},
+  {"week": 23, "unit": "Spelling Bee Part 3", "word": "ladybird", "zh": "瓢蟲", "icon": "🐞", "ex": "A red ladybird sat on the leaf."},
+  {"week": 23, "unit": "Spelling Bee Part 3", "word": "lighthouse", "zh": "燈塔", "icon": "🗼", "ex": "The lighthouse guides ships at sea."},
+  {"week": 23, "unit": "Spelling Bee Part 3", "word": "lonely", "zh": "孤單的", "icon": "🥺", "ex": "The puppy felt lonely alone."},
+  {"week": 23, "unit": "Spelling Bee Part 3", "word": "maple", "zh": "楓樹 / 楓葉", "icon": "🍁", "ex": "Red maple leaves fall in autumn."},
+  {"week": 23, "unit": "Spelling Bee Part 3", "word": "meter", "zh": "公尺 / 計量器", "icon": "📏", "ex": "Swim fifty meters in the pool."},
+  {"week": 23, "unit": "Spelling Bee Part 3", "word": "middle", "zh": "中間", "icon": "🎯", "ex": "Stand right in the middle."},
+  {"week": 23, "unit": "Spelling Bee Part 3", "word": "mole", "zh": "鼴鼠", "icon": "🐾", "ex": "The mole digs underground holes."},
+  {"week": 23, "unit": "Spelling Bee Part 3", "word": "narrow", "zh": "狹窄的", "icon": "🛣️", "ex": "Walk down the narrow lane."},
+  {"week": 23, "unit": "Spelling Bee Part 3", "word": "offer", "zh": "提供 / 給予", "icon": "🤲", "ex": "Offer help to your classmates."},
+  {"week": 23, "unit": "Spelling Bee Part 3", "word": "onion", "zh": "洋蔥", "icon": "🧅", "ex": "Chop the sweet yellow onion."},
+  {"week": 23, "unit": "Spelling Bee Part 3", "word": "period", "zh": "句點 / 時期", "icon": "⏱️", "ex": "End the sentence with a period."},
+  {"week": 23, "unit": "Spelling Bee Part 3", "word": "plain", "zh": "平原 / 樸素的", "icon": "🌾", "ex": "Zebras run across the grassy plain."},
+  {"week": 23, "unit": "Spelling Bee Part 3", "word": "powerful", "zh": "強有力的", "icon": "💪", "ex": "An elephant is very powerful."},
+  {"week": 23, "unit": "Spelling Bee Part 3", "word": "pretend", "zh": "假裝", "icon": "🎭", "ex": "Pretend to be a brave hero."},
+  {"week": 23, "unit": "Spelling Bee Part 3", "word": "pride", "zh": "自豪 / 驕傲", "icon": "🌟", "ex": "Take pride in your good work."},
+  {"week": 23, "unit": "Spelling Bee Part 3", "word": "recess", "zh": "下課休息", "icon": "🛝", "ex": "Play kickball during morning recess."},
+  {"week": 23, "unit": "Spelling Bee Part 3", "word": "record", "zh": "紀錄 / 唱片", "icon": "🏆", "ex": "Break the fast swimming record."},
+  {"week": 23, "unit": "Spelling Bee Part 3", "word": "result", "zh": "結果", "icon": "📊", "ex": "Check the spelling quiz result."},
+  {"week": 23, "unit": "Spelling Bee Part 3", "word": "rude", "zh": "無禮的", "icon": "😠", "ex": "It is rude to cut the line."},
+  {"week": 23, "unit": "Spelling Bee Part 3", "word": "season", "zh": "季節", "icon": "🍂", "ex": "Autumn is my favorite season."},
+
+  {"week": 24, "unit": "Spelling Bee Part 4", "word": "settle", "zh": "定居 / 安頓", "icon": "🏡", "ex": "Settle down and read a book."},
+  {"week": 24, "unit": "Spelling Bee Part 4", "word": "share", "zh": "分享", "icon": "🍰", "ex": "Share your snacks with friends."},
+  {"week": 24, "unit": "Spelling Bee Part 4", "word": "speech", "zh": "演講 / 說話", "icon": "🗣️", "ex": "Give a cheerful thank-you speech."},
+  {"week": 24, "unit": "Spelling Bee Part 4", "word": "steak", "zh": "牛排", "icon": "🥩", "ex": "Dad cooked juicy beef steak."},
+  {"week": 24, "unit": "Spelling Bee Part 4", "word": "steel", "zh": "鋼鐵", "icon": "🏗️", "ex": "Build bridges with solid steel."},
+  {"week": 24, "unit": "Spelling Bee Part 4", "word": "Stone Age", "zh": "石器時代", "icon": "🪨", "ex": "People made stone tools in the Stone Age."},
+  {"week": 24, "unit": "Spelling Bee Part 4", "word": "strawberry", "zh": "草莓", "icon": "🍓", "ex": "Sweet red strawberry on the cake."},
+  {"week": 24, "unit": "Spelling Bee Part 4", "word": "success", "zh": "成功", "icon": "🎖️", "ex": "Hard work brings sweet success."},
+  {"week": 24, "unit": "Spelling Bee Part 4", "word": "sundown", "zh": "日落 / 黃昏", "icon": "🌅", "ex": "The sky turns orange at sundown."},
+  {"week": 24, "unit": "Spelling Bee Part 4", "word": "sunlit", "zh": "陽光照耀的", "icon": "☀️", "ex": "A warm and sunlit room."},
+  {"week": 24, "unit": "Spelling Bee Part 4", "word": "sunrise", "zh": "日出", "icon": "🌄", "ex": "Watch the bright morning sunrise."},
+  {"week": 24, "unit": "Spelling Bee Part 4", "word": "supper", "zh": "晚餐", "icon": "🍲", "ex": "Eat warm soup for supper."},
+  {"week": 24, "unit": "Spelling Bee Part 4", "word": "telephone", "zh": "電話", "icon": "☎️", "ex": "Answer the ringing telephone."},
+  {"week": 24, "unit": "Spelling Bee Part 4", "word": "thirsty", "zh": "口渴的", "icon": "🥤", "ex": "Drink cold water when thirsty."},
+  {"week": 24, "unit": "Spelling Bee Part 4", "word": "thread", "zh": "線", "icon": "🧵", "ex": "Thread the needle with cotton."},
+  {"week": 24, "unit": "Spelling Bee Part 4", "word": "toilet", "zh": "廁所 / 馬桶", "icon": "🚽", "ex": "Wash hands after using the toilet."},
+  {"week": 24, "unit": "Spelling Bee Part 4", "word": "total", "zh": "總計 / 全部的", "icon": "🔢", "ex": "What is the total score?"},
+  {"week": 24, "unit": "Spelling Bee Part 4", "word": "trash", "zh": "垃圾", "icon": "🗑️", "ex": "Put empty wrappers into the trash."},
+  {"week": 24, "unit": "Spelling Bee Part 4", "word": "value", "zh": "價值 / 重視", "icon": "💎", "ex": "We value our friendship."},
+  {"week": 24, "unit": "Spelling Bee Part 4", "word": "vote", "zh": "投票 / 表決", "icon": "🗳️", "ex": "Vote for your class leader."},
+  {"week": 24, "unit": "Spelling Bee Part 4", "word": "wasp", "zh": "黃蜂", "icon": "🐝", "ex": "Stay away from the buzzing wasp."},
+  {"week": 24, "unit": "Spelling Bee Part 4", "word": "wildcat", "zh": "野貓 / 猞猁", "icon": "🐆", "ex": "A sly wildcat roamed the forest."},
+  {"week": 24, "unit": "Spelling Bee Part 4", "word": "willow", "zh": "柳樹", "icon": "🌿", "ex": "Green branches of a weeping willow."},
+  {"week": 24, "unit": "Spelling Bee Part 4", "word": "yourself", "zh": "你自己", "icon": "🪞", "ex": "Always believe in yourself."},
+  {"week": 24, "unit": "Spelling Bee Part 4", "word": "youth", "zh": "青春 / 青年", "icon": "🏃‍♂️", "ex": "Enjoy the joy of your youth."}
+
 ];
 
 var currentMode = 'typing';
@@ -2111,16 +2263,1856 @@ function speakCurrentViewerSentence() {
   }
 }
 
+
+// ==========================================
+// 模式五：同音異義詞題庫 (50 組小二精選)
+// ==========================================
+var HOMOPHONES_DATA = [
+  {
+    "sentence": "The brave ______ rode a white horse.",
+    "answer": "knight",
+    "zh_s": "英勇的騎士騎著白馬。",
+    "options": [
+      {
+        "word": "knight",
+        "zh": "騎士",
+        "icon": "🛡️"
+      },
+      {
+        "word": "night",
+        "zh": "夜晚",
+        "icon": "🌙"
+      }
+    ]
+  },
+  {
+    "sentence": "The sky is clear and bright ______.",
+    "answer": "blue",
+    "zh_s": "天空是清澈明亮的藍色。",
+    "options": [
+      {
+        "word": "blue",
+        "zh": "藍色",
+        "icon": "🔵"
+      },
+      {
+        "word": "blew",
+        "zh": "吹拂/吹走",
+        "icon": "💨"
+      }
+    ]
+  },
+  {
+    "sentence": "Please ______ your name on the test.",
+    "answer": "write",
+    "zh_s": "請在考卷上寫下你的名字。",
+    "options": [
+      {
+        "word": "write",
+        "zh": "寫字",
+        "icon": "✍️"
+      },
+      {
+        "word": "right",
+        "zh": "正確/右邊",
+        "icon": "➡️"
+      }
+    ]
+  },
+  {
+    "sentence": "He ______ his new bicycle in the park.",
+    "answer": "rode",
+    "zh_s": "他在公園騎他的新腳踏車。",
+    "options": [
+      {
+        "word": "rode",
+        "zh": "騎(過去式)",
+        "icon": "🚲"
+      },
+      {
+        "word": "road",
+        "zh": "馬路/道路",
+        "icon": "🛣️"
+      }
+    ]
+  },
+  {
+    "sentence": "I ______ the answer to this riddle.",
+    "answer": "know",
+    "zh_s": "我知道這個謎語的答案。",
+    "options": [
+      {
+        "word": "know",
+        "zh": "知道/認識",
+        "icon": "🧠"
+      },
+      {
+        "word": "no",
+        "zh": "不/沒有",
+        "icon": "❌"
+      }
+    ]
+  },
+  {
+    "sentence": "I have ______ ears and one mouth.",
+    "answer": "two",
+    "zh_s": "我有兩隻耳朵和一張嘴巴。",
+    "options": [
+      {
+        "word": "two",
+        "zh": "數字二",
+        "icon": "2️⃣"
+      },
+      {
+        "word": "to",
+        "zh": "向/去/到",
+        "icon": "🚶"
+      },
+      {
+        "word": "too",
+        "zh": "也/太過",
+        "icon": "➕"
+      }
+    ]
+  },
+  {
+    "sentence": "The warm morning ______ woke me up.",
+    "answer": "sun",
+    "zh_s": "溫暖的晨陽叫醒了我。",
+    "options": [
+      {
+        "word": "sun",
+        "zh": "太陽",
+        "icon": "☀️"
+      },
+      {
+        "word": "son",
+        "zh": "兒子",
+        "icon": "👦"
+      }
+    ]
+  },
+  {
+    "sentence": "Sharks and dolphins swim in the deep ______.",
+    "answer": "sea",
+    "zh_s": "鯊魚和海豚在深海中游泳。",
+    "options": [
+      {
+        "word": "sea",
+        "zh": "大海/海洋",
+        "icon": "🌊"
+      },
+      {
+        "word": "see",
+        "zh": "看見",
+        "icon": "👀"
+      }
+    ]
+  },
+  {
+    "sentence": "Can you ______ the birds singing outside?",
+    "answer": "hear",
+    "zh_s": "你能聽見外面小鳥在唱歌嗎？",
+    "options": [
+      {
+        "word": "hear",
+        "zh": "聽見",
+        "icon": "👂"
+      },
+      {
+        "word": "here",
+        "zh": "這裡",
+        "icon": "📍"
+      }
+    ]
+  },
+  {
+    "sentence": "Tigers eat fresh ______ every day.",
+    "answer": "meat",
+    "zh_s": "老虎每天吃新鮮的肉。",
+    "options": [
+      {
+        "word": "meat",
+        "zh": "肉類",
+        "icon": "🥩"
+      },
+      {
+        "word": "meet",
+        "zh": "遇見/相遇",
+        "icon": "🤝"
+      }
+    ]
+  },
+  {
+    "sentence": "Mom uses white ______ to bake bread.",
+    "answer": "flour",
+    "zh_s": "媽媽用白麵粉烤麵包。",
+    "options": [
+      {
+        "word": "flour",
+        "zh": "麵粉",
+        "icon": "🌾"
+      },
+      {
+        "word": "flower",
+        "zh": "花朵",
+        "icon": "🌸"
+      }
+    ]
+  },
+  {
+    "sentence": "The skyscraper is built with strong ______.",
+    "answer": "steel",
+    "zh_s": "摩天大樓是用堅固的鋼鐵建造的。",
+    "options": [
+      {
+        "word": "steel",
+        "zh": "鋼鐵",
+        "icon": "🏗️"
+      },
+      {
+        "word": "steal",
+        "zh": "偷竊",
+        "icon": "🦹"
+      }
+    ]
+  },
+  {
+    "sentence": "We boarded the big ______ to fly home.",
+    "answer": "plane",
+    "zh_s": "我們登上了大飛機飛回家。",
+    "options": [
+      {
+        "word": "plane",
+        "zh": "飛機",
+        "icon": "✈️"
+      },
+      {
+        "word": "plain",
+        "zh": "平原/樸素",
+        "icon": "🌾"
+      }
+    ]
+  },
+  {
+    "sentence": "A gentle forest ______ jumped over the log.",
+    "answer": "deer",
+    "zh_s": "一隻溫柔的森林鹿跳過了圓木。",
+    "options": [
+      {
+        "word": "deer",
+        "zh": "鹿",
+        "icon": "🦌"
+      },
+      {
+        "word": "dear",
+        "zh": "親愛的",
+        "icon": "💌"
+      }
+    ]
+  },
+  {
+    "sentence": "Dad bought a new ______ of sports socks.",
+    "answer": "pair",
+    "zh_s": "爸爸買了一雙新運動襪。",
+    "options": [
+      {
+        "word": "pair",
+        "zh": "一雙/一對",
+        "icon": "🧦"
+      },
+      {
+        "word": "pear",
+        "zh": "西洋梨/梨子",
+        "icon": "🍐"
+      }
+    ]
+  },
+  {
+    "sentence": "She brushed her long, shiny ______.",
+    "answer": "hair",
+    "zh_s": "她梳理著她又長又亮麗的頭髮。",
+    "options": [
+      {
+        "word": "hair",
+        "zh": "頭髮/毛髮",
+        "icon": "💇"
+      },
+      {
+        "word": "hare",
+        "zh": "野兔",
+        "icon": "🐇"
+      }
+    ]
+  },
+  {
+    "sentence": "The postman delivered a special ______.",
+    "answer": "mail",
+    "zh_s": "郵差送來了一封特別的信件。",
+    "options": [
+      {
+        "word": "mail",
+        "zh": "信件/郵件",
+        "icon": "✉️"
+      },
+      {
+        "word": "male",
+        "zh": "雄性/男性",
+        "icon": "🚹"
+      }
+    ]
+  },
+  {
+    "sentence": "The excited puppy wagged its ______.",
+    "answer": "tail",
+    "zh_s": "興奮的小狗搖著牠的尾巴。",
+    "options": [
+      {
+        "word": "tail",
+        "zh": "尾巴",
+        "icon": "🐕"
+      },
+      {
+        "word": "tale",
+        "zh": "故事/傳說",
+        "icon": "📖"
+      }
+    ]
+  },
+  {
+    "sentence": "Our class ______ first prize in the singing contest!",
+    "answer": "won",
+    "zh_s": "我們班在歌唱比賽中贏得了第一名！",
+    "options": [
+      {
+        "word": "won",
+        "zh": "獲勝/贏得",
+        "icon": "🏆"
+      },
+      {
+        "word": "one",
+        "zh": "數字一",
+        "icon": "1️⃣"
+      }
+    ]
+  },
+  {
+    "sentence": "The hungry rabbit ______ a juicy carrot.",
+    "answer": "ate",
+    "zh_s": "飢餓的兔子吃了一根多汁的胡蘿蔔。",
+    "options": [
+      {
+        "word": "ate",
+        "zh": "吃了(eat過去式)",
+        "icon": "🥕"
+      },
+      {
+        "word": "eight",
+        "zh": "數字八",
+        "icon": "8️⃣"
+      }
+    ]
+  },
+  {
+    "sentence": "The little wooden boat will ______ across the lake.",
+    "answer": "sail",
+    "zh_s": "小木船將在湖面上航行。",
+    "options": [
+      {
+        "word": "sail",
+        "zh": "航行/帆",
+        "icon": "⛵"
+      },
+      {
+        "word": "sale",
+        "zh": "特賣/特價",
+        "icon": "🏷️"
+      }
+    ]
+  },
+  {
+    "sentence": "I got a speck of dust in my left ______.",
+    "answer": "eye",
+    "zh_s": "我的左眼跑進了一粒灰塵。",
+    "options": [
+      {
+        "word": "eye",
+        "zh": "眼睛",
+        "icon": "👁️"
+      },
+      {
+        "word": "I",
+        "zh": "我",
+        "icon": "🙋"
+      }
+    ]
+  },
+  {
+    "sentence": "Campers gathered dry ______ for the campfire.",
+    "answer": "wood",
+    "zh_s": "露營者收集乾木頭來升營火。",
+    "options": [
+      {
+        "word": "wood",
+        "zh": "木頭/木材",
+        "icon": "🪵"
+      },
+      {
+        "word": "would",
+        "zh": "想要/將會",
+        "icon": "💭"
+      }
+    ]
+  },
+  {
+    "sentence": "He was so hungry he ate the ______ pizza!",
+    "answer": "whole",
+    "zh_s": "他太餓了，居然吃掉了整塊披薩！",
+    "options": [
+      {
+        "word": "whole",
+        "zh": "整個/完整的",
+        "icon": "🍕"
+      },
+      {
+        "word": "hole",
+        "zh": "洞穴/破洞",
+        "icon": "🕳️"
+      }
+    ]
+  },
+  {
+    "sentence": "Can I have another ______ of watermelon?",
+    "answer": "piece",
+    "zh_s": "我可以再來一片西瓜嗎？",
+    "options": [
+      {
+        "word": "piece",
+        "zh": "一片/一塊",
+        "icon": "🍉"
+      },
+      {
+        "word": "peace",
+        "zh": "和平/平靜",
+        "icon": "🕊️"
+      }
+    ]
+  },
+  {
+    "sentence": "A dog has ______ legs and paws.",
+    "answer": "four",
+    "zh_s": "狗有四條腿和腳爪。",
+    "options": [
+      {
+        "word": "four",
+        "zh": "數字四",
+        "icon": "4️⃣"
+      },
+      {
+        "word": "for",
+        "zh": "為了/給予",
+        "icon": "🎁"
+      }
+    ]
+  },
+  {
+    "sentence": "Mom went to the market to ______ fresh fruit.",
+    "answer": "buy",
+    "zh_s": "媽媽去市場買新鮮水果。",
+    "options": [
+      {
+        "word": "buy",
+        "zh": "買/購買",
+        "icon": "🛒"
+      },
+      {
+        "word": "by",
+        "zh": "在旁邊/經由",
+        "icon": "📍"
+      },
+      {
+        "word": "bye",
+        "zh": "再見",
+        "icon": "👋"
+      }
+    ]
+  },
+  {
+    "sentence": "A yellow ______ buzzed around the sweet rose.",
+    "answer": "bee",
+    "zh_s": "一隻黃色蜜蜂在香甜的玫瑰旁嗡嗡叫。",
+    "options": [
+      {
+        "word": "bee",
+        "zh": "蜜蜂",
+        "icon": "🐝"
+      },
+      {
+        "word": "be",
+        "zh": "成為/在",
+        "icon": "🌟"
+      }
+    ]
+  },
+  {
+    "sentence": "Grandma used needle and thread to ______ the shirt.",
+    "answer": "sew",
+    "zh_s": "奶奶用針線縫補襯衫。",
+    "options": [
+      {
+        "word": "sew",
+        "zh": "縫紉/縫補",
+        "icon": "🪡"
+      },
+      {
+        "word": "so",
+        "zh": "如此/所以",
+        "icon": "👉"
+      }
+    ]
+  },
+  {
+    "sentence": "Walk up the stone ______ carefully.",
+    "answer": "stair",
+    "zh_s": "小心走上石台階。",
+    "options": [
+      {
+        "word": "stair",
+        "zh": "樓梯/階梯",
+        "icon": "🪜"
+      },
+      {
+        "word": "stare",
+        "zh": "凝視/盯著看",
+        "icon": "👀"
+      }
+    ]
+  },
+  {
+    "sentence": "We kicked the soccer ______ into the goal.",
+    "answer": "ball",
+    "zh_s": "我們把足球踢進了球門。",
+    "options": [
+      {
+        "word": "ball",
+        "zh": "球",
+        "icon": "⚽"
+      },
+      {
+        "word": "bawl",
+        "zh": "嚎啕大哭",
+        "icon": "😭"
+      }
+    ]
+  },
+  {
+    "sentence": "The big brown ______ caught a salmon in the river.",
+    "answer": "bear",
+    "zh_s": "大棕熊在河裡抓到了一條鮭魚。",
+    "options": [
+      {
+        "word": "bear",
+        "zh": "熊",
+        "icon": "🐻"
+      },
+      {
+        "word": "bare",
+        "zh": "赤裸的/光禿的",
+        "icon": "🦶"
+      }
+    ]
+  },
+  {
+    "sentence": "Don't walk with ______ feet on hot stones.",
+    "answer": "bare",
+    "zh_s": "不要赤著腳走在熱石頭上。",
+    "options": [
+      {
+        "word": "bare",
+        "zh": "赤裸的/光禿的",
+        "icon": "🦶"
+      },
+      {
+        "word": "bear",
+        "zh": "熊/承受",
+        "icon": "🐻"
+      }
+    ]
+  },
+  {
+    "sentence": "Step on the bike ______ to stop safely.",
+    "answer": "brake",
+    "zh_s": "踩下腳踏車煞車以安全停下。",
+    "options": [
+      {
+        "word": "brake",
+        "zh": "煞車",
+        "icon": "🛑"
+      },
+      {
+        "word": "break",
+        "zh": "打破/破壞",
+        "icon": "💥"
+      }
+    ]
+  },
+  {
+    "sentence": "Be careful not to ______ the glass cup.",
+    "answer": "break",
+    "zh_s": "小心不要打破玻璃杯。",
+    "options": [
+      {
+        "word": "break",
+        "zh": "打破/破壞",
+        "icon": "💥"
+      },
+      {
+        "word": "brake",
+        "zh": "煞車",
+        "icon": "🛑"
+      }
+    ]
+  },
+  {
+    "sentence": "Farmers ______ ripe apples at the weekend market.",
+    "answer": "sell",
+    "zh_s": "農夫在週末市集販賣成熟的蘋果。",
+    "options": [
+      {
+        "word": "sell",
+        "zh": "賣/出售",
+        "icon": "💰"
+      },
+      {
+        "word": "cell",
+        "zh": "細胞/牢房",
+        "icon": "🔬"
+      }
+    ]
+  },
+  {
+    "sentence": "Grandpa ______ me a lovely birthday card.",
+    "answer": "sent",
+    "zh_s": "爺爺寄給我一張精美的生日賀卡。",
+    "options": [
+      {
+        "word": "sent",
+        "zh": "寄出(send過去式)",
+        "icon": "💌"
+      },
+      {
+        "word": "cent",
+        "zh": "分(貨幣)",
+        "icon": "🪙"
+      },
+      {
+        "word": "scent",
+        "zh": "氣味/香氣",
+        "icon": "👃"
+      }
+    ]
+  },
+  {
+    "sentence": "The red rose has a sweet floral ______.",
+    "answer": "scent",
+    "zh_s": "紅玫瑰帶有甜美的花香氣味。",
+    "options": [
+      {
+        "word": "scent",
+        "zh": "氣味/香味",
+        "icon": "👃"
+      },
+      {
+        "word": "cent",
+        "zh": "分(貨幣)",
+        "icon": "🪙"
+      },
+      {
+        "word": "sent",
+        "zh": "寄出",
+        "icon": "💌"
+      }
+    ]
+  },
+  {
+    "sentence": "We used purple ______ to color our easter eggs.",
+    "answer": "dye",
+    "zh_s": "我們用紫色染料給復活節彩蛋上色。",
+    "options": [
+      {
+        "word": "dye",
+        "zh": "染料/染色",
+        "icon": "🎨"
+      },
+      {
+        "word": "die",
+        "zh": "死亡/骰子",
+        "icon": "💀"
+      }
+    ]
+  },
+  {
+    "sentence": "The frightened mouse tried to ______ from the cat.",
+    "answer": "flee",
+    "zh_s": "受驚嚇的小老鼠試圖逃離貓咪。",
+    "options": [
+      {
+        "word": "flee",
+        "zh": "逃跑/逃離",
+        "icon": "🏃"
+      },
+      {
+        "word": "flea",
+        "zh": "跳蚤",
+        "icon": "🦟"
+      }
+    ]
+  },
+  {
+    "sentence": "You did a ______ job on your homework!",
+    "answer": "great",
+    "zh_s": "你的作業完成得非常棒！",
+    "options": [
+      {
+        "word": "great",
+        "zh": "極棒的/偉大的",
+        "icon": "🌟"
+      },
+      {
+        "word": "grate",
+        "zh": "磨碎/鐵格柵",
+        "icon": "🧀"
+      }
+    ]
+  },
+  {
+    "sentence": "The new shoe rubs against my right ______.",
+    "answer": "heel",
+    "zh_s": "新鞋子磨到了我的右腳後跟。",
+    "options": [
+      {
+        "word": "heel",
+        "zh": "腳後跟",
+        "icon": "👠"
+      },
+      {
+        "word": "heal",
+        "zh": "治癒/痊癒",
+        "icon": "🩹"
+      }
+    ]
+  },
+  {
+    "sentence": "The doctor put medicine on the cut to help it ______.",
+    "answer": "heal",
+    "zh_s": "醫生在傷口上擦藥以幫助它痊癒。",
+    "options": [
+      {
+        "word": "heal",
+        "zh": "治癒/痊癒",
+        "icon": "🩹"
+      },
+      {
+        "word": "heel",
+        "zh": "腳後跟",
+        "icon": "👠"
+      }
+    ]
+  },
+  {
+    "sentence": "We waited for one ______ at the airport.",
+    "answer": "hour",
+    "zh_s": "我們在機場等了一個小時。",
+    "options": [
+      {
+        "word": "hour",
+        "zh": "小時",
+        "icon": "⏰"
+      },
+      {
+        "word": "our",
+        "zh": "我們的",
+        "icon": "👨‍👩‍👧"
+      }
+    ]
+  },
+  {
+    "sentence": "Welcome to visit ______ cozy classroom.",
+    "answer": "our",
+    "zh_s": "歡迎來到我們溫馨的教室。",
+    "options": [
+      {
+        "word": "our",
+        "zh": "我們的",
+        "icon": "👨‍👩‍👧"
+      },
+      {
+        "word": "hour",
+        "zh": "小時",
+        "icon": "⏰"
+      }
+    ]
+  },
+  {
+    "sentence": "The tired traveler rested at an old country ______.",
+    "answer": "inn",
+    "zh_s": "疲倦的旅人在古老的鄉村旅店休息。",
+    "options": [
+      {
+        "word": "inn",
+        "zh": "小旅社/客棧",
+        "icon": "🏨"
+      },
+      {
+        "word": "in",
+        "zh": "在...裡面",
+        "icon": "📦"
+      }
+    ]
+  },
+  {
+    "sentence": "Tie a tight ______ at the end of the rope.",
+    "answer": "knot",
+    "zh_s": "在繩子的末端打一個死結。",
+    "options": [
+      {
+        "word": "knot",
+        "zh": "繩結",
+        "icon": "🪢"
+      },
+      {
+        "word": "not",
+        "zh": "不/不是",
+        "icon": "🚫"
+      }
+    ]
+  },
+  {
+    "sentence": "Mom ______ a delicious berry pie for dessert.",
+    "answer": "made",
+    "zh_s": "媽媽做了一個美味的莓果派當甜點。",
+    "options": [
+      {
+        "word": "made",
+        "zh": "製作(make過去式)",
+        "icon": "🥧"
+      },
+      {
+        "word": "maid",
+        "zh": "女僕/女管家",
+        "icon": "🧹"
+      }
+    ]
+  },
+  {
+    "sentence": "The lion has a majestic, golden ______ around its neck.",
+    "answer": "mane",
+    "zh_s": "獅子脖子周圍有著威風的金黃色鬃毛。",
+    "options": [
+      {
+        "word": "mane",
+        "zh": "鬃毛",
+        "icon": "🦁"
+      },
+      {
+        "word": "main",
+        "zh": "主要的",
+        "icon": "⭐"
+      }
+    ]
+  },
+  {
+    "sentence": "He dipped the wooden ______ into the lake to row.",
+    "answer": "oar",
+    "zh_s": "他把木槳浸入湖水裡划船。",
+    "options": [
+      {
+        "word": "oar",
+        "zh": "船槳",
+        "icon": "🛶"
+      },
+      {
+        "word": "ore",
+        "zh": "礦石",
+        "icon": "🪨"
+      }
+    ]
+  },
+  {
+    "sentence": "Bring a plastic sand ______ to build sandcastles.",
+    "answer": "pail",
+    "zh_s": "帶一個塑膠提桶去蓋沙堡。",
+    "options": [
+      {
+        "word": "pail",
+        "zh": "水桶/提桶",
+        "icon": "🪣"
+      },
+      {
+        "word": "pale",
+        "zh": "蒼白的/灰白的",
+        "icon": "🤕"
+      }
+    ]
+  },
+  {
+    "sentence": "He felt sick and looked very ______.",
+    "answer": "pale",
+    "zh_s": "他覺得不舒服，臉色看起來很蒼白。",
+    "options": [
+      {
+        "word": "pale",
+        "zh": "蒼白的/淺色的",
+        "icon": "🤕"
+      },
+      {
+        "word": "pail",
+        "zh": "水桶/提桶",
+        "icon": "🪣"
+      }
+    ]
+  },
+  {
+    "sentence": "Raindrops tapped softly against the window ______.",
+    "answer": "pane",
+    "zh_s": "雨滴輕輕敲打著窗戶玻璃窗格。",
+    "options": [
+      {
+        "word": "pane",
+        "zh": "窗格玻璃",
+        "icon": "🪟"
+      },
+      {
+        "word": "pain",
+        "zh": "疼痛",
+        "icon": "🤕"
+      }
+    ]
+  },
+  {
+    "sentence": "I scraped my knee and felt a sharp ______.",
+    "answer": "pain",
+    "zh_s": "我擦傷了膝蓋，感到一陣劇痛。",
+    "options": [
+      {
+        "word": "pain",
+        "zh": "疼痛",
+        "icon": "🤕"
+      },
+      {
+        "word": "pane",
+        "zh": "窗格玻璃",
+        "icon": "🪟"
+      }
+    ]
+  },
+  {
+    "sentence": "Our class took a quick ______ to pick the class pet.",
+    "answer": "poll",
+    "zh_s": "我們班進行了民調投票來選班級寵物。",
+    "options": [
+      {
+        "word": "poll",
+        "zh": "投票/民調",
+        "icon": "🗳️"
+      },
+      {
+        "word": "pole",
+        "zh": "桿子/極點",
+        "icon": "💈"
+      }
+    ]
+  },
+  {
+    "sentence": "The flag was raised high on the metal ______.",
+    "answer": "pole",
+    "zh_s": "旗幟在金屬旗桿上升得很高。",
+    "options": [
+      {
+        "word": "pole",
+        "zh": "桿子/旗桿",
+        "icon": "💈"
+      },
+      {
+        "word": "poll",
+        "zh": "投票/民調",
+        "icon": "🗳️"
+      }
+    ]
+  },
+  {
+    "sentence": "She wore a pretty ______ coat to the party.",
+    "answer": "red",
+    "zh_s": "她穿了一件漂亮的紅外套去參加派對。",
+    "options": [
+      {
+        "word": "red",
+        "zh": "紅色",
+        "icon": "🔴"
+      },
+      {
+        "word": "read",
+        "zh": "閱讀(讀過)",
+        "icon": "📖"
+      }
+    ]
+  },
+  {
+    "sentence": "I ______ three interesting chapters last night.",
+    "answer": "read",
+    "zh_s": "我昨晚讀了三個有趣的章節。",
+    "options": [
+      {
+        "word": "read",
+        "zh": "閱讀(過去式)",
+        "icon": "📖"
+      },
+      {
+        "word": "red",
+        "zh": "紅色",
+        "icon": "🔴"
+      }
+    ]
+  },
+  {
+    "sentence": "The tall oak tree has a deep underground ______.",
+    "answer": "root",
+    "zh_s": "高大的橡樹有著深入地下的樹根。",
+    "options": [
+      {
+        "word": "root",
+        "zh": "樹根/根部",
+        "icon": "🌱"
+      },
+      {
+        "word": "route",
+        "zh": "路線/路徑",
+        "icon": "🗺️"
+      }
+    ]
+  },
+  {
+    "sentence": "Follow this scenic hiking ______ to the waterfall.",
+    "answer": "route",
+    "zh_s": "沿著這條風景優美的健行路線前往瀑布。",
+    "options": [
+      {
+        "word": "route",
+        "zh": "路線/路徑",
+        "icon": "🗺️"
+      },
+      {
+        "word": "route",
+        "zh": "樹根/根部",
+        "icon": "🌱"
+      }
+    ]
+  },
+  {
+    "sentence": "You ______ very cheerful and happy today!",
+    "answer": "seem",
+    "zh_s": "你今天看起來非常開朗快樂！",
+    "options": [
+      {
+        "word": "seem",
+        "zh": "似乎/看來",
+        "icon": "😊"
+      },
+      {
+        "word": "seam",
+        "zh": "縫線/接縫",
+        "icon": "🧵"
+      }
+    ]
+  },
+  {
+    "sentence": "The needle tore the cloth along the ______.",
+    "answer": "seam",
+    "zh_s": "針順著布料的接縫處裂開了。",
+    "options": [
+      {
+        "word": "seam",
+        "zh": "接縫/縫線",
+        "icon": "🧵"
+      },
+      {
+        "word": "seem",
+        "zh": "似乎/看來",
+        "icon": "😊"
+      }
+    ]
+  },
+  {
+    "sentence": "Mr. Davis taught his young ______ how to ride a bike.",
+    "answer": "son",
+    "zh_s": "戴維斯先生教他的小兒子如何騎腳踏車。",
+    "options": [
+      {
+        "word": "son",
+        "zh": "兒子",
+        "icon": "👦"
+      },
+      {
+        "word": "sun",
+        "zh": "太陽",
+        "icon": "☀️"
+      }
+    ]
+  },
+  {
+    "sentence": "Solve this math problem to find the total ______.",
+    "answer": "sum",
+    "zh_s": "解出這道數學題來求出總和。",
+    "options": [
+      {
+        "word": "sum",
+        "zh": "總和/金額",
+        "icon": "➕"
+      },
+      {
+        "word": "some",
+        "zh": "一些",
+        "icon": "🍪"
+      }
+    ]
+  },
+  {
+    "sentence": "Would you like ______ sweet chocolate cookies?",
+    "answer": "some",
+    "zh_s": "你想要來一些香甜的巧克力餅乾嗎？",
+    "options": [
+      {
+        "word": "some",
+        "zh": "一些",
+        "icon": "🍪"
+      },
+      {
+        "word": "sum",
+        "zh": "總和",
+        "icon": "➕"
+      }
+    ]
+  },
+  {
+    "sentence": "Eagles spread their wings and ______ high in the sky.",
+    "answer": "soar",
+    "zh_s": "老鷹張開翅膀在天空中翱翔。",
+    "options": [
+      {
+        "word": "soar",
+        "zh": "高飛/翱翔",
+        "icon": "🦅"
+      },
+      {
+        "word": "sore",
+        "zh": "酸痛/疼痛",
+        "icon": "😣"
+      }
+    ]
+  },
+  {
+    "sentence": "I sang loudly and got a ______ throat.",
+    "answer": "sore",
+    "zh_s": "我唱得太大聲，喉嚨變得好酸痛。",
+    "options": [
+      {
+        "word": "sore",
+        "zh": "酸痛/疼痛",
+        "icon": "😣"
+      },
+      {
+        "word": "soar",
+        "zh": "高飛/翱翔",
+        "icon": "🦅"
+      }
+    ]
+  },
+  {
+    "sentence": "The strong truck had to ______ the broken car.",
+    "answer": "tow",
+    "zh_s": "強大的拖吊車不得不拖走故障的車。",
+    "options": [
+      {
+        "word": "tow",
+        "zh": "拖曳/拉走",
+        "icon": "🛻"
+      },
+      {
+        "word": "toe",
+        "zh": "腳趾",
+        "icon": "🦶"
+      }
+    ]
+  },
+  {
+    "sentence": "I bumped my big ______ against the wooden bed frame.",
+    "answer": "toe",
+    "zh_s": "我的大腳趾撞到了木床架。",
+    "options": [
+      {
+        "word": "toe",
+        "zh": "腳趾",
+        "icon": "🦶"
+      },
+      {
+        "word": "tow",
+        "zh": "拖曳/拉走",
+        "icon": "🛻"
+      }
+    ]
+  },
+  {
+    "sentence": "Please don't ______ clean drinking water.",
+    "answer": "waste",
+    "zh_s": "請不要浪費乾淨的飲用水。",
+    "options": [
+      {
+        "word": "waste",
+        "zh": "浪費/廢物",
+        "icon": "🚰"
+      },
+      {
+        "word": "waist",
+        "zh": "腰部/腰圍",
+        "icon": "🧍"
+      }
+    ]
+  },
+  {
+    "sentence": "Fasten the tight seat belt around your ______.",
+    "answer": "waist",
+    "zh_s": "將安全帶牢牢扣在你的腰部周圍。",
+    "options": [
+      {
+        "word": "waist",
+        "zh": "腰部/腰圍",
+        "icon": "🧍"
+      },
+      {
+        "word": "waste",
+        "zh": "浪費/廢物",
+        "icon": "🚰"
+      }
+    ]
+  },
+  {
+    "sentence": "Step on the scale to measure your ______.",
+    "answer": "weight",
+    "zh_s": "站上體重計量一量你的重量體重。",
+    "options": [
+      {
+        "word": "weight",
+        "zh": "重量/體重",
+        "icon": "⚖️"
+      },
+      {
+        "word": "wait",
+        "zh": "等待",
+        "icon": "⏳"
+      }
+    ]
+  },
+  {
+    "sentence": "Please ______ here until the bus arrives.",
+    "answer": "wait",
+    "zh_s": "請在這裡等待直到公車抵達。",
+    "options": [
+      {
+        "word": "wait",
+        "zh": "等待",
+        "icon": "⏳"
+      },
+      {
+        "word": "weight",
+        "zh": "重量/體重",
+        "icon": "⚖️"
+      }
+    ]
+  },
+  {
+    "sentence": "She ______ her favorite pink dress to the party.",
+    "answer": "wore",
+    "zh_s": "她穿著她最愛的粉紅洋裝去參加派對。",
+    "options": [
+      {
+        "word": "wore",
+        "zh": "穿著(wear過去式)",
+        "icon": "👗"
+      },
+      {
+        "word": "war",
+        "zh": "戰爭",
+        "icon": "⚔️"
+      }
+    ]
+  },
+  {
+    "sentence": "Old sneakers get dirty and ______ out after many runs.",
+    "answer": "worn",
+    "zh_s": "舊運動鞋跑了很多次之後變髒且磨損了。",
+    "options": [
+      {
+        "word": "worn",
+        "zh": "磨損的/穿過的",
+        "icon": "👟"
+      },
+      {
+        "word": "warn",
+        "zh": "警告/提醒",
+        "icon": "⚠️"
+      }
+    ]
+  },
+  {
+    "sentence": "Lighthouses ______ ships about dangerous shallow rocks.",
+    "answer": "warn",
+    "zh_s": "燈塔警告船隻注意危險的淺灘岩石。",
+    "options": [
+      {
+        "word": "warn",
+        "zh": "警告/提醒",
+        "icon": "⚠️"
+      },
+      {
+        "word": "worn",
+        "zh": "磨損的/穿過的",
+        "icon": "👟"
+      }
+    ]
+  },
+  {
+    "sentence": "How much does that heavy watermelon ______?",
+    "answer": "weigh",
+    "zh_s": "那個沉甸甸的大西瓜有多重呢？",
+    "options": [
+      {
+        "word": "weigh",
+        "zh": "秤重/重達",
+        "icon": "⚖️"
+      },
+      {
+        "word": "way",
+        "zh": "道路/方向",
+        "icon": "🛤️"
+      }
+    ]
+  },
+  {
+    "sentence": "Can you show me the right ______ to the library?",
+    "answer": "way",
+    "zh_s": "你能為我指引去圖書館正確的路嗎？",
+    "options": [
+      {
+        "word": "way",
+        "zh": "道路/方向",
+        "icon": "🛤️"
+      },
+      {
+        "word": "weigh",
+        "zh": "秤重",
+        "icon": "⚖️"
+      }
+    ]
+  },
+  {
+    "sentence": "There are seven bright days in one ______.",
+    "answer": "week",
+    "zh_s": "一個星期裡有七個晴朗的日子。",
+    "options": [
+      {
+        "word": "week",
+        "zh": "星期/週",
+        "icon": "📅"
+      },
+      {
+        "word": "weak",
+        "zh": "虛弱的/軟弱",
+        "icon": "🤒"
+      }
+    ]
+  },
+  {
+    "sentence": "The sick puppy felt very ______ and slept all day.",
+    "answer": "weak",
+    "zh_s": "生病的小狗感覺非常虛弱，睡了一整天。",
+    "options": [
+      {
+        "word": "weak",
+        "zh": "虛弱的/無力",
+        "icon": "🤒"
+      },
+      {
+        "word": "week",
+        "zh": "星期/週",
+        "icon": "📅"
+      }
+    ]
+  },
+  {
+    "sentence": "I don't know ______ it will rain or shine tomorrow.",
+    "answer": "whether",
+    "zh_s": "我不知道明天究竟是會下雨還是放晴。",
+    "options": [
+      {
+        "word": "whether",
+        "zh": "是否/究竟",
+        "icon": "❓"
+      },
+      {
+        "word": "weather",
+        "zh": "天氣/氣候",
+        "icon": "⛅"
+      }
+    ]
+  },
+  {
+    "sentence": "The spring ______ is sunny, breezy, and warm.",
+    "answer": "weather",
+    "zh_s": "春天的天氣晴朗、微風徐徐且溫暖。",
+    "options": [
+      {
+        "word": "weather",
+        "zh": "天氣/氣候",
+        "icon": "⛅"
+      },
+      {
+        "word": "whether",
+        "zh": "是否",
+        "icon": "❓"
+      }
+    ]
+  },
+  {
+    "sentence": "The Halloween ______ flew on a magic broomstick.",
+    "answer": "witch",
+    "zh_s": "萬聖節女巫騎著神奇掃帚飛行。",
+    "options": [
+      {
+        "word": "witch",
+        "zh": "女巫/巫婆",
+        "icon": "🧙‍♀️"
+      },
+      {
+        "word": "which",
+        "zh": "哪一個",
+        "icon": "❓"
+      }
+    ]
+  },
+  {
+    "sentence": "______ ice cream flavor would you like to try?",
+    "answer": "which",
+    "zh_s": "你想嘗試哪一種口味的冰淇淋呢？",
+    "options": [
+      {
+        "word": "which",
+        "zh": "哪一個",
+        "icon": "❓"
+      },
+      {
+        "word": "witch",
+        "zh": "女巫/巫婆",
+        "icon": "🧙‍♀️"
+      }
+    ]
+  },
+  {
+    "sentence": "Write the answer clearly on the green ______.",
+    "answer": "board",
+    "zh_s": "把答案清楚寫在黑板/白板上。",
+    "options": [
+      {
+        "word": "board",
+        "zh": "木板/黑板",
+        "icon": "📋"
+      },
+      {
+        "word": "bored",
+        "zh": "感到無聊的",
+        "icon": "🥱"
+      }
+    ]
+  },
+  {
+    "sentence": "On rainy days with no toys, kids feel ______.",
+    "answer": "bored",
+    "zh_s": "下雨天沒有玩具玩時，小朋友會感到無聊。",
+    "options": [
+      {
+        "word": "bored",
+        "zh": "感到無聊的",
+        "icon": "🥱"
+      },
+      {
+        "word": "board",
+        "zh": "木板/黑板",
+        "icon": "📋"
+      }
+    ]
+  },
+  {
+    "sentence": "The chef prepared a delicious four- ______ dinner.",
+    "answer": "course",
+    "zh_s": "主廚準備了一頓豐盛的四道菜晚餐。",
+    "options": [
+      {
+        "word": "course",
+        "zh": "課程/一道菜",
+        "icon": "🍽️"
+      },
+      {
+        "word": "coarse",
+        "zh": "粗糙的",
+        "icon": "🪨"
+      }
+    ]
+  },
+  {
+    "sentence": "The rough sandpaper felt dry and ______ to touch.",
+    "answer": "coarse",
+    "zh_s": "粗糙的砂紙摸起來又乾又粗。",
+    "options": [
+      {
+        "word": "coarse",
+        "zh": "粗糙的",
+        "icon": "🪨"
+      },
+      {
+        "word": "course",
+        "zh": "課程/一道菜",
+        "icon": "🍽️"
+      }
+    ]
+  },
+  {
+    "sentence": "All the children in Grade 2 have ______ so tall!",
+    "answer": "grown",
+    "zh_s": "二年級的所有孩子都長得好高了！",
+    "options": [
+      {
+        "word": "grown",
+        "zh": "長大/成長",
+        "icon": "🌱"
+      },
+      {
+        "word": "groan",
+        "zh": "呻吟/抱怨聲",
+        "icon": "😩"
+      }
+    ]
+  },
+  {
+    "sentence": "Tired dad let out a heavy ______ after moving boxes.",
+    "answer": "groan",
+    "zh_s": "搬完箱子後，疲憊的爸爸發出一聲沉重的嘆息呻吟。",
+    "options": [
+      {
+        "word": "groan",
+        "zh": "呻吟/抱怨聲",
+        "icon": "😩"
+      },
+      {
+        "word": "grown",
+        "zh": "長大/成長",
+        "icon": "🌱"
+      }
+    ]
+  },
+  {
+    "sentence": "She ______ the correct number of jellybeans in the jar!",
+    "answer": "guessed",
+    "zh_s": "她猜中了罐子裡軟糖的正確數量！",
+    "options": [
+      {
+        "word": "guessed",
+        "zh": "猜測(過去式)",
+        "icon": "🎲"
+      },
+      {
+        "word": "guest",
+        "zh": "客人/賓客",
+        "icon": "🧑‍🤝‍🧑"
+      }
+    ]
+  },
+  {
+    "sentence": "We welcomed a special dinner ______ to our home.",
+    "answer": "guest",
+    "zh_s": "我們歡迎一位特別的晚餐客人來到我們家。",
+    "options": [
+      {
+        "word": "guest",
+        "zh": "客人/賓客",
+        "icon": "🧑‍🤝‍🧑"
+      },
+      {
+        "word": "guessed",
+        "zh": "猜測(過去式)",
+        "icon": "🎲"
+      }
+    ]
+  },
+  {
+    "sentence": "Walk quietly and do not run down the school ______.",
+    "answer": "hall",
+    "zh_s": "請安靜走過，不要在學校走廊上奔跑。",
+    "options": [
+      {
+        "word": "hall",
+        "zh": "走廊/大廳",
+        "icon": "🏫"
+      },
+      {
+        "word": "haul",
+        "zh": "拖運/搬運",
+        "icon": "🚛"
+      }
+    ]
+  },
+  {
+    "sentence": "The huge dump truck can ______ tons of sand.",
+    "answer": "haul",
+    "zh_s": "大型砂石車可以拖運好幾噸的沙子。",
+    "options": [
+      {
+        "word": "haul",
+        "zh": "拖運/搬運",
+        "icon": "🚛"
+      },
+      {
+        "word": "hall",
+        "zh": "走廊/大廳",
+        "icon": "🏫"
+      }
+    ]
+  },
+  {
+    "sentence": "Bakers ______ the dough thoroughly before baking bread.",
+    "answer": "knead",
+    "zh_s": "烘焙師在烤麵包前仔細揉麵糰。",
+    "options": [
+      {
+        "word": "knead",
+        "zh": "揉麵/捏",
+        "icon": "🥖"
+      },
+      {
+        "word": "need",
+        "zh": "需要",
+        "icon": "🤲"
+      }
+    ]
+  },
+  {
+    "sentence": "All living plants ______ sunshine and clean water to grow.",
+    "answer": "need",
+    "zh_s": "所有生長的植物都需要陽光和乾淨的水。",
+    "options": [
+      {
+        "word": "need",
+        "zh": "需要",
+        "icon": "🤲"
+      },
+      {
+        "word": "knead",
+        "zh": "揉麵/捏",
+        "icon": "🥖"
+      }
+    ]
+  },
+  {
+    "sentence": "The guide ______ the curious hikers safely through the woods.",
+    "answer": "led",
+    "zh_s": "嚮導帶領著好奇的登山客安全穿過森林。",
+    "options": [
+      {
+        "word": "led",
+        "zh": "引領/帶路(過去式)",
+        "icon": "🧭"
+      },
+      {
+        "word": "lead",
+        "zh": "鉛金屬",
+        "icon": "✏️"
+      }
+    ]
+  },
+  {
+    "sentence": "A ______ white wolf howled on top of the snowy hill.",
+    "answer": "lone",
+    "zh_s": "一隻孤單的白狼在積雪的山頂上嚎叫。",
+    "options": [
+      {
+        "word": "lone",
+        "zh": "孤單的/單獨的",
+        "icon": "🐺"
+      },
+      {
+        "word": "loan",
+        "zh": "借出/貸款",
+        "icon": "💵"
+      }
+    ]
+  },
+  {
+    "sentence": "The friendly librarian approved my book ______.",
+    "answer": "loan",
+    "zh_s": "友善的圖書館員批准了我的圖書借閱。",
+    "options": [
+      {
+        "word": "loan",
+        "zh": "借閱/借出",
+        "icon": "💵"
+      },
+      {
+        "word": "lone",
+        "zh": "孤單的/單獨的",
+        "icon": "🐺"
+      }
+    ]
+  },
+  {
+    "sentence": "May the whole world live in harmony and ______.",
+    "answer": "peace",
+    "zh_s": "願全世界都生活在和睦與和平之中。",
+    "options": [
+      {
+        "word": "peace",
+        "zh": "和平/平靜",
+        "icon": "🕊️"
+      },
+      {
+        "word": "piece",
+        "zh": "一片/一塊",
+        "icon": "🍰"
+      }
+    ]
+  }
+];
+
+var currentHomophoneItem = null;
+
+function speakHomophoneSentence() {
+  if (currentHomophoneItem) {
+    // Speak sentence with the answer filled in
+    var fullText = currentHomophoneItem.sentence.replace('______', currentHomophoneItem.answer);
+    speakText(fullText);
+  }
+}
+
+function speakHomophoneTarget() {
+  if (currentHomophoneItem) {
+    speakText(currentHomophoneItem.answer);
+  }
+}
+
+function renderHomophoneMode(item) {
+  currentHomophoneItem = item;
+  answered = false;
+  document.getElementById('h-study-card').style.display = 'none';
+
+  // Highlight blank in sentence
+  var highlighted = item.sentence.replace('______', '<span style="color:#7c3aed; text-decoration:underline; font-weight:900;">______</span>');
+  document.getElementById('h-sentence').innerHTML = highlighted;
+  document.getElementById('h-zh-sentence').innerText = ''; // 出題時不顯示中文提示，考驗閱讀理解
+
+  var container = document.getElementById('h-options');
+  container.innerHTML = '';
+
+  // Shuffle options for user
+  var opts = item.options.slice();
+  opts.sort(function() { return 0.5 - Math.random(); });
+
+  opts.forEach(function(opt) {
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'btn-option';
+    btn.style.flexDirection = 'column';
+    btn.style.padding = '12px 8px';
+    btn.style.gap = '4px';
+
+    btn.innerHTML = 
+      '<div style="display:flex; align-items:center; gap:8px;">' +
+        '<span style="font-size:24px;">' + opt.icon + '</span>' +
+        '<span style="font-size:22px; font-weight:900; color:#1e1b4b;">' + opt.word + '</span>' +
+      '</div>';
+
+    btn.onclick = function() {
+      if (answered) return;
+      answered = true;
+
+      // Reveal completed sentence and Chinese meaning
+      var answeredSentence = item.sentence.replace('______', '<span style="color:#059669; text-decoration:underline; font-weight:900;">' + item.answer + '</span>');
+      document.getElementById('h-sentence').innerHTML = answeredSentence;
+      document.getElementById('h-zh-sentence').innerText = '📖 完整句意：' + item.zh_s;
+
+      var fb = document.getElementById('feedback-msg');
+      if (opt.word.toLowerCase() === item.answer.toLowerCase()) {
+        btn.classList.add('correct');
+        score += 10;
+        fb.innerHTML = '<span style="color:var(--success);">🎉 太聰明了！選對了！ (<b>' + item.answer + '</b>)</span>';
+        speakText("Correct! " + item.answer);
+      } else {
+        btn.classList.add('wrong');
+        // Find correct button and mark it
+        var allBtns = container.querySelectorAll('.btn-option');
+        allBtns.forEach(function(b) {
+          if (b.innerText.toLowerCase().indexOf(item.answer.toLowerCase()) !== -1) {
+            b.classList.add('correct');
+          }
+        });
+        wrongAnswers.push({
+          word: item.answer,
+          zh: item.zh_s,
+          icon: '🔍',
+          userAns: opt.word + ' (' + opt.zh + ')'
+        });
+        fb.innerHTML = '<span style="color:var(--danger);">❌ 答錯囉！這句要用：<b>' + item.answer + '</b></span>';
+        speakText(item.answer);
+      }
+
+      // Show comparison study card
+      var compEl = document.getElementById('h-comparison-content');
+      compEl.innerHTML = '';
+      item.options.forEach(function(o) {
+        var isTarget = (o.word.toLowerCase() === item.answer.toLowerCase());
+        var row = document.createElement('div');
+        row.style.padding = '6px 10px';
+        row.style.borderRadius = '8px';
+        row.style.background = isTarget ? '#ecfdf5' : '#f8fafc';
+        row.style.border = isTarget ? '1px solid #10b981' : '1px solid #e2e8f0';
+        row.innerHTML = 
+          '<b>' + o.icon + ' ' + o.word + '</b>：' + o.zh + 
+          (isTarget ? ' <span style="color:#059669; font-weight:800; font-size:12px;">(本題正確答案)</span>' : '');
+        compEl.appendChild(row);
+      });
+      document.getElementById('h-study-card').style.display = 'block';
+
+      document.getElementById('score-text').innerText = '⭐ ' + score + ' 分';
+      document.getElementById('btn-next-step').style.display = 'block';
+    };
+
+    container.appendChild(btn);
+  });
+
+  setTimeout(speakHomophoneSentence, 300);
+}
+
 function initGame(mode) {
   currentMode = mode;
 
-  // 使用目前精細範圍選取的 viewerList 當作題目來源
-  if (!viewerList || viewerList.length === 0) {
-    alert("選擇範圍內無單字！請確認週次與序號範圍。");
-    return;
+  var pool = [];
+  if (mode === 'homophone') {
+    pool = HOMOPHONES_DATA.slice();
+  } else {
+    // 使用目前精細範圍選取的 viewerList 當作題目來源
+    if (!viewerList || viewerList.length === 0) {
+      alert("選擇範圍內無單字！請確認週次與序號範圍。");
+      return;
+    }
+    pool = viewerList.slice();
   }
 
-  var pool = viewerList.slice();
   pool.sort(function() { return 0.5 - Math.random(); });
   
   if (selectedQuestionCount === 'all') {
@@ -2141,6 +4133,7 @@ function initGame(mode) {
   document.getElementById('section-blocks').style.display = (mode === 'blocks') ? 'block' : 'none';
   document.getElementById('section-quiz').style.display = (mode === 'quiz') ? 'block' : 'none';
   document.getElementById('section-monster').style.display = (mode === 'monster') ? 'block' : 'none';
+  document.getElementById('section-homophone').style.display = (mode === 'homophone') ? 'block' : 'none';
 
   loadQuestion();
 }
@@ -2161,12 +4154,14 @@ function loadQuestion() {
     renderQuizMode(item);
   } else if (currentMode === 'monster') {
     renderMonsterMode(item);
+  } else if (currentMode === 'homophone') {
+    renderHomophoneMode(item);
   }
 }
 
 /* 模式 1：鍵盤打字 */
 function renderTypingMode(item) {
-  var badgeText = item.week === 20 ? item.unit : 'Week ' + item.week + ' • ' + item.unit;
+  var badgeText = item.week >= 20 ? item.unit : 'Week ' + item.week + ' • ' + item.unit;
   document.getElementById('t-unit-badge').innerText = badgeText;
   document.getElementById('t-q-icon').innerText = item.icon || '📝';
   document.getElementById('t-q-zh').innerText = item.zh;
@@ -2245,7 +4240,7 @@ function giveTypingHint() {
 function renderBlocksMode(item) {
   targetWord = item.word.toLowerCase();
   currentInput = [];
-  var badgeText = item.week === 20 ? item.unit : 'Week ' + item.week + ' • ' + item.unit;
+  var badgeText = item.week >= 20 ? item.unit : 'Week ' + item.week + ' • ' + item.unit;
   document.getElementById('b-unit-badge').innerText = badgeText;
   document.getElementById('b-q-icon').innerText = item.icon || '📝';
   document.getElementById('b-q-zh').innerText = item.zh;
@@ -2358,7 +4353,7 @@ function checkBlocksResult() {
 
 /* 模式 3：聽力快問快答（純中文大字） */
 function renderQuizMode(item) {
-  var badgeText = item.week === 20 ? item.unit : 'Week ' + item.week + ' • ' + item.unit;
+  var badgeText = item.week >= 20 ? item.unit : 'Week ' + item.week + ' • ' + item.unit;
   document.getElementById('q-unit-badge').innerText = badgeText;
   var optionsContainer = document.getElementById('q-options');
   optionsContainer.innerHTML = '';
